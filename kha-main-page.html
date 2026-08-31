@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>K-HUMAN ACADEMY — Institutional Korean Studies LMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Design tokens — from Figma file ukK48Hd8Mohp4ORU5RfoEc
+   ============================================================ */
+:root{
+  /* color · text */
+  --text-heading:#121D33;
+  --text-primary:#1B2A44;
+  --text-nav:#3A4763;
+  --text-body-strong:#3B4864;
+  --text-body:#46536E;
+  --text-muted:#5A6B85;
+  --text-subtle:#8791A6;
+  --text-accent:#8A6F52;
+  --text-alert:#A85B44;
+  /* color · text on inverse (navy/dark) */
+  --text-on-inverse:#F0ECE1;
+  --text-on-inverse-muted:rgba(240,236,225,.78);
+  --text-on-inverse-badge:rgba(240,236,225,.7);
+  --text-on-inverse-body:rgba(240,236,225,.6);
+  --text-on-inverse-subtle:rgba(240,236,225,.55);
+  --text-on-inverse-faint:rgba(240,236,225,.4);
+  /* color · background */
+  --bg-page:#F6F5F1;
+  --bg-surface:#FFFFFF;
+  --bg-section:#F3F4F4;
+  --bg-muted:#EDECE7;
+  --bg-track:#E8EAE6;
+  --bg-inverse:#1B2A44;
+  --bg-inverse-deep:#121C30;
+  --bg-charcoal:#24282D;      /* restyled dark surfaces (player, philosophy, CTA buttons) */
+  --bg-alert-soft:rgba(201,123,98,.06);
+  /* color · borders */
+  --border-hairline:rgba(27,42,68,.06);
+  --border-subtle:rgba(27,42,68,.08);
+  --border-default:rgba(27,42,68,.10);
+  --border-card:rgba(27,42,68,.12);
+  --border-chip:rgba(27,42,68,.14);
+  --border-control:rgba(27,42,68,.20);
+  --border-on-inverse:rgba(240,236,225,.16);
+  --border-alert:rgba(200,110,80,.35);
+  /* color · actions */
+  --action-primary:#1B2A44;
+  --action-charcoal:#25292C;
+  --action-on-primary:#F0ECE1;
+  /* color · media */
+  --media-play-bg:rgba(240,236,225,.92);
+  --media-track:rgba(240,236,225,.25);
+  --media-badge-bg:rgba(240,236,225,.12);
+  --media-badge-border:rgba(240,236,225,.25);
+  /* color · obangsaek accents */
+  --obang-blue:#3C5CBB;
+  --obang-gold:#FED055;
+  --obang-red:#D54445;
+  --obang-black:#25292D;
+  /* color · hanji (Learning Experience LMS mock) */
+  --hanji-ink:#40261E;
+  --hanji-brown:#3D2E1F;
+  --hanji-clay:#795144;
+  --hanji-olive:#90825B;
+  --hanji-sand:#EDE7D9;
+  --hanji-cream:#FDFAF2;
+  --hanji-paper:#F7F1E3;
+  --hanji-frame:#F4F1ED;
+  --hanji-gold:#D9B98A;
+  --hanji-terra:#A85B44;
+  /* radius */
+  --radius-2xs:2px; --radius-xs:3px; --radius-md:6px; --radius-lg:8px;
+  --radius-xl:10px; --radius-card:13px; --radius-pill:20px;
+  --radius-level:26px; --radius-soft:33px; --radius-value:41px; --radius-full:999px;
+  /* shadows */
+  --shadow-panel:0 30px 80px rgba(27,42,68,.14);
+  --shadow-panel-strong:0 30px 80px rgba(27,42,68,.16);
+  --shadow-media:0 28px 70px rgba(27,42,68,.25);
+  --shadow-report:0 30px 76px rgba(27,42,68,.22);
+  --shadow-play:0 8px 14px rgba(0,0,0,.3);
+  --shadow-step-selected:0 10px 30px rgba(27,42,68,.10);
+  /* typography */
+  --font-serif-display:"Bona Nova","Source Serif 4",Georgia,serif;
+  --font-serif:"Source Serif 4",Georgia,serif;
+  --font-sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  /* layout */
+  --container:1200px;
+  --gnb-h:72px;
+}
+
+/* ============================================================ base */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg-page);color:var(--text-body);-webkit-font-smoothing:antialiased}
+img{display:block}
+a{text-decoration:none;color:inherit}
+section[id],main[id]{scroll-margin-top:var(--gnb-h)}
+.container{width:var(--container);margin:0 auto}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.24em;color:var(--text-muted);text-transform:uppercase}
+.h2{font-family:var(--font-serif-display);font-size:42px;line-height:1.15;color:var(--text-primary);font-weight:400}
+
+/* ============================================================ 01 · GNB */
+.gnb{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);
+  -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+  border-bottom:1px solid var(--border-card)}
+.gnb-inner{max-width:1264px;margin:0 auto;height:var(--gnb-h);padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between}
+.gnb-logo{display:flex;align-items:center;gap:12px}
+.gnb-logo img{height:30px;width:auto}
+.wordmark{font-size:12.5px;font-weight:700;line-height:1.25;letter-spacing:.22em;color:var(--text-primary)}
+.gnb-nav{display:flex;gap:28px;position:absolute;left:50%;transform:translateX(-50%)}
+.gnb-inner{position:relative}
+.gnb-nav a{font-size:13.5px;font-weight:500;line-height:1.2;color:var(--text-nav);white-space:nowrap}
+.gnb-nav a:hover,.gnb-nav a.is-active{color:var(--text-primary)}
+.btn-gnb{background:#F3F4F4;border-radius:7px;padding:11px 22px;
+  font-size:13px;font-weight:600;letter-spacing:-.03em;color:#67686D;display:inline-block}
+.btn-gnb:hover{background:#EAEBEB}
+
+/* ============================================================ 02 · Hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#E7EAEA 0%,var(--bg-page) 100%);
+  padding:96px 32px 110px}
+.hero-art{position:absolute;inset:0;opacity:.6;pointer-events:none}
+.hero-art-inner{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:702px}
+.hero-art-inner img{position:absolute}
+.hero-wash{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:686px;
+  background:linear-gradient(79.6deg,rgba(246,245,241,.9) 4%,rgba(246,245,241,.45) 35%,rgba(246,245,241,0) 55%)}
+.hero-grid{position:relative;display:flex;align-items:center;gap:62px;min-height:496px}
+.hero-copy{width:613px;flex:none}
+.hero-h1{font-family:var(--font-serif-display);font-weight:400;font-size:69px;line-height:1.08;
+  letter-spacing:-.03em;color:var(--text-heading)}
+.hero-lede{margin-top:29px;width:581px;font-size:19px;line-height:1.68;color:var(--text-body-strong)}
+.btn-hero{display:inline-block;margin-top:42px;background:var(--action-charcoal);color:#fff;
+  border-radius:8px;padding:17px 31px;font-size:19.5px;font-weight:600;letter-spacing:-.03em}
+.btn-hero:hover{background:#33383C}
+/* hero mockups */
+.hero-mocks{position:relative;width:605px;height:536px;flex:none}
+.mock{background:#F3F4F4;border:1px solid var(--border-default)}
+.mock-player{position:absolute;left:-30px;top:163px;width:510px;height:184px;
+  border-radius:9px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:inset 0 4px 4px #fff}
+.mock-player-head{display:flex;align-items:center;gap:9px;padding:11px 16px;
+  border-bottom:1px solid var(--border-subtle);flex:none}
+.mock-player-head img{height:13px;width:auto}
+.mock-player-head span{font-size:10.6px;font-weight:700;letter-spacing:.14em;color:var(--text-muted)}
+.mock-player-body{display:flex;flex:1;min-height:0}
+.mock-media{position:relative;width:254px;background:#25282C;flex:none}
+.play{display:flex;align-items:center;justify-content:center;background:var(--media-play-bg);
+  border-radius:var(--radius-full)}
+.play img{width:30%;height:auto;margin-left:8%}
+.mock-media .play{position:absolute;left:103px;top:55px;width:49px;height:49px;
+  box-shadow:inset 4px 4px 4px rgba(255,255,255,.48)}
+.mock-track{position:absolute;left:13px;right:13px;bottom:11px;height:3.4px;
+  background:var(--media-track);border-radius:3.4px}
+.mock-track i{display:block;height:100%;width:58%;background:var(--text-on-inverse);border-radius:3.4px}
+.mock-mini{flex:1;border-left:1.7px solid var(--border-subtle);padding:17px 20px;
+  display:flex;flex-direction:column;gap:13.6px;overflow:hidden}
+.mock-tabs{display:flex;gap:13.6px;align-items:flex-end;font-size:14.4px;font-weight:600}
+.mock-tabs .sel{color:var(--text-primary);padding-bottom:3.4px;border-bottom:3.4px solid var(--text-primary)}
+.mock-tabs span:not(.sel){color:var(--text-subtle)}
+.skel{height:10.2px;border-radius:5px;background:var(--bg-track)}
+.mock-badge{align-self:flex-start;background:#fff;border-radius:5px;padding:6.8px 10.2px;
+  font-size:14.4px;font-weight:600;color:var(--text-accent)}
+.mock-tasks{position:absolute;left:143px;top:0;width:380px;border-radius:42px;
+  border-width:1.6px;padding:22.5px 25.8px}
+.mock-tasks h3{font-size:15.3px;font-weight:700;letter-spacing:.14em;color:var(--text-muted)}
+.mock-tasks ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:14.5px;font-size:16.9px;line-height:1.3}
+.mock-tasks li{display:flex;justify-content:space-between;align-items:center}
+.mock-tasks li span:first-child{color:var(--text-nav)}
+.mock-tasks li b{color:var(--text-primary)}
+.mock-tasks li b.alert{color:#D54445}
+.mock-report{position:absolute;left:205px;top:344px;width:318px;border-radius:33px;
+  border-width:1.3px;padding:20px 23px;box-shadow:var(--shadow-report)}
+.mock-report h3{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--text-muted)}
+.mock-stats{display:flex;gap:25px;margin-top:15px}
+.mock-stats b{display:block;font-family:var(--font-serif);font-weight:600;font-size:30.5px;line-height:1.2;color:var(--text-primary)}
+.mock-stats span{font-size:11.4px;color:var(--text-subtle)}
+.mock-bars{display:flex;gap:7.6px;align-items:flex-end;height:56px;margin-top:15px}
+.mock-bars i{flex:1;border-radius:2.5px 2.5px 0 0}
+
+/* ============================================================ 03 · About */
+.about{background:var(--bg-section);padding:110px 32px}
+.about-header{width:640px}
+.about-header .h2{margin-top:16px;font-size:40px}
+.value-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.value-card{background:var(--bg-surface);border:2px solid var(--border-default);
+  border-radius:var(--radius-value);padding:36px 32px;min-height:259px}
+.value-card .num{font-family:var(--font-serif);font-size:15px;line-height:1.2;color:var(--text-accent)}
+.value-card h3{margin-top:22px;font-family:var(--font-serif-display);font-weight:700;
+  font-size:21px;line-height:1.3;color:var(--text-primary)}
+.value-card p{margin-top:14px;font-size:14.5px;line-height:1.65;color:var(--text-primary)}
+
+/* ============================================================ 04 · Philosophy */
+.philosophy{position:relative;overflow:hidden;background:#24282D;padding:120px 32px}
+.philosophy::before{content:"";position:absolute;inset:0;
+  background:url("assets/kha/philosophy-ink-bg.jpg") center 35%/cover no-repeat;opacity:.2}
+.philosophy .container{position:relative;display:flex;align-items:center;gap:72px}
+.phil-copy{width:591px;flex:none}
+.phil-copy .eyebrow{color:var(--text-on-inverse-subtle)}
+.phil-copy h2{margin-top:18px;font-family:var(--font-serif-display);font-weight:400;
+  font-size:42px;line-height:1.18;color:#fff}
+.phil-copy p{margin-top:28px;width:480px;font-size:16px;line-height:1.7;color:rgba(255,255,255,.78)}
+.principles{flex:1}
+.principle{display:flex;align-items:center;gap:18px;padding:22px 0;
+  border-bottom:1px solid var(--border-on-inverse)}
+.principle:last-child{border-bottom:0}
+.principle .dash{width:22px;height:2px;flex:none}
+.principle .line{font-family:var(--font-serif);font-size:20px;line-height:1.4}
+.principle .lead{color:var(--text-on-inverse-body)}
+.principle .emph{font-style:italic;color:#fff}
+
+/* ============================================================ 05 · Curriculum */
+.curriculum{position:relative;overflow:hidden;background:var(--bg-surface);padding:110px 32px}
+.curriculum::before{content:"";position:absolute;right:-8%;bottom:-30%;width:60%;height:90%;
+  background:url("assets/kha/curriculum-bg.jpg") center/contain no-repeat;opacity:.5;
+  mix-blend-mode:multiply;pointer-events:none}
+.curriculum .container{position:relative}
+.curr-header{width:680px}
+.curr-header .h2{margin-top:16px}
+.level-cards{display:flex;gap:20px;margin-top:56px}
+.level-card{flex:1;border-radius:var(--radius-level);padding:30px 26px;min-height:260px}
+.level-card .lvl{font-size:11px;font-weight:700;letter-spacing:.2em;color:#25292D}
+.level-card h3{margin-top:8px;font-family:var(--font-serif-display);font-weight:700;
+  font-size:23px;line-height:1.3;color:#25292D}
+.level-card ul{list-style:none;margin-top:20px}
+.level-card li{padding:11px 0;border-top:1px solid rgba(0,0,0,.08);
+  font-size:13.5px;line-height:1.5;color:#2B2F36}
+.level-1{background:#D8E6F7}.level-2{background:#E4DBD8}.level-3{background:#EDE7D9}.level-4{background:#C8CED4}
+.curr-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:48px}
+.curr-footer p{font-size:13.5px;line-height:1.5;color:var(--text-subtle)}
+.btn-dark{display:inline-block;background:#24282D;color:#fff;border-radius:9px;
+  padding:17px 32px;font-size:17.5px;font-weight:600}
+.btn-dark:hover{background:#33383C}
+
+/* ============================================================ 06 · Sample Lecture */
+.sample{position:relative;overflow:hidden;padding:110px 32px;background:rgba(217,230,246,.49)}
+.sample::before{content:"";position:absolute;inset:0;
+  background:url("assets/kha/sample-bg.jpg") -28% 0/165% auto no-repeat;opacity:.3}
+.sample::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(-53deg,rgba(255,255,255,.85) 47%,rgba(217,230,246,.85) 77%)}
+.sample .container{position:relative;z-index:1;display:flex;align-items:center;gap:64px;min-height:562px}
+.stage{position:relative;width:608px;height:342px;flex:none;background:#24282D;
+  border-radius:2px;box-shadow:var(--shadow-media);overflow:hidden}
+.stage-watermark{position:absolute;right:-60px;bottom:-40px;width:340px;opacity:.08}
+.stage .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:76px;height:76px;filter:drop-shadow(var(--shadow-play))}
+.stage .play:hover{background:#fff}
+.stage .play img{width:22px;height:28px;margin-left:10px}
+.stage-badge{position:absolute;left:20px;top:18px;background:var(--media-badge-bg);
+  border:1px solid var(--media-badge-border);border-radius:var(--radius-xs);padding:6px 10px;
+  font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--text-on-inverse-badge)}
+.sample-detail{width:572px}
+.sample-title{margin-top:16px;font-family:var(--font-serif-display);font-size:37px;line-height:1.18;color:var(--text-primary);white-space:nowrap}
+.sample-quote{margin-top:24px;font-family:var(--font-serif-display);font-style:italic;
+  font-size:24px;line-height:1.18;color:var(--text-primary)}
+.sample-desc{margin-top:12px;width:533px;font-size:15px;line-height:1.65;color:var(--text-body)}
+.sample-takeaways{margin-top:24px;display:flex;flex-direction:column;gap:10px;
+  list-style:disc;padding-left:22px;font-size:14.5px;line-height:1.65;color:var(--text-nav)}
+.sample-meta{margin-top:26px;padding-top:18px;border-top:1px solid var(--border-chip);
+  display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12.5px;line-height:1.5;color:var(--text-muted)}
+.sample-meta b{font-weight:600;color:var(--text-primary)}
+.btn-sample{display:inline-block;margin-top:30px;background:var(--action-primary);color:#fff;
+  border-radius:8px;padding:14px 26px;font-size:17.5px;font-weight:600}
+.btn-sample:hover{background:#2A3D60}
+
+/* ============================================================ 07 · Learning Experience */
+.learning{background:var(--bg-section);padding:96px 32px 110px}
+.lx-head{width:720px;margin:0 auto;text-align:center}
+.lx-head .h2{margin-top:16px}
+.lms{width:1022px;margin:52px auto 0;background:var(--hanji-frame);
+  border:1px solid var(--border-card);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-panel);overflow:hidden}
+.lms-bar{height:55px;background:var(--hanji-cream);border-bottom:1px solid rgba(144,130,91,.08);
+  display:flex;align-items:center;justify-content:space-between;padding:14px 22px}
+.lms-course{display:flex;align-items:center;gap:10px}
+.lms-course img{height:16px;width:auto}
+.lms-course b{font-size:12px;font-weight:600;line-height:1.5;color:var(--hanji-ink)}
+.level-chip{background:var(--hanji-sand);border:1px solid var(--hanji-ink);padding:4px 9px;
+  font-size:10.5px;font-weight:600;line-height:1.4;color:var(--hanji-clay)}
+.lms-session{display:flex;align-items:center;gap:14px}
+.lms-session span{font-size:11.5px;line-height:1.4;color:var(--hanji-ink)}
+.avatar{display:flex;align-items:center;justify-content:center;border-radius:var(--radius-full);
+  background:#24282D;color:#fff;font-weight:600}
+.lms-session .avatar{width:26px;height:26px;font-size:10.5px}
+/* panel base */
+.lx-panel{display:none;height:430px;
+  background:linear-gradient(rgba(247,241,227,.68),rgba(247,241,227,.68)),
+  url("assets/kha/hanji-texture.jpg") center/cover}
+.lx-panel.is-active{display:flex}
+.panel-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--hanji-ink)}
+.hanji-note{font-size:10px;line-height:1.4;color:var(--hanji-olive)}
+.btn-hanji-solid{background:var(--hanji-ink);border:1px solid var(--hanji-ink);color:#fff;
+  padding:8px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-sans)}
+.btn-hanji-outline{background:transparent;border:1px solid var(--hanji-ink);color:var(--hanji-ink);
+  padding:7px 11px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-sans)}
+/* 01 Notes */
+.notes-player-col{width:620px;flex:none;display:flex;flex-direction:column}
+.lesson-player{position:relative;height:349px;background:#24282D;flex:none}
+.lesson-player .title{position:absolute;left:18px;top:14px;width:465px;
+  font-size:11.5px;line-height:1.45;color:var(--text-on-inverse-muted)}
+.lesson-player .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:60px;height:60px;background:#F0ECE1}
+.lesson-player .play img{width:18px;height:22px;margin-left:8px}
+.scrubber{position:absolute;left:18px;right:18px;bottom:14px;display:flex;align-items:center;gap:10px}
+.scrubber .track{flex:1;height:4px;background:var(--media-track);border-radius:2px;overflow:hidden}
+.scrubber .track i{display:block;height:100%;width:43%;background:var(--hanji-gold);border-radius:2px}
+.scrubber span{font-size:10.5px;line-height:1.4;color:var(--text-on-inverse-muted)}
+.lesson-meta{flex:1;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;color:var(--hanji-olive)}
+.lesson-meta span:first-child{font-size:12px}
+.lesson-meta span:last-child{font-size:11.5px}
+.notes-aside{flex:1;border-left:1px solid var(--border-subtle);display:flex;flex-direction:column}
+.notes-aside-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0}
+.notes-aside-head b{font-size:12.5px;font-weight:600;color:var(--hanji-ink)}
+.tag-private{background:var(--hanji-cream);border:1px solid var(--hanji-ink);padding:3px 8px;
+  font-size:10.5px;font-weight:600;color:var(--hanji-ink)}
+.notes-subtabs{display:flex;gap:14px;padding:10px 18px 0;border-bottom:1px solid var(--border-subtle)}
+.notes-subtabs span{padding-bottom:10px;font-size:11px;font-weight:600;color:var(--hanji-olive)}
+.notes-subtabs .sel{color:var(--hanji-clay)}
+.notes-list{flex:1;display:flex;flex-direction:column;gap:9px;padding:14px 18px;min-height:0}
+.note-row{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;
+  background:rgba(253,250,242,.4);border:1px solid rgba(64,38,30,.08)}
+.note-row.sel{background:rgba(253,250,242,.8);border:2px solid rgba(61,46,31,.5)}
+.note-ts{background:#F1E7CF;border:1px solid var(--hanji-ink);padding:3px 7px;flex:none;
+  font-size:10.5px;font-weight:600;line-height:1.4;color:var(--hanji-clay)}
+.note-row p{font-size:12px;line-height:1.5;color:var(--hanji-ink)}
+.note-actions{margin-top:auto;display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--border-subtle)}
+/* 02 Community */
+.comm-head{display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;border-bottom:1px solid rgba(144,130,91,.08);flex:none}
+.comm-head h3{font-family:var(--font-serif-display);font-weight:400;font-size:25px;line-height:1.3;color:var(--hanji-ink)}
+.comm-head small{display:block;margin-top:3px;font-size:11.5px;color:var(--hanji-olive)}
+.comm-body{flex:1;display:flex;min-height:0}
+.comm-feed{width:740px;flex:none;display:flex;flex-direction:column;gap:10px;padding:16px 24px}
+.filters{display:flex;gap:8px}
+.filter{border:1px solid var(--hanji-ink);border-radius:var(--radius-pill);padding:5px 12px;
+  font-size:11px;font-weight:600;color:var(--hanji-ink)}
+.filter.sel{background:rgba(168,91,68,.8);border-color:var(--hanji-terra);color:var(--text-on-inverse)}
+.filter.soft{background:#F0ECE1}
+.post{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:7px}
+.post.sel{background:rgba(253,250,242,.8);border:1px solid var(--hanji-ink);border-radius:0}
+.post-head{display:flex;justify-content:space-between;gap:12px;color:var(--hanji-ink)}
+.post-head p{font-size:12px;line-height:1.5}
+.post-head span{font-size:10.5px;font-weight:600;white-space:nowrap}
+.post-meta{display:flex;align-items:center;gap:10px;font-size:10.5px;color:var(--hanji-olive)}
+.avatars{display:flex}
+.avatars i{width:20px;height:20px;border-radius:var(--radius-full);border:1.5px solid var(--bg-page);
+  display:flex;align-items:center;justify-content:center;font-style:normal;
+  font-size:8.5px;font-weight:600;color:#000}
+.avatars i+i{margin-left:-6px}
+.comm-aside{flex:1;border-left:1px solid rgba(144,130,91,.08);display:flex;flex-direction:column;gap:14px;
+  padding:16px 18px;background:linear-gradient(rgba(247,241,227,.35),rgba(247,241,227,.35)),
+  url("assets/kha/hanji-texture-aside.jpg") center/cover}
+.aside-block h4{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--hanji-ink)}
+.callout{margin-top:8px;background:rgba(237,231,217,.5);padding:10px 12px;
+  font-size:11.5px;line-height:1.5;color:var(--hanji-ink)}
+.comm-aside .hanji-note{margin-top:auto}
+/* 03 AI Review */
+.ai-summary{width:486px;flex:none;display:flex;flex-direction:column;gap:12px;padding:18px 24px}
+.ai-summary h3{font-family:var(--font-serif-display);font-weight:400;font-size:25px;line-height:1.35;color:var(--hanji-ink)}
+.ai-bullets{display:flex;flex-direction:column;gap:8px}
+.ai-bullets li{display:flex;gap:9px;align-items:flex-start;list-style:none;
+  font-size:12px;line-height:1.55;color:var(--hanji-ink)}
+.ai-bullets li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--text-accent);
+  flex:none;margin-top:7px}
+.concept-rows{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.concept-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:7px}
+.concept-row b{font-size:12px;font-weight:600;color:var(--hanji-ink)}
+.concept-row span{font-size:10.5px;color:var(--hanji-olive)}
+.concept-row.sel{background:#FEFDF6;border:1px solid #000;border-radius:0}
+.concept-row.next span{color:var(--hanji-terra);font-weight:600}
+.ai-summary .hanji-note{margin-top:auto}
+.ai-assistant{flex:1;border-left:1px solid rgba(64,38,30,.08);display:flex;flex-direction:column;
+  background:linear-gradient(rgba(253,250,242,.68),rgba(253,250,242,.68)),
+  url("assets/kha/hanji-texture.jpg") center/cover}
+.ai-assistant-head{background:var(--hanji-brown);display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;flex:none}
+.ai-assistant-head b{font-size:12.5px;font-weight:600;color:var(--hanji-gold)}
+.ai-assistant-head span{background:rgba(217,185,138,.1);border:1px solid var(--hanji-gold);
+  padding:3px 8px;font-size:10.5px;font-weight:600;color:var(--hanji-gold)}
+.ai-assistant-body{flex:1;display:flex;flex-direction:column;gap:10px;padding:16px 20px;min-height:0}
+.ai-card{border:1px solid var(--hanji-ink);padding:11px 13px;font-size:12px;line-height:1.55;color:var(--hanji-ink)}
+.prompts{display:flex;flex-direction:column;gap:7px}
+.prompt{padding:8px 11px;border-radius:7px;font-size:11.5px;font-weight:600;color:var(--hanji-ink)}
+.prompt.sel{border:1px solid var(--hanji-brown);border-radius:0}
+.ai-assistant-body .hanji-note{margin-top:auto}
+/* 04 Q&A */
+.qa-head{display:flex;align-items:flex-end;justify-content:space-between;
+  padding:14px 24px 0;border-bottom:1px solid rgba(144,128,91,.08);flex:none}
+.qa-tabs{display:flex;align-items:flex-end;gap:20px}
+.qa-tabs h3{font-family:var(--font-serif-display);font-weight:400;font-size:25px;line-height:1.3;
+  color:var(--hanji-ink);padding-bottom:12px}
+.qa-tabs span{padding-bottom:12px;font-size:11px;font-weight:600;color:var(--hanji-olive)}
+.qa-tabs .sel{color:var(--hanji-ink);border-bottom:2px solid var(--hanji-ink)}
+.qa-sla{padding-bottom:12px;font-size:10.5px;color:var(--hanji-olive)}
+.qa-body{flex:1;display:flex;min-height:0}
+.qa-thread{width:760px;flex:none;display:flex;flex-direction:column;gap:10px;padding:16px 24px}
+.ask-field{position:relative;background:var(--hanji-cream);height:38px;
+  display:flex;align-items:center;padding:0 13px;
+  font-size:12px;color:var(--hanji-olive)}
+.ask-field img{position:absolute;inset:-2% 0;width:100%;height:104%;transform:rotate(180deg);pointer-events:none}
+.q-card{background:rgba(254,253,246,.8);border:1px solid var(--hanji-ink);
+  display:flex;flex-direction:column;gap:5px;padding:12px 14px}
+.q-card-head{display:flex;align-items:center;justify-content:space-between}
+.q-card-head b{font-size:12px;font-weight:600;color:var(--hanji-ink)}
+.q-tags{display:flex;gap:6px}
+.q-tag{border-radius:var(--radius-xs);padding:3px 8px;font-size:10.5px;font-weight:600}
+.q-tag.answered{background:#fff;border:1px solid var(--hanji-ink);color:var(--hanji-ink)}
+.q-tag.linked{background:#FEFDF6;color:var(--hanji-olive)}
+.q-card p{font-size:12px;line-height:1.55;color:var(--hanji-ink)}
+.a-card{display:flex;flex-direction:column;gap:7px;padding:12px 14px;border-radius:7px}
+.byline{display:flex;align-items:center;gap:9px}
+.byline .avatar{width:24px;height:24px;font-size:9.5px;background:#000;color:var(--text-on-inverse)}
+.byline b{font-size:12px;font-weight:600;color:var(--hanji-ink)}
+.byline span{font-size:10px;color:var(--hanji-olive)}
+.a-card>p{font-size:12px;line-height:1.55;color:var(--hanji-ink)}
+.reply-actions{display:flex;gap:14px;padding-top:9px;font-size:11px;font-weight:600}
+.reply-actions span:first-child{color:var(--hanji-ink)}
+.reply-actions span:last-child{color:var(--hanji-terra)}
+.qa-aside{flex:1;border-left:1px solid rgba(144,128,91,.08);display:flex;flex-direction:column;gap:12px;
+  padding:16px 18px;background:linear-gradient(rgba(247,241,227,.3),rgba(247,241,227,.3)),
+  url("assets/kha/hanji-texture-aside.jpg") center/cover}
+.qa-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:7px}
+.qa-row.sel{background:rgba(168,91,68,.2);border:1px solid rgba(168,91,68,.2);border-radius:0}
+.qa-row span{font-size:11.5px;color:var(--hanji-ink)}
+.qa-row b{font-size:10.5px;font-weight:600;color:var(--hanji-ink)}
+.qa-row.waiting b{color:var(--hanji-terra)}
+.qa-aside .hanji-note{margin-top:auto}
+/* 05 Assignments */
+.asg-col{width:604px;flex:none;display:flex;flex-direction:column;gap:12px;padding:18px 24px}
+.asg-head{display:flex;align-items:center;gap:12px}
+.asg-head h3{flex:1;font-family:var(--font-serif-display);font-weight:400;font-size:25px;line-height:1.3;
+  color:var(--text-primary)}
+.due-chip{border:2px solid var(--hanji-terra);padding:4px 10px;flex:none;
+  font-size:10px;line-height:1.4;color:var(--hanji-terra)}
+.asg-brief{padding:11px 13px;font-size:12px;line-height:1.55;color:var(--hanji-olive)}
+.asg-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--hanji-olive)}
+.asg-editor{background:#fff;border:1px solid var(--hanji-ink);height:100px;padding:12px 13px;
+  font-size:12px;line-height:1.55;color:var(--hanji-olive)}
+.asg-actions{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+.asg-attach{border:1px solid var(--hanji-olive);padding:9px 14px;font-size:11.5px;color:var(--hanji-olive);
+  background:transparent;cursor:pointer;font-family:var(--font-sans)}
+.asg-submit{background:var(--hanji-ink);border:1px solid var(--hanji-ink);color:#fff;
+  padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-sans)}
+.asg-aside{flex:1;border:1px solid rgba(168,91,68,.28);display:flex;flex-direction:column;gap:12px;
+  padding:18px 20px;background:linear-gradient(rgba(247,241,227,.35),rgba(247,241,227,.35)),
+  url("assets/kha/hanji-texture-aside.jpg") center/cover}
+.status-chips{display:flex;gap:7px}
+.status-chip{border-radius:20px;padding:4px 10px;font-size:10.5px;font-weight:600;
+  background:#F1E7CF;border:1px solid #F1E7CF;color:var(--text-accent)}
+.status-chip.sel{background:rgba(168,91,68,.7);border-color:var(--hanji-terra);color:#F8EDE2}
+.checklist{display:flex;flex-direction:column;gap:7px}
+.checklist li{display:flex;gap:8px;list-style:none;font-size:11.5px;line-height:1.5;color:var(--hanji-olive)}
+.checklist .done{color:#4A6B52;font-weight:600}
+.checklist .todo{font-weight:600}
+.rubric{background:var(--hanji-cream);border:1px solid var(--hanji-ink);padding:10px 12px;
+  font-size:11.5px;line-height:1.55;color:#BCAE97}
+.asg-aside .hanji-note{margin-top:auto}
+/* journey steps */
+.journey{width:1100px;margin:52px auto 0;display:flex;gap:14px;align-items:flex-start;text-align:center}
+.journey-step{flex:1;display:flex;flex-direction:column;gap:8px;padding:16px 10px;
+  border-radius:var(--radius-md);background:transparent;border:0;cursor:pointer;
+  font-family:var(--font-sans);text-align:center}
+.journey-step .num{font-family:var(--font-serif);font-size:14px;line-height:1.2;color:#A69787}
+.journey-step .label{font-size:13.5px;font-weight:600;line-height:1.4;color:var(--text-primary)}
+.journey-step .hint{font-size:11.5px;font-weight:600;line-height:1.4;color:#A69787}
+.journey-step.is-selected{background:var(--bg-surface);box-shadow:var(--shadow-step-selected)}
+.journey-step.is-selected .num{color:#755C50}
+
+/* ============================================================ 08 · Teacher */
+.teacher{background:rgba(227,219,215,.65);padding:110px 32px}
+.teacher .container{display:flex;align-items:center;gap:64px}
+.teacher-copy{width:516px;flex:none}
+.teacher-copy .h2{margin-top:16px;line-height:1.18}
+.teacher-copy>p{margin-top:22px;font-size:15px;line-height:1.65;color:var(--text-body)}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.tag-pill{background:var(--bg-surface);border:1px solid var(--border-chip);
+  border-radius:var(--radius-pill);padding:8px 16px;
+  font-size:12.5px;font-weight:600;line-height:1.5;color:var(--text-nav)}
+.tasks-card{flex:1;background:var(--bg-surface);border:1px solid var(--border-card);
+  border-radius:var(--radius-xl);box-shadow:var(--shadow-panel-strong);overflow:hidden}
+.tasks-head{display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;border-bottom:1px solid var(--border-subtle)}
+.tasks-head .t{display:flex;align-items:center;gap:10px}
+.tasks-head .t img{height:16px;width:auto}
+.tasks-head .t b{font-size:13.5px;font-weight:600;color:var(--text-primary)}
+.tasks-head>span{font-size:11.5px;color:var(--text-subtle)}
+.queue{display:flex;flex-direction:column;gap:10px;padding:18px 24px}
+.task-row{display:flex;align-items:center;gap:16px;padding:14px 18px;
+  border:1px solid var(--border-default);border-radius:var(--radius-card)}
+.task-row:hover{border-color:rgba(27,42,68,.30)}
+.task-row .n{width:32px;text-align:center;font-family:var(--font-serif);font-weight:600;
+  font-size:26px;line-height:1.2;color:var(--text-primary)}
+.task-row .txt{flex:1}
+.task-row .txt b{display:block;font-size:13.5px;font-weight:600;line-height:1.4;color:var(--text-primary)}
+.task-row .txt span{font-size:11.5px;line-height:1.4;color:var(--text-subtle)}
+.task-row .arrow{font-size:13.5px;color:var(--text-subtle)}
+.task-row.alert{background:var(--bg-alert-soft);border-color:var(--border-alert)}
+.task-row.alert:hover{border-color:var(--border-alert)}
+.task-row.alert .n{color:var(--text-alert)}
+.metrics{display:flex;gap:10px}
+.metric{flex:1;display:flex;align-items:center;gap:12px;padding:12px 16px;
+  border:1px solid var(--border-default);border-radius:var(--radius-card)}
+.metric b{font-family:var(--font-serif);font-weight:600;font-size:20px;line-height:1.2;color:var(--text-primary)}
+.metric span{font-size:12px;font-weight:600;line-height:1.5;color:var(--text-primary)}
+
+/* ============================================================ 09 · Institutions */
+.institutions{background:rgba(237,229,216,.34);padding:110px 32px}
+.inst-header{display:flex;align-items:flex-end;gap:48px}
+.inst-header .heading{width:628px;flex:none}
+.inst-header .heading .h2{margin-top:16px}
+.inst-header>p{flex:1;font-size:15px;line-height:1.65;color:var(--text-body)}
+.dashboard{margin-top:48px;background:var(--bg-surface);border:1px solid var(--border-card);
+  border-radius:var(--radius-xl);box-shadow:var(--shadow-panel);overflow:hidden}
+.dash-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  padding:16px 26px;border-bottom:1px solid var(--border-subtle)}
+.dash-title{display:flex;align-items:center;gap:12px}
+.dash-title img{height:16px;width:auto}
+.dash-title b{font-size:13.5px;font-weight:600;color:var(--text-primary)}
+.role-chip{background:var(--bg-muted);border-radius:var(--radius-xs);padding:4px 8px;
+  font-size:10.5px;font-weight:600;letter-spacing:.02em;color:var(--text-muted)}
+.toolbar{display:flex;gap:8px}
+.tb-btn{border:1px solid var(--border-control);border-radius:7px;padding:8px 14px;
+  font-size:12px;font-weight:600;line-height:1.5;color:var(--text-primary);background:transparent;
+  cursor:pointer;font-family:var(--font-sans)}
+.tb-btn:hover{border-color:var(--text-primary)}
+.tb-btn.solid{background:var(--action-primary);border-color:var(--action-primary);color:#fff}
+.tb-btn.solid:hover{background:#2A3D60}
+.kpis{display:flex;border-bottom:1px solid var(--border-subtle)}
+.kpi{flex:1;padding:18px 20px;border-right:1px solid var(--border-hairline)}
+.kpi:last-child{border-right:0}
+.kpi b{display:block;font-family:var(--font-serif);font-weight:600;font-size:26px;line-height:1.2;color:var(--text-primary)}
+.kpi b small{font-size:14px;font-weight:600;color:var(--text-subtle)}
+.kpi.alert b{color:var(--text-alert)}
+.kpi span{font-size:10.5px;line-height:1.4;color:var(--text-subtle)}
+.course-table{padding:6px 26px 20px}
+.tbl-row{display:grid;grid-template-columns:2fr 1.2fr .7fr 1.3fr .9fr 1.3fr 1.2fr;gap:12px;align-items:center}
+.tbl-head{padding:14px 0 10px;border-bottom:1px solid var(--border-card);
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--text-subtle);text-transform:uppercase}
+.tbl-head span{white-space:nowrap}
+.tbl-body{padding:13px 0;border-bottom:1px solid var(--border-subtle);
+  font-size:12.5px;line-height:1.5;color:var(--text-nav)}
+.tbl-body:last-child{border-bottom:0}
+.tbl-body b{font-weight:600;color:var(--text-primary)}
+.prog{display:flex;align-items:center;gap:8px}
+.prog .track{flex:1;height:5px;background:var(--bg-track);border-radius:var(--radius-xs);overflow:hidden}
+.prog .track i{display:block;height:100%;background:var(--text-primary);border-radius:var(--radius-xs)}
+
+/* ============================================================ 11 · Final CTA */
+.final-cta{position:relative;overflow:hidden;padding:130px 32px;background:#131518;text-align:center}
+.final-cta::before{content:"";position:absolute;inset:0;
+  background:url("assets/kha/cta-bg.jpg") center/cover;opacity:.08}
+.final-cta::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(227,174,50,.08) 10%,rgba(0,0,0,.5) 93%)}
+.cta-blobs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cta-blobs-inner{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:100%}
+.cta-blobs-inner img{position:absolute}
+.final-cta .content{position:relative;z-index:1;width:820px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center}
+.final-cta .mark{height:52px;width:auto;opacity:.95}
+.final-cta h2{margin-top:34px;font-family:var(--font-serif-display);font-weight:400;
+  font-size:46px;line-height:1.14;color:#fff}
+.final-cta .body{margin-top:24px;width:620px;font-size:16px;line-height:1.7;color:rgba(255,255,255,.78)}
+.btn-contact{margin-top:40px;background:#fff;color:var(--action-primary);border:0;border-radius:8px;
+  padding:15px 28px;font-size:17.5px;font-weight:600;cursor:pointer;font-family:var(--font-sans)}
+.btn-contact:hover{background:var(--text-on-inverse)}
+.final-cta .tagline{margin-top:36px;font-size:13.5px;line-height:1.5;letter-spacing:.04em;color:rgba(255,255,255,.4)}
+
+/* ============================================================ 12 · Footer */
+.footer{background:var(--bg-inverse-deep);padding:48px 32px}
+.footer .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.footer-logo{display:flex;align-items:center;gap:12px}
+.footer-logo img{height:24px;width:auto}
+.footer-logo .wordmark{font-size:10.5px;line-height:1.3;color:var(--text-on-inverse)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:12.5px;line-height:1.5;color:var(--text-on-inverse-subtle)}
+.footer-links a:hover{color:var(--text-on-inverse)}
+.footer .copy{font-size:11.5px;line-height:1.4;color:var(--text-on-inverse-faint)}
+</style>
+</head>
+<body id="top">
+
+<!-- ============================ 01 · GNB (sticky, in-page anchors) -->
+<header class="gnb">
+  <div class="gnb-inner">
+    <a class="gnb-logo" href="#top" aria-label="K-HUMAN ACADEMY — back to top">
+      <img src="assets/w-symbol-dark.png" alt="K-HUMAN ACADEMY W symbol">
+      <span class="wordmark">K-HUMAN<br>ACADEMY</span>
+    </a>
+    <nav class="gnb-nav" aria-label="Section navigation">
+      <a href="#about">About</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#learning">Learning Experience</a>
+      <a href="#institutions">For Institutions</a>
+      <a href="#sample">Sample Lecture</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn-gnb" href="#contact">Request Partnership</a>
+  </div>
+</header>
+
+<!-- ============================ 02 · Hero -->
+<section class="hero">
+  <div class="hero-art" aria-hidden="true">
+    <div class="hero-art-inner">
+      <img src="assets/kha/hero-ink-a.svg"      alt="" style="left:564px;  top:-193px; width:600px;  height:440px">
+      <img src="assets/kha/hero-ink-b.svg"      alt="" style="left:865px;  top:312px;  width:920px;  height:720px">
+      <img src="assets/kha/hero-gold.svg"       alt="" style="left:917px;  top:32px;   width:960px;  height:760px">
+      <img src="assets/kha/hero-blue.svg"       alt="" style="left:359px;  top:144px;  width:1240px; height:920px">
+      <img src="assets/kha/hero-terracotta.svg" alt="" style="left:650px;  top:-310px; width:1120px; height:840px">
+      <img src="assets/kha/hero-white.svg"      alt="" style="left:697px;  top:-33px;  width:680px;  height:560px">
+    </div>
+    <div class="hero-wash"></div>
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1 class="hero-h1">Institutional<br>Korean Studies LMS</h1>
+      <p class="hero-lede">Bring structured Korean Studies learning to your institution —
+        with curriculum, reflection, feedback, and reporting in one platform.</p>
+      <a class="btn-hero" href="#contact">Request Partnership</a>
+    </div>
+    <div class="hero-mocks" aria-hidden="true">
+      <!-- Mockup · Instructor tasks -->
+      <div class="mock mock-tasks">
+        <h3>INSTRUCTOR · TODAY'S TASKS</h3>
+        <ul>
+          <li><span>Questions awaiting reply</span><b>7</b></li>
+          <li><span>Assignments to review</span><b>4</b></li>
+          <li><span>Students at risk</span><b class="alert">3</b></li>
+        </ul>
+      </div>
+      <!-- Mockup · Student lesson player -->
+      <div class="mock mock-player">
+        <div class="mock-player-head">
+          <img src="assets/w-symbol-dark.png" alt="">
+          <span>STUDENT · LESSON 3.2</span>
+        </div>
+        <div class="mock-player-body">
+          <div class="mock-media">
+            <div class="play"><img src="assets/kha/play-glyph.svg" alt=""></div>
+            <div class="mock-track"><i></i></div>
+          </div>
+          <div class="mock-mini">
+            <div class="mock-tabs"><span class="sel">Notes</span><span>AI Summary</span><span>Transcript</span></div>
+            <div class="skel" style="width:185px"></div>
+            <div class="skel" style="width:157px"></div>
+            <div class="skel" style="width:171px"></div>
+            <div class="mock-badge">Assignment due Fri</div>
+          </div>
+        </div>
+      </div>
+      <!-- Mockup · Institution report -->
+      <div class="mock mock-report">
+        <h3>INSTITUTION REPORT · SPRING</h3>
+        <div class="mock-stats">
+          <div><b>312</b><span>Active learners</span></div>
+          <div><b>74%</b><span>Avg. progress</span></div>
+        </div>
+        <div class="mock-bars">
+          <i style="background:#252A2E;height:22px"></i>
+          <i style="background:#FFD154;height:32px"></i>
+          <i style="background:#D54444;height:27px"></i>
+          <i style="background:#3C5CBA;height:43px"></i>
+          <i style="background:#000;height:51px"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 03 · Why This Platform -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-header">
+      <p class="eyebrow">Why This Platform</p>
+      <h2 class="h2">A Smarter Way to Expand<br>Korean Studies Programs</h2>
+    </div>
+    <div class="value-cards">
+      <article class="value-card">
+        <p class="num">01</p>
+        <h3>Give Learners a Clear Path</h3>
+        <p>Guide students from early interest in Korean language and culture toward deeper academic understanding through structured, level-based learning pathways.</p>
+      </article>
+      <article class="value-card">
+        <p class="num">02</p>
+        <h3>Expand Without Building from Scratch</h3>
+        <p>Offer Korean Studies courses, assignments, and learning resources without producing every lecture or activity in-house.</p>
+      </article>
+      <article class="value-card">
+        <p class="num">03</p>
+        <h3>See Progress Before Students Fall Behind</h3>
+        <p>Use role-based dashboards to monitor progress, questions, assignments, and completion — so instructors and administrators can identify where support is needed.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 04 · Content Philosophy -->
+<section class="philosophy">
+  <div class="container">
+    <div class="phil-copy">
+      <p class="eyebrow">Content Philosophy</p>
+      <h2>Go Beyond Cultural Facts. Understand the Principles of Korean Studies.</h2>
+      <p>K-HUMAN ACADEMY guides learners beyond historical facts and cultural topics toward the principles that shaped Korean language, society, thought, and heritage.</p>
+    </div>
+    <div class="principles">
+      <div class="principle"><span class="dash" style="background:#3C5CBB"></span>
+        <span class="line"><span class="lead">From information</span> <span class="emph">to interpretation</span></span></div>
+      <div class="principle"><span class="dash" style="background:#FED055"></span>
+        <span class="line"><span class="lead">From cultural facts</span> <span class="emph">to cultural logic</span></span></div>
+      <div class="principle"><span class="dash" style="background:#D54445"></span>
+        <span class="line"><span class="lead">From interest in Korea</span> <span class="emph">to structured understanding</span></span></div>
+      <div class="principle"><span class="dash" style="background:#fff"></span>
+        <span class="line"><span class="lead">From passive viewing</span> <span class="emph">to reflective learning</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 05 · Curriculum Preview -->
+<section class="curriculum" id="curriculum">
+  <div class="container">
+    <div class="curr-header">
+      <p class="eyebrow">Curriculum</p>
+      <h2 class="h2">A Level-Based Curriculum<br>Built Around Core Principles</h2>
+    </div>
+    <div class="level-cards">
+      <article class="level-card level-1">
+        <p class="lvl">LEVEL 1</p><h3>Foundation</h3>
+        <ul><li>Korean Studies Orientation</li><li>Key Perspectives</li><li>Language, Culture, and Society</li></ul>
+      </article>
+      <article class="level-card level-2">
+        <p class="lvl">LEVEL 2</p><h3>Core</h3>
+        <ul><li>Cultural Logic</li><li>Historical Continuity</li><li>Korean Ways of Thinking</li></ul>
+      </article>
+      <article class="level-card level-3">
+        <p class="lvl">LEVEL 3</p><h3>Advanced</h3>
+        <ul><li>Comparative Understanding</li><li>Heritage and Modernity</li><li>Interpretation Projects</li></ul>
+      </article>
+      <article class="level-card level-4">
+        <p class="lvl">ELECTIVE</p><h3>Special Topics</h3>
+        <ul><li>Korean Aesthetics</li><li>Architecture and Space</li><li>Modern Korea and K-Culture</li></ul>
+      </article>
+    </div>
+    <div class="curr-footer">
+      <p>Modules shown are representative. Final curriculum is tailored per institution.</p>
+      <a class="btn-dark" href="#contact">Request Full Curriculum Proposal</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 06 · Sample Lecture -->
+<section class="sample" id="sample">
+  <div class="container">
+    <div class="stage">
+      <img class="stage-watermark" src="assets/kha/watermark-w.png" alt="" aria-hidden="true">
+      <div class="play" role="img" aria-label="Sample lecture video coming soon">
+        <img src="assets/kha/play-glyph.svg" alt="">
+      </div>
+      <div class="stage-badge">SAMPLE LECTURE · COMING LATE AUGUST</div>
+    </div>
+    <div class="sample-detail">
+      <p class="eyebrow">Sample Lecture Preview</p>
+      <h2 class="sample-title">Preview the Learning Experience</h2>
+      <p class="sample-quote">“Opening Korean Studies: The Dongyi People<br>and the Roots of Korean Identity”</p>
+      <p class="sample-desc">A sample lecture showing how K-HUMAN ACADEMY approaches Korean identity through historical context, cultural interpretation, and the principles behind Korean ways of thinking.</p>
+      <ul class="sample-takeaways">
+        <li>An introductory lens on Korean origins and identity</li>
+        <li>How language and culture shape Korean ways of thinking</li>
+        <li>A foundation for later topics in Korean Studies</li>
+      </ul>
+      <div class="sample-meta">
+        <span><b>20 min</b> Duration</span>
+        <span><b>EN · KR</b> Subtitles</span>
+        <span><b>Foundation</b> Level</span>
+        <span><b>Korean Spirit and Temperament</b> Related course</span>
+      </div>
+      <a class="btn-sample" href="#contact">Request Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 07 · Learning Experience (interactive 5-step) -->
+<section class="learning" id="learning">
+  <div class="lx-head">
+    <p class="eyebrow">Learning Experience</p>
+    <h2 class="h2">A Workspace Designed<br>for Active Learning</h2>
+  </div>
+
+  <div class="lms">
+    <div class="lms-bar">
+      <div class="lms-course">
+        <img src="assets/w-symbol-dark.png" alt="">
+        <b>Korean Spirit and Temperament</b>
+        <span class="level-chip">Foundation Level</span>
+      </div>
+      <div class="lms-session">
+        <span id="lms-session-label">Lecture 1-A · Notes</span>
+        <span class="avatar">JW</span>
+      </div>
+    </div>
+
+    <!-- Panel 01 · Notes -->
+    <div class="lx-panel is-active" data-panel="1">
+      <div class="notes-player-col">
+        <div class="lesson-player">
+          <p class="title">Opening Korean Studies: The Dongyi People and the Roots of Korean Identity</p>
+          <div class="play"><img src="assets/kha/play-glyph.svg" alt=""></div>
+          <div class="scrubber"><div class="track"><i></i></div><span>08:42 / 20:00</span></div>
+        </div>
+        <div class="lesson-meta">
+          <span>Lecture 1-A · Foundation Level</span>
+          <span>Switch between freeform notes and timestamp-linked notes.</span>
+        </div>
+      </div>
+      <div class="notes-aside">
+        <div class="notes-aside-head"><b>My Lecture Notes</b><span class="tag-private">Private</span></div>
+        <div class="notes-subtabs"><span>General Notes</span><span class="sel">Timestamp Notes</span></div>
+        <div class="notes-list">
+          <div class="note-row sel"><span class="note-ts">03:12</span>
+            <p>Key term: <b>Dongyi People</b> — check the classical sources cited.</p></div>
+          <div class="note-row"><span class="note-ts">07:45</span>
+            <p>Question about Korean identity — is it framed culturally or ethnically here?</p></div>
+          <div class="note-row"><span class="note-ts">12:08</span>
+            <p>Link to cultural interpretation — connects to next week's reading.</p></div>
+          <div class="note-actions">
+            <button class="btn-hanji-outline" type="button">+ Add timestamp note</button>
+            <button class="btn-hanji-solid" type="button">Share my notes</button>
+          </div>
+          <p class="hanji-note">Shared notes stay inside this course · visible to classmates only</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 02 · Community -->
+    <div class="lx-panel" data-panel="2" style="flex-direction:column">
+      <div class="comm-head">
+        <div>
+          <h3>Korean Spirit and Temperament · Community</h3>
+          <small>Moderated by course instructors</small>
+        </div>
+        <button class="btn-hanji-solid" type="button">Start a discussion</button>
+      </div>
+      <div class="comm-body">
+        <div class="comm-feed">
+          <div class="filters">
+            <span class="filter sel">Lecture Discussion</span>
+            <span class="filter soft">Question</span>
+            <span class="filter">Reflection</span>
+            <span class="filter">Instructor Highlight</span>
+          </div>
+          <div class="post">
+            <div class="post-head"><p>“How should we understand ‘temperament’ in a cultural context?”</p><span>Question</span></div>
+            <div class="post-meta">
+              <span class="avatars"><i style="background:#EDE7D9">SL</i><i style="background:#E7C5BA">MK</i></span>
+              <span>8 replies</span><span>·</span><span>Active 2h ago</span>
+            </div>
+          </div>
+          <div class="post">
+            <div class="post-head"><p>“My note on language and identity”</p><span>Reflection</span></div>
+            <div class="post-meta">
+              <span class="avatars"><i style="background:#EDE7D9">JP</i><i style="background:#E7C4BB">AR</i></span>
+              <span>5 replies</span><span>·</span><span>Active 5h ago</span>
+            </div>
+          </div>
+          <div class="post sel">
+            <div class="post-head"><p>“Can someone explain the historical context from today’s lecture?”</p><span>Lecture Discussion</span></div>
+            <div class="post-meta">
+              <span class="avatars"><i style="background:#EDE7D9">DK</i><i style="background:#E7C5BA">EW</i></span>
+              <span>12 replies</span><span>·</span><span>Active 30m ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="comm-aside">
+          <div class="aside-block">
+            <h4>THIS WEEK'S LECTURE</h4>
+            <div class="callout" style="background:rgba(237,231,217,.3)">Opening Korean Studies: The Dongyi People and the Roots of Korean Identity</div>
+          </div>
+          <div class="aside-block">
+            <h4>INSTRUCTOR HIGHLIGHT</h4>
+            <div class="callout">"My note on language and identity" — a strong example of connecting lecture and reflection.</div>
+          </div>
+          <p class="hanji-note">Course-based community · classmates and instructors only</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 03 · AI Review -->
+    <div class="lx-panel" data-panel="3">
+      <div class="ai-summary">
+        <p class="panel-label">LESSON SUMMARY · LECTURE 1-A</p>
+        <h3>Key points from this lecture</h3>
+        <ul class="ai-bullets">
+          <li>The "Dongyi People" as a lens on early Korean identity</li>
+          <li>Identity as cultural continuity, not only lineage</li>
+          <li>Language as a carrier of temperament and worldview</li>
+        </ul>
+        <p class="panel-label" style="padding-top:6px">CONCEPT REVIEW</p>
+        <div class="concept-rows">
+          <div class="concept-row sel"><b>Dongyi People</b><span>Reviewed</span></div>
+          <div class="concept-row next"><b>Korean identity</b><span>Review next</span></div>
+          <div class="concept-row"><b>Language and culture</b><span>Not started</span></div>
+        </div>
+        <p class="hanji-note">Review with instructor materials</p>
+      </div>
+      <div class="ai-assistant">
+        <div class="ai-assistant-head"><b>AI Study Assistant</b><span>For study support</span></div>
+        <div class="ai-assistant-body">
+          <div class="ai-card">This lecture frames Korean identity through the classical idea of the Dongyi People, then traces how language and shared temperament — rather than lineage alone — carry that identity forward.</div>
+          <p class="panel-label">SUGGESTED PROMPTS</p>
+          <div class="prompts">
+            <div class="prompt">Summarize this lecture in 5 bullet points</div>
+            <div class="prompt">Create review questions</div>
+            <div class="prompt sel">Explain the difference between fact and interpretation</div>
+          </div>
+          <p class="hanji-note">A study aid based on lecture materials — instructor answers remain the reference.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 04 · Instructor Q&A -->
+    <div class="lx-panel" data-panel="4" style="flex-direction:column">
+      <div class="qa-head">
+        <div class="qa-tabs">
+          <h3>Instructor Q&amp;A</h3>
+          <span class="sel">All</span><span>Answered</span><span>Waiting for response</span>
+        </div>
+        <span class="qa-sla">Usually answered within 24h</span>
+      </div>
+      <div class="qa-body">
+        <div class="qa-thread">
+          <div class="ask-field">Ask a question about this lecture…<img src="assets/kha/qa-tear.svg" alt="" aria-hidden="true"></div>
+          <div class="q-card">
+            <div class="q-card-head"><b>You asked</b>
+              <span class="q-tags"><span class="q-tag answered">Answered</span><span class="q-tag linked">Linked to Lecture 1-A</span></span>
+            </div>
+            <p>"How does this topic connect to Korean ways of thinking?"</p>
+          </div>
+          <div class="a-card">
+            <div class="byline"><span class="avatar">HY</span><b>Prof. H. Yoon</b><span>Course Instructor</span></div>
+            <p>The Dongyi framing is less about origins than about a durable way of relating — to nature, language, and community. Revisit <b style="font-weight:600">07:30–09:10</b> in Lecture 1-A, where this becomes the basis for "temperament."</p>
+            <div class="reply-actions"><span>Mark as helpful</span><span>Ask follow-up</span></div>
+          </div>
+        </div>
+        <div class="qa-aside">
+          <p class="panel-label">MY QUESTIONS</p>
+          <div class="qa-row sel"><span>Lecture 1-A</span><b>Answered</b></div>
+          <div class="qa-row waiting"><span>Lecture 1-B</span><b>Waiting for response</b></div>
+          <p class="hanji-note">Questions go directly to your course instructor — separate from community and AI review.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 05 · Assignments -->
+    <div class="lx-panel" data-panel="5">
+      <div class="asg-col">
+        <div class="asg-head">
+          <h3>Reflection Assignment: Korean Identity and Cultural Interpretation</h3>
+          <span class="due-chip">Due Sep 12</span>
+        </div>
+        <p class="asg-brief">Drawing on Lecture 1-A, explain how "Korean identity" is presented as a cultural interpretation rather than a fixed fact. Use one example from the lecture (500–700 words).</p>
+        <p class="asg-label">YOUR RESPONSE</p>
+        <div class="asg-editor">The lecture suggests that identity is carried by language and shared temperament, which means…</div>
+        <div class="asg-actions">
+          <button class="asg-attach" type="button">Attach file · PDF or DOCX</button>
+          <button class="asg-submit" type="button">Submit an assignment</button>
+        </div>
+      </div>
+      <div class="asg-aside">
+        <p class="asg-label">STATUS</p>
+        <div class="status-chips">
+          <span class="status-chip sel">Draft</span>
+          <span class="status-chip">Submitted</span>
+          <span class="status-chip">Feedback pending</span>
+        </div>
+        <p class="asg-label">CHECKLIST</p>
+        <ul class="checklist">
+          <li><span class="done">✓</span><span>Watched Lecture 1-A</span></li>
+          <li><span class="done">✓</span><span>Reviewed key concepts</span></li>
+          <li><span class="todo">○</span><span>Draft written (in progress)</span></li>
+          <li><span class="todo">○</span><span>Submitted for feedback</span></li>
+        </ul>
+        <p class="asg-label">RUBRIC PREVIEW</p>
+        <div class="rubric">Use of lecture evidence · Clarity of interpretation · Reflection depth</div>
+        <p class="hanji-note">Instructor feedback appears here after submission.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey steps — clicking a card switches the panel above -->
+  <div class="journey" role="tablist" aria-label="Learning journey steps">
+    <button class="journey-step is-selected" type="button" data-step="1" data-session="Lecture 1-A · Notes" role="tab" aria-selected="true">
+      <span class="num">01</span>
+      <span class="label">Take notes<br>while learning</span>
+      <span class="hint">→ Share my notes</span>
+    </button>
+    <button class="journey-step" type="button" data-step="2" data-session="Community" role="tab" aria-selected="false">
+      <span class="num">02</span>
+      <span class="label">Learn together<br>in the community</span>
+    </button>
+    <button class="journey-step" type="button" data-step="3" data-session="AI Review" role="tab" aria-selected="false">
+      <span class="num">03</span>
+      <span class="label">Summarize and review<br>with AI assistance</span>
+    </button>
+    <button class="journey-step" type="button" data-step="4" data-session="Instructor Q&amp;A" role="tab" aria-selected="false">
+      <span class="num">04</span>
+      <span class="label">Ask instructors directly</span>
+    </button>
+    <button class="journey-step" type="button" data-step="5" data-session="Assignment" role="tab" aria-selected="false">
+      <span class="num">05</span>
+      <span class="label">Submit assignments</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============================ 08 · Teacher Experience -->
+<section class="teacher">
+  <div class="container">
+    <div class="teacher-copy">
+      <p class="eyebrow">Instructor Experience</p>
+      <h2 class="h2">Instructors See<br>Where Students Need<br>Help the Most.</h2>
+      <p>The ‘Today's Tasks’ view brings student questions, assignment feedback, and configured alerts for support into one prioritized queue — so instructors know what needs attention first.</p>
+      <div class="tags">
+        <span class="tag-pill">Question management</span>
+        <span class="tag-pill">Assignment feedback</span>
+        <span class="tag-pill">Configured support alerts</span>
+        <span class="tag-pill">Student activity overview</span>
+        <span class="tag-pill">Live session support</span>
+      </div>
+    </div>
+    <div class="tasks-card">
+      <div class="tasks-head">
+        <div class="t"><img src="assets/w-symbol-dark.png" alt=""><b>Today's Tasks</b></div>
+        <span>Tue, Aug 5 · Prof. H. Yoon</span>
+      </div>
+      <div class="queue">
+        <div class="task-row">
+          <span class="n">7</span>
+          <div class="txt"><b>Questions awaiting response</b><span>Oldest: 22h · Cultural Logic 3.1</span></div>
+          <span class="arrow">→</span>
+        </div>
+        <div class="task-row">
+          <span class="n">4</span>
+          <div class="txt"><b>Assignments need feedback</b><span>Interpretation essay · due back Thu</span></div>
+          <span class="arrow">→</span>
+        </div>
+        <div class="task-row alert">
+          <span class="n">3</span>
+          <div class="txt"><b>Students at risk</b><span>No activity for 14+ days</span></div>
+          <span class="arrow">→</span>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b>2</b><span>Lectures with high pause rates</span></div>
+          <div class="metric"><b>3</b><span>New reviews this week</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 09 · Institution Manager -->
+<section class="institutions" id="institutions">
+  <div class="container">
+    <div class="inst-header">
+      <div class="heading">
+        <p class="eyebrow">Institution Manager Experience</p>
+        <h2 class="h2">Institution-Level Reporting<br>for Korean Studies Programs</h2>
+      </div>
+      <p>Give program managers a clear view of learner progress, completion, engagement, and course-level performance — with exportable reports designed for internal review and leadership reporting.</p>
+    </div>
+    <div class="dashboard">
+      <div class="dash-head">
+        <div class="dash-title">
+          <img src="assets/w-symbol-dark.png" alt="">
+          <b>Institution Dashboard · University of Leiden — Korean Studies</b>
+          <span class="role-chip">INSTITUTION MANAGER</span>
+        </div>
+        <div class="toolbar">
+          <button class="tb-btn" type="button">Export Report</button>
+          <button class="tb-btn" type="button">Manage Groups</button>
+          <button class="tb-btn solid" type="button">Assign Course</button>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b>486</b><span>Registered Students</span></div>
+        <div class="kpi"><b>312</b><span>Active Learners</span></div>
+        <div class="kpi"><b>74%</b><span>Average Progress</span></div>
+        <div class="kpi"><b>61%</b><span>Completion Rate</span></div>
+        <div class="kpi alert"><b>18</b><span>At-risk Students</span></div>
+        <div class="kpi"><b>486<small>/600</small></b><span>License Usage</span></div>
+      </div>
+      <div class="course-table">
+        <div class="tbl-row tbl-head">
+          <span>Course</span><span>Group</span><span>Enrolled</span><span>Progress</span>
+          <span>Completion</span><span>Assignment Submission</span><span>Instructor</span>
+        </div>
+        <div class="tbl-row tbl-body">
+          <b>Korean Studies Orientation</b><span>Cohort A · BA2</span><span>124</span>
+          <span class="prog"><span class="track"><i style="width:82%"></i></span>82%</span>
+          <span>71%</span><span>88%</span><span>Dr. J. Park</span>
+        </div>
+        <div class="tbl-row tbl-body">
+          <b>Cultural Logic</b><span>Cohort A · BA3</span><span>96</span>
+          <span class="prog"><span class="track"><i style="width:68%"></i></span>68%</span>
+          <span>54%</span><span>76%</span><span>Prof. H. Yoon</span>
+        </div>
+        <div class="tbl-row tbl-body">
+          <b>Heritage and Modernity</b><span>Exchange</span><span>52</span>
+          <span class="prog"><span class="track"><i style="width:77%"></i></span>77%</span>
+          <span>63%</span><span>91%</span><span>Dr. S. Lee</span>
+        </div>
+        <div class="tbl-row tbl-body">
+          <b>Korean Aesthetics</b><span>Minor Track</span><span>38</span>
+          <span class="prog"><span class="track"><i style="width:44%"></i></span>44%</span>
+          <span>32%</span><span>69%</span><span>Prof. M. Choi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 11 · Final CTA -->
+<section class="final-cta" id="contact">
+  <div class="cta-blobs" aria-hidden="true">
+    <div class="cta-blobs-inner">
+      <img src="assets/kha/cta-terracotta.svg" alt="" style="left:724px;  top:360px;  width:1000px; height:680px">
+      <img src="assets/kha/cta-blue.svg"       alt="" style="left:-284px; top:360px;  width:1000px; height:680px">
+      <img src="assets/kha/cta-ivory.svg"      alt="" style="left:20px;   top:-420px; width:1400px; height:840px">
+    </div>
+  </div>
+  <div class="content">
+    <img class="mark" src="assets/w-symbol-ivory.png" alt="">
+    <h2>Plan Your Institution’s<br>Korean Studies Learning Pathway</h2>
+    <p class="body">We can help your institution plan a Korean Studies learning pathway
+      that combines principle-based content, active study tools, instructor support,
+      and report-ready visibility.</p>
+    <!-- TODO(dev): 문의 폼이 준비되면 이 버튼을 폼(모달 또는 별도 페이지)으로 연결.
+         현재는 자리표시자 — 클릭 동작 없음. -->
+    <button class="btn-contact" type="button">Contact Us</button>
+    <p class="tagline">Built for institutions bringing structured Korean Studies learning to global learners.</p>
+  </div>
+</section>
+
+<!-- ============================ 12 · Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo">
+      <img src="assets/w-symbol-ivory.png" alt="K-HUMAN ACADEMY">
+      <span class="wordmark">K-HUMAN<br>ACADEMY</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="#about">About</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#institutions">For Institutions</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="copy">© 2026 K-HUMAN ACADEMY.</p>
+  </div>
+</footer>
+
+<script>
+// Learning Experience state machine: step cards ↔ panels ↔ session label
+(function(){
+  var steps  = document.querySelectorAll('.journey-step');
+  var panels = document.querySelectorAll('.lx-panel');
+  var label  = document.getElementById('lms-session-label');
+  steps.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var n = btn.dataset.step;
+      steps.forEach(function(b){
+        b.classList.toggle('is-selected', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      panels.forEach(function(p){ p.classList.toggle('is-active', p.dataset.panel === n); });
+      label.textContent = btn.dataset.session;
+    });
+  });
+  // deep link: ?step=N pre-selects a learning-experience step
+  var q = new URLSearchParams(location.search).get('step');
+  if(q && q >= 1 && q <= 5) steps[q - 1].click();
+})();
+
+// GNB scrollspy: highlight the nav link of the section in view
+(function(){
+  var links = document.querySelectorAll('.gnb-nav a');
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && map[e.target.id]){
+        links.forEach(function(a){ a.classList.remove('is-active'); });
+        map[e.target.id].classList.add('is-active');
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  Object.keys(map).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

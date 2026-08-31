@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1000" height="680" viewBox="0 0 1000 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse id="terracotta 500&#195;&#151;340 @ 85% 100%" cx="500" cy="340" rx="500" ry="340" fill="url(#paint0_radial_0_7)"/>
+<defs>
+<radialGradient id="paint0_radial_0_7" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(500 340) scale(500 340)">
+<stop stop-color="#C97B62" stop-opacity="0.08"/>
+<stop offset="0.7" stop-color="#C97B62" stop-opacity="0"/>
+<stop offset="1" stop-color="#C97B62" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>
