@@ -90,7 +90,7 @@
   --font-sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
   /* layout */
   --container:1200px;
-  --gnb-h:72px;
+  --gnb-h:60px;
 }
 
 /* ============================================================ base */
@@ -108,25 +108,27 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 .gnb{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);
   -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
   border-bottom:1px solid var(--border-card)}
-.gnb-inner{max-width:1264px;margin:0 auto;height:var(--gnb-h);padding:0 32px;
-  display:flex;align-items:center;justify-content:space-between}
+.gnb-inner{min-height:var(--gnb-h);padding:10px 120px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px}
 .gnb-logo{display:flex;align-items:center;gap:12px}
 .gnb-logo img{height:30px;width:auto}
 .wordmark{font-size:12.5px;font-weight:700;line-height:1.25;letter-spacing:.22em;color:var(--text-primary)}
-.gnb-nav{display:flex;gap:28px;position:absolute;left:50%;transform:translateX(-50%)}
-.gnb-inner{position:relative}
+.gnb-nav{display:flex;gap:28px}
 .gnb-nav a{font-size:13.5px;font-weight:500;line-height:1.2;color:var(--text-nav);white-space:nowrap}
 .gnb-nav a:hover,.gnb-nav a.is-active{color:var(--text-primary)}
-.btn-gnb{background:#F3F4F4;border-radius:7px;padding:11px 22px;
-  font-size:13px;font-weight:600;letter-spacing:-.03em;color:#67686D;display:inline-block}
+.gnb-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;width:205px}
+.btn-gnb{flex:1;background:#F3F4F4;border-radius:7px;padding:11px 22px;text-align:center;
+  font-size:13px;font-weight:600;letter-spacing:-.03em;color:#67686D;display:inline-block;white-space:nowrap}
 .btn-gnb:hover{background:#EAEBEB}
+.gnb-menu{width:50px;height:40px;flex:none;background:none;border:0;cursor:pointer;padding:0}
+.gnb-menu svg{display:block;width:100%;height:100%}
 
 /* ============================================================ 02 · Hero */
 .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#E7EAEA 0%,var(--bg-page) 100%);
   padding:96px 32px 110px}
 .hero-art{position:absolute;inset:0;opacity:.6;pointer-events:none}
 .hero-art-inner{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:702px}
-.hero-art-inner img{position:absolute}
+.blob{position:absolute;border-radius:50%}
 .hero-wash{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:686px;
   background:linear-gradient(79.6deg,rgba(246,245,241,.9) 4%,rgba(246,245,241,.45) 35%,rgba(246,245,241,0) 55%)}
 .hero-grid{position:relative;display:flex;align-items:center;gap:62px;min-height:496px}
@@ -559,7 +561,6 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
   background:linear-gradient(180deg,rgba(227,174,50,.08) 10%,rgba(0,0,0,.5) 93%)}
 .cta-blobs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .cta-blobs-inner{position:absolute;left:50%;transform:translateX(-50%);top:0;width:1440px;height:100%}
-.cta-blobs-inner img{position:absolute}
 .final-cta .content{position:relative;z-index:1;width:820px;margin:0 auto;
   display:flex;flex-direction:column;align-items:center}
 .final-cta .mark{height:52px;width:auto;opacity:.95}
@@ -581,15 +582,55 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 .footer-links a{font-size:12.5px;line-height:1.5;color:var(--text-on-inverse-subtle)}
 .footer-links a:hover{color:var(--text-on-inverse)}
 .footer .copy{font-size:11.5px;line-height:1.4;color:var(--text-on-inverse-faint)}
+
+/* ============================================================
+   연필/붓 느낌 테두리 — 한지 UI 전용 (SVG displacement filter #rough)
+   원리: 실제 border 대신 ::after 오버레이에 border를 그리고 필터로 흔들어 손그림 느낌을 냄.
+   ============================================================ */
+.level-chip,.tag-private,.note-ts,.note-row.sel,.btn-hanji-outline,
+.filter,.post.sel,.ai-card,.concept-row.sel,.prompt.sel,.ai-assistant-head span,
+.q-card,.q-tag.answered,.due-chip,.asg-editor,.asg-attach,.rubric{
+  position:relative;isolation:isolate;border:none}
+.level-chip::after,.tag-private::after,.note-ts::after,.note-row.sel::after,
+.btn-hanji-outline::after,.filter::after,.post.sel::after,.ai-card::after,
+.concept-row.sel::after,.prompt.sel::after,.ai-assistant-head span::after,
+.q-card::after,.q-tag.answered::after,.due-chip::after,.asg-editor::after,
+.asg-attach::after,.rubric::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  border:var(--rw,1px) solid var(--rc,var(--hanji-ink));filter:url(#rough)}
+.note-row.sel{--rw:2px;--rc:rgba(61,46,31,.55)}
+.due-chip{--rw:2px;--rc:var(--hanji-terra)}
+.asg-attach{--rc:var(--hanji-olive)}
+.ai-assistant-head span{--rc:var(--hanji-gold)}
+.concept-row.sel{--rc:#26160f}
+.prompt.sel{--rc:var(--hanji-brown)}
+.filter.sel{--rc:var(--hanji-terra)}
+/* 러프 채움 — 진한 잉크 버튼/칩의 가장자리도 손그림 느낌으로 */
+.btn-hanji-solid,.asg-submit,.filter.sel,.status-chip.sel{
+  position:relative;isolation:isolate;border:none;background:transparent}
+.btn-hanji-solid::before,.asg-submit::before,.filter.sel::before,.status-chip.sel::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;
+  background:var(--rf,var(--hanji-ink));filter:url(#rough)}
+.filter.sel::before{--rf:rgba(168,91,68,.85)}
+.status-chip.sel::before{--rf:rgba(168,91,68,.7)}
 </style>
 </head>
 <body id="top">
 
 <!-- ============================ 01 · GNB (sticky, in-page anchors) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" x="-4%" y="-12%" width="108%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.06" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>
+    </filter>
+  </defs>
+</svg>
+
 <header class="gnb">
   <div class="gnb-inner">
     <a class="gnb-logo" href="#top" aria-label="K-HUMAN ACADEMY — back to top">
-      <img src="assets/w-symbol-dark.png" alt="K-HUMAN ACADEMY W symbol">
+      <img src="assets/w-symbol-dark.png" alt="">
       <span class="wordmark">K-HUMAN<br>ACADEMY</span>
     </a>
     <nav class="gnb-nav" aria-label="Section navigation">
@@ -600,7 +641,17 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
       <a href="#sample">Sample Lecture</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn-gnb" href="#contact">Request Partnership</a>
+    <div class="gnb-right">
+      <a class="btn-gnb" href="#contact">Request Partnership</a>
+      <!-- TODO(dev): 햄버거 메뉴의 동작(모바일 드로어 등)은 디자인에 미정 — 현재 장식/자리표시자 -->
+      <button class="gnb-menu" type="button" aria-label="Menu">
+        <svg viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 10H40" stroke="#67686D" stroke-linecap="round"/>
+          <path d="M10 20H40" stroke="#67686D" stroke-linecap="round"/>
+          <path d="M10 30H40" stroke="#67686D" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -608,12 +659,12 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 <section class="hero">
   <div class="hero-art" aria-hidden="true">
     <div class="hero-art-inner">
-      <img src="assets/kha/hero-ink-a.svg"      alt="" style="left:564px;  top:-193px; width:600px;  height:440px">
-      <img src="assets/kha/hero-ink-b.svg"      alt="" style="left:865px;  top:312px;  width:920px;  height:720px">
-      <img src="assets/kha/hero-gold.svg"       alt="" style="left:917px;  top:32px;   width:960px;  height:760px">
-      <img src="assets/kha/hero-blue.svg"       alt="" style="left:359px;  top:144px;  width:1240px; height:920px">
-      <img src="assets/kha/hero-terracotta.svg" alt="" style="left:650px;  top:-310px; width:1120px; height:840px">
-      <img src="assets/kha/hero-white.svg"      alt="" style="left:697px;  top:-33px;  width:680px;  height:560px">
+      <span class="blob" style="left:564px;  top:-193px; width:600px;  height:440px;background:radial-gradient(closest-side,rgba(25,28,36,.26),rgba(25,28,36,0))"></span>
+      <span class="blob" style="left:865px;  top:312px;  width:920px;  height:720px;background:radial-gradient(closest-side,rgba(25,28,36,.38),rgba(25,28,36,0))"></span>
+      <span class="blob" style="left:917px;  top:32px;   width:960px;  height:760px;background:radial-gradient(closest-side,rgba(229,199,131,.42),rgba(229,199,131,0))"></span>
+      <span class="blob" style="left:359px;  top:144px;  width:1240px; height:920px;background:radial-gradient(closest-side,rgba(110,140,171,.34),rgba(110,140,171,0))"></span>
+      <span class="blob" style="left:650px;  top:-310px; width:1120px; height:840px;background:radial-gradient(closest-side,rgba(201,123,98,.30),rgba(201,123,98,0))"></span>
+      <span class="blob" style="left:697px;  top:-33px;  width:680px;  height:560px;background:radial-gradient(closest-side,rgba(255,255,255,1),rgba(255,255,255,0))"></span>
     </div>
     <div class="hero-wash"></div>
   </div>
@@ -1127,9 +1178,9 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 <section class="final-cta" id="contact">
   <div class="cta-blobs" aria-hidden="true">
     <div class="cta-blobs-inner">
-      <img src="assets/kha/cta-terracotta.svg" alt="" style="left:724px;  top:360px;  width:1000px; height:680px">
-      <img src="assets/kha/cta-blue.svg"       alt="" style="left:-284px; top:360px;  width:1000px; height:680px">
-      <img src="assets/kha/cta-ivory.svg"      alt="" style="left:20px;   top:-420px; width:1400px; height:840px">
+      <span class="blob" style="left:724px;  top:360px;  width:1000px; height:680px;background:radial-gradient(closest-side,rgba(201,123,98,.08),rgba(201,123,98,0))"></span>
+      <span class="blob" style="left:-284px; top:360px;  width:1000px; height:680px;background:radial-gradient(closest-side,rgba(110,140,171,.12),rgba(110,140,171,0))"></span>
+      <span class="blob" style="left:20px;   top:-420px; width:1400px; height:840px;background:radial-gradient(closest-side,rgba(240,236,225,.09),rgba(240,236,225,0))"></span>
     </div>
   </div>
   <div class="content">
