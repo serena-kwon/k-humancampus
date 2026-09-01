@@ -1,0 +1,3 @@
+[
+  { "date": "2026-08-31", "verb": "redesign", "target": "/auth (wra.webheads.co.kr) → kha-auth.html", "macrostructure": "Split Panel (ink aside + paper form)", "theme": "KHA main-page system (navy ink · hanji paper · Bona Nova / IBM Plex Sans / Source Serif 4)", "enrichment": "none — reuses assets/kha/philosophy-ink-bg.jpg", "brief": "K-HUMAN ACADEMY 로그인 페이지 — 네이비 + 개발사 카피 + 메인 04 오방색 원칙 4개 + Google 소셜 로그인 추가" }
+]

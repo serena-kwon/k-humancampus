@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Log In — K-HUMAN ACADEMY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+/* Hallmark · redesign: /auth · macrostructure: Split Panel (ink aside + paper form)
+ * theme: KHA main-page system (navy ink · hanji paper · navy/charcoal action · obangsaek dashes)
+ * tone: editorial · display: Bona Nova · body: IBM Plex Sans · serif: Source Serif 4
+ * pre-emit critique: P4 H4 E4 S4 R5 V4
+ * 시안 v2 — 2026-09-01. 좌측: 네이비 + 개발사 카피 + 메인 04 섹션의 오방색 원칙 4개,
+ * 개발사 /auth 폼 구조 유지 + Google 소셜 로그인 추가. 토큰은 kha-main-page.html :root 와 동일.
+ */
+:root{
+  /* color · text */
+  --text-heading:#121D33;
+  --text-primary:#1B2A44;
+  --text-nav:#3A4763;
+  --text-body-strong:#3B4864;
+  --text-body:#46536E;
+  --text-muted:#5A6B85;
+  --text-subtle:#8791A6;
+  --text-accent:#8A6F52;
+  --text-alert:#A85B44;
+  /* color · text on inverse */
+  --text-on-inverse:#F0ECE1;
+  --text-on-inverse-muted:rgba(240,236,225,.78);
+  --text-on-inverse-body:rgba(240,236,225,.6);
+  --text-on-inverse-subtle:rgba(240,236,225,.55);
+  --text-on-inverse-faint:rgba(240,236,225,.4);
+  /* color · background */
+  --bg-page:#F6F5F1;
+  --bg-page-top:#E7EAEA;
+  --bg-surface:#FFFFFF;
+  --bg-muted:#EDECE7;
+  --bg-inverse:#1B2A44;
+  --bg-inverse-deep:#121C30;
+  --bg-charcoal:#24282D;
+  --bg-alert-soft:rgba(201,123,98,.06);
+  --bg-success-soft:rgba(144,130,91,.10);
+  /* color · borders */
+  --border-hairline:rgba(27,42,68,.06);
+  --border-subtle:rgba(27,42,68,.08);
+  --border-default:rgba(27,42,68,.10);
+  --border-card:rgba(27,42,68,.12);
+  --border-control:rgba(27,42,68,.20);
+  --border-control-hover:rgba(27,42,68,.34);
+  --border-on-inverse:rgba(240,236,225,.16);
+  --border-alert:rgba(200,110,80,.55);
+  /* color · actions */
+  --action-primary:#1B2A44;
+  --action-charcoal:#25292C;
+  --action-charcoal-hover:#33383C;
+  --action-on-primary:#F0ECE1;
+  --focus-ring:rgba(27,42,68,.22);
+  /* color · obangsaek */
+  --obang-blue:#3C5CBB;
+  --obang-gold:#FED055;
+  --obang-red:#D54445;
+  --obang-white:#FFFFFF;
+  /* color · hanji */
+  --hanji-olive:#90825B;
+  --hanji-terra:#A85B44;
+  /* radius */
+  --radius-md:6px; --radius-lg:8px; --radius-full:999px;
+  /* shadow */
+  --shadow-panel:0 30px 80px rgba(27,42,68,.14);
+  /* typography */
+  --font-serif-display:"Bona Nova","Source Serif 4",Georgia,serif;
+  --font-serif:"Source Serif 4",Georgia,serif;
+  --font-sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  /* space (4-pt) */
+  --space-2xs:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:24px;
+  --space-xl:32px; --space-2xl:48px; --space-3xl:64px; --space-4xl:96px;
+  /* motion */
+  --dur-fast:150ms; --dur-base:220ms;
+  --ease-out:cubic-bezier(.2,.7,.2,1); --ease-in-out:cubic-bezier(.45,0,.2,1);
+  /* layout */
+  --ink-w:50%;
+  --form-max:420px;
+}
+
+/* ============================================================ base */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:clip}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font-sans);background:var(--bg-page);color:var(--text-body);
+  -webkit-font-smoothing:antialiased;min-height:100dvh}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--action-primary);outline-offset:2px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.24em;color:var(--text-muted);text-transform:uppercase}
+
+/* ============================================================ shell */
+.auth{display:grid;grid-template-columns:minmax(0,var(--ink-w)) minmax(0,1fr);min-height:100dvh}
+
+/* ============================================================ 좌측 · 먹 패널 (메인 04 섹션 이식) */
+.ink{position:relative;overflow:hidden;background:var(--bg-inverse);color:var(--text-on-inverse);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:var(--space-2xl) var(--space-3xl);gap:var(--space-2xl)}
+.ink::before{content:"";position:absolute;inset:0;
+  background:url("assets/kha/philosophy-ink-bg.jpg") center 35%/cover no-repeat;opacity:.2}
+.ink::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(27,42,68,.10) 0%,rgba(18,28,48,.62) 100%)}
+.ink>*{position:relative;z-index:1}
+.brand{display:inline-flex;align-items:center;gap:12px;width:max-content}
+.brand img{height:26px;width:auto}
+.brand .wordmark{font-size:10.5px;line-height:1.3;letter-spacing:.14em;font-weight:600;color:var(--text-on-inverse)}
+
+.ink-copy{max-width:560px;min-width:0}
+.ink-copy .eyebrow{color:var(--text-on-inverse-subtle)}
+.ink-copy .display{font-family:var(--font-serif-display);font-weight:400;
+  font-size:clamp(32px,3.3vw,48px);line-height:1.14;letter-spacing:-.01em;color:var(--obang-white);
+  overflow-wrap:anywhere;min-width:0}
+.ink-copy .lede{margin-top:22px;max-width:440px;font-size:15.5px;line-height:1.7;color:var(--text-on-inverse-muted)}
+
+.principles{list-style:none;max-width:560px}
+.principle{display:flex;align-items:center;gap:18px;padding:16px 0;
+  border-bottom:1px solid var(--border-on-inverse)}
+.principle:last-child{border-bottom:0}
+.principle .dash{width:22px;height:2px;flex:none}
+.principle .line{font-family:var(--font-serif);font-size:clamp(16px,1.3vw,19px);line-height:1.4;min-width:0}
+.principle .lead{color:var(--text-on-inverse-body)}
+.principle .emph{font-style:italic;color:var(--obang-white)}
+.dash-blue{background:var(--obang-blue)} .dash-gold{background:var(--obang-gold)}
+.dash-red{background:var(--obang-red)}   .dash-white{background:var(--obang-white)}
+
+/* ============================================================ 우측 · 한지 폼 패널 */
+.paper{position:relative;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,var(--bg-page-top) 0%,var(--bg-page) 38%);
+  padding:var(--space-lg) var(--space-xl) var(--space-xl)}
+.paper-top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-md)}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text-muted);
+  padding:8px 10px;margin-left:-10px;border-radius:var(--radius-md);white-space:nowrap;
+  transition:color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.back:hover{color:var(--text-primary);background:var(--bg-muted)}
+.back svg{width:14px;height:14px}
+.lang-wrap{position:relative}
+.lang{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--text-nav);padding:7px 11px;border:1px solid var(--border-default);border-radius:var(--radius-full);
+  background:var(--bg-surface);white-space:nowrap;cursor:pointer;
+  transition:border-color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.lang:hover,.lang[aria-expanded="true"]{border-color:var(--border-control)}
+.lang:focus-visible{outline:2px solid var(--action-primary);outline-offset:2px}
+.lang svg{width:14px;height:14px}
+.lang .chev{width:10px;height:10px;transition:transform var(--dur-fast) var(--ease-out)}
+.lang[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.lang-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:172px;padding:6px;
+  background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-panel);display:none;z-index:10}
+.lang-menu.is-open{display:block}
+.lang-menu li{list-style:none}
+.lang-opt{display:flex;align-items:center;gap:8px;width:100%;padding:7px 8px;
+  font-size:13px;font-weight:500;color:var(--text-primary);background:none;border-radius:var(--radius-md);
+  cursor:pointer;text-align:left;transition:background-color var(--dur-fast) var(--ease-out)}
+.lang-opt:hover{background:var(--bg-muted)}
+.lang-opt:focus-visible{outline:2px solid var(--action-primary);outline-offset:1px}
+.lang-badge{display:inline-flex;align-items:center;justify-content:center;min-width:30px;padding:3px 7px;
+  font-size:11px;font-weight:600;letter-spacing:.05em;border:1px solid var(--border-control);
+  border-radius:var(--radius-full);color:var(--text-nav)}
+.lang-opt[aria-current="true"] .lang-badge{background:var(--action-primary);border-color:var(--action-primary);
+  color:var(--action-on-primary)}
+
+.paper-body{flex:1;display:flex;align-items:center;justify-content:center;padding:var(--space-3xl) 0}
+.card{width:100%;max-width:var(--form-max);min-width:0}
+.card .mark{height:34px;width:auto}
+.card h1{margin-top:var(--space-xl);font-family:var(--font-serif-display);font-weight:400;
+  font-size:clamp(30px,3vw,36px);line-height:1.12;color:var(--text-heading);letter-spacing:-.01em}
+.card .sub{margin-top:10px;font-size:15px;line-height:1.6;color:var(--text-body)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  min-height:50px;padding:0 var(--space-lg);border-radius:var(--radius-lg);
+  font-size:15.5px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;position:relative;
+  transition:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),
+             transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
+.btn:active,.btn.is-active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--action-primary);outline-offset:3px}
+.btn[disabled],.btn.is-disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn svg{width:18px;height:18px;flex:none}
+
+.btn-google{background:var(--bg-surface);color:var(--text-primary);border:1px solid var(--border-control)}
+.btn-google:hover,.btn-google.is-hover{border-color:var(--border-control-hover);background:var(--bg-surface)}
+
+.btn-primary{background:var(--action-charcoal);color:var(--obang-white);margin-top:var(--space-lg)}
+.btn-primary:hover,.btn-primary.is-hover{background:var(--action-charcoal-hover)}
+.btn-primary[data-state="loading"]{color:transparent;pointer-events:none}
+.btn-primary[data-state="loading"]::after{content:"";position:absolute;width:18px;height:18px;
+  border-radius:var(--radius-full);border:2px solid rgba(255,255,255,.35);border-top-color:var(--obang-white);
+  animation:spin .8s linear infinite}
+.btn-primary[data-state="success"]{background:var(--hanji-olive)}
+.btn-primary[data-state="error"]{background:var(--hanji-terra)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* divider */
+.or{display:flex;align-items:center;gap:var(--space-md);margin:var(--space-lg) 0;
+  font-size:12.5px;letter-spacing:.04em;color:var(--text-subtle)}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--border-default)}
+
+/* fields */
+.field{display:block}
+.field+.field{margin-top:var(--space-md)}
+.field .label{display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:8px}
+.control{position:relative;display:flex;align-items:center}
+.control input{width:100%;min-width:0;height:50px;padding:0 var(--space-md);
+  font:inherit;font-size:15.5px;color:var(--text-heading);
+  background:var(--bg-surface);border:1px solid var(--border-control);border-radius:var(--radius-md);
+  transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
+.control input::placeholder{color:var(--text-subtle)}
+.control input:hover{border-color:var(--border-control-hover)}
+.control input:focus{outline:0;border-color:var(--action-primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.control input:disabled{background:var(--bg-muted);color:var(--text-subtle);cursor:not-allowed}
+.control input[aria-invalid="true"]{border-color:var(--border-alert);background:var(--bg-alert-soft)}
+.control input[aria-invalid="true"]:focus{box-shadow:0 0 0 3px rgba(168,91,68,.18)}
+.control .has-toggle{padding-right:52px}
+.toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:38px;
+  display:inline-flex;align-items:center;justify-content:center;border-radius:var(--radius-md);color:var(--text-subtle);
+  transition:color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.toggle:hover{color:var(--text-primary);background:var(--bg-muted)}
+.toggle svg{width:18px;height:18px}
+.hint{margin-top:8px;font-size:13px;line-height:1.5;color:var(--text-alert);display:none}
+.field.is-error .hint{display:block}
+
+.row{display:flex;align-items:center;justify-content:space-between;gap:var(--space-md);margin-top:var(--space-md);flex-wrap:wrap}
+.check{display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--text-body);cursor:pointer}
+.check input{appearance:none;width:17px;height:17px;border:1px solid var(--border-control);border-radius:var(--radius-md);
+  background:var(--bg-surface);display:grid;place-content:center;flex:none;
+  transition:border-color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.check input::before{content:"";width:9px;height:5px;border:2px solid var(--obang-white);border-top:0;border-right:0;
+  transform:rotate(-45deg) translate(1px,-1px) scale(0);transition:transform var(--dur-fast) var(--ease-out)}
+.check input:checked{background:var(--action-primary);border-color:var(--action-primary)}
+.check input:checked::before{transform:rotate(-45deg) translate(1px,-1px) scale(1)}
+.link{font-size:14px;color:var(--text-muted);border-bottom:1px solid transparent;
+  transition:color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);white-space:nowrap}
+.link:hover{color:var(--text-primary);border-color:var(--border-control-hover)}
+
+.form-error{display:none;margin-top:var(--space-md);padding:12px 14px;border-radius:var(--radius-md);
+  border:1px solid var(--border-alert);background:var(--bg-alert-soft);font-size:13.5px;line-height:1.5;color:var(--text-alert)}
+.form-error[aria-live]{display:none}
+.form-error.is-visible{display:block}
+
+.alt{margin-top:var(--space-xl);text-align:center;font-size:14px;color:var(--text-muted)}
+.alt a{color:var(--text-primary);font-weight:600;border-bottom:1px solid var(--border-control-hover)}
+.alt a:hover{border-color:var(--text-primary)}
+
+.paper-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-sm) var(--space-lg);
+  font-size:12px;line-height:1.5;color:var(--text-subtle)}
+.paper-foot nav{display:flex;gap:var(--space-md)}
+.paper-foot a{white-space:nowrap}
+.paper-foot a:hover{color:var(--text-primary)}
+
+/* ============================================================ responsive */
+@media (max-width:1180px){
+  .ink{padding:var(--space-2xl) var(--space-2xl)}
+  .principle .line{font-size:16px}
+}
+@media (max-width:960px){
+  .auth{grid-template-columns:minmax(0,1fr)}
+  .ink{min-height:0;gap:var(--space-lg);padding:var(--space-lg) var(--space-lg) var(--space-xl)}
+  .ink::after{background:linear-gradient(160deg,rgba(27,42,68,.10) 0%,rgba(18,28,48,.55) 100%)}
+  .ink-copy .display{font-size:clamp(26px,6.6vw,34px)}
+  .ink-copy .display br{display:none}
+  .ink-copy .lede{margin-top:12px;font-size:14px}
+  .principles{display:none}
+  .paper{padding:var(--space-md) var(--space-lg) var(--space-lg)}
+  .paper-body{padding:var(--space-2xl) 0}
+  .card h1{margin-top:var(--space-lg)}
+}
+@media (max-width:414px){
+  .paper{padding:var(--space-sm) var(--space-md) var(--space-md)}
+  .btn{font-size:15px;padding:0 var(--space-md)}
+  .row{gap:var(--space-sm)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:0ms!important;animation:none!important}
+  .btn-primary[data-state="loading"]{color:var(--obang-white)}
+  .btn-primary[data-state="loading"]::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<main class="auth">
+
+  <!-- 좌측 · Content Philosophy 패널 -->
+  <aside class="ink" aria-label="About K-HUMAN ACADEMY">
+    <a class="brand" href="./kha-main-page.html" aria-label="K-HUMAN ACADEMY — home">
+      <img src="assets/w-symbol-ivory.png" alt="">
+      <span class="wordmark">K-HUMAN<br>ACADEMY</span>
+    </a>
+
+    <div class="ink-copy">
+      <p class="display">Korean Studies,<br> structured for<br> real understanding.</p>
+      <p class="lede">Level-based curriculum, guided learning workspace, 
+and institutional insight — in one platform.</p>
+    </div>
+
+    <ul class="principles">
+      <li class="principle"><span class="dash dash-blue"></span>
+        <span class="line"><span class="lead">From information</span> <span class="emph">to interpretation</span></span></li>
+      <li class="principle"><span class="dash dash-gold"></span>
+        <span class="line"><span class="lead">From cultural facts</span> <span class="emph">to cultural logic</span></span></li>
+      <li class="principle"><span class="dash dash-red"></span>
+        <span class="line"><span class="lead">From interest in Korea</span> <span class="emph">to structured understanding</span></span></li>
+      <li class="principle"><span class="dash dash-white"></span>
+        <span class="line"><span class="lead">From passive viewing</span> <span class="emph">to reflective learning</span></span></li>
+    </ul>
+  </aside>
+
+  <!-- 우측 · 로그인 폼 -->
+  <section class="paper" aria-labelledby="auth-title">
+    <div class="paper-top">
+      <a class="back" href="./kha-main-page.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"></path></svg>
+        Back to site
+      </a>
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang" type="button" aria-label="Change language" aria-expanded="false" aria-haspopup="listbox" data-od-id="lang-toggle" id="langBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>
+          <span id="langCurrent">EN</span>
+          <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5"></path></svg>
+        </button>
+        <ul class="lang-menu" id="langMenu" role="listbox" aria-label="Language">
+          <li><button class="lang-opt" type="button" role="option" data-lang="En" aria-current="true"><span class="lang-badge">EN</span>English</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Ko" aria-current="false"><span class="lang-badge">KO</span>한국어</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Zh" aria-current="false"><span class="lang-badge">ZH</span>中文</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Ja" aria-current="false"><span class="lang-badge">JA</span>日本語</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Vi" aria-current="false"><span class="lang-badge">VI</span>Tiếng Việt</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="paper-body">
+      <div class="card">
+        <img class="mark" src="assets/w-symbol-dark.png" alt="">
+        <h1 id="auth-title">Log In</h1>
+        <p class="sub">Sign in to your classroom.</p>
+
+        <div style="margin-top:var(--space-xl)">
+          <button class="btn btn-google" type="button" id="btnGoogle">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>
+            Continue with Google
+          </button>
+        </div>
+
+        <div class="or" role="separator" aria-label="or"><span>or with email</span></div>
+
+        <form id="authForm" novalidate="">
+          <label class="field" for="auth-email">
+            <span class="label">Email</span>
+            <span class="control">
+              <input type="email" id="auth-email" name="email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="name@institution.edu" required="">
+            </span>
+            <span class="hint">Enter a valid email address.</span>
+          </label>
+
+          <label class="field" for="auth-password">
+            <span class="label">Password</span>
+            <span class="control">
+              <input class="has-toggle" type="password" id="auth-password" name="password" autocomplete="current-password" placeholder="Enter your password" required="" minlength="6">
+              <button class="toggle" type="button" id="pwToggle" aria-label="Show password" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </span>
+            <span class="hint">Password must be at least 6 characters.</span>
+          </label>
+
+          <div class="row">
+            <label class="check"><input type="checkbox" name="remember"> Remember me</label>
+            <a class="link" href="#">Forgot password?</a>
+          </div>
+
+          <p class="form-error" id="formError" aria-live="polite">We couldn’t sign you in with that email and password. Try again, or reset your password.</p>
+
+          <button class="btn btn-primary" type="submit" id="btnSubmit">Log In</button>
+        </form>
+
+        <p class="alt">Don’t have an account? <a href="#">Sign up</a></p>
+      </div>
+    </div>
+
+    <footer class="paper-foot">
+      <span>© 2026 K-HUMAN ACADEMY.</span>
+      <nav aria-label="Legal"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Help</a></nav>
+    </footer>
+  </section>
+</main>
+
+<script>
+(function(){
+  // 언어 선택 드롭다운: EN → KO → ZH → JA → VI
+  var langBtn = document.getElementById('langBtn'), langMenu = document.getElementById('langMenu'),
+      langWrap = document.getElementById('langWrap'), langCurrent = document.getElementById('langCurrent');
+  function closeMenu(){ langMenu.classList.remove('is-open'); langBtn.setAttribute('aria-expanded','false'); }
+  langBtn.addEventListener('click', function(){
+    var open = langMenu.classList.toggle('is-open');
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  langMenu.querySelectorAll('.lang-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      langMenu.querySelectorAll('.lang-opt').forEach(function(o){ o.setAttribute('aria-current','false'); });
+      opt.setAttribute('aria-current','true');
+      langCurrent.textContent = opt.querySelector('.lang-badge').textContent;
+      closeMenu();
+    });
+  });
+  document.addEventListener('click', function(e){ if (!langWrap.contains(e.target)) closeMenu(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeMenu(); langBtn.focus(); } });
+
+  // 비밀번호 표시 토글
+  var pw = document.getElementById('auth-password'), tg = document.getElementById('pwToggle');
+  tg.addEventListener('click', function(){
+    var show = pw.type === 'password';
+    pw.type = show ? 'text' : 'password';
+    tg.setAttribute('aria-pressed', show ? 'true' : 'false');
+    tg.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+
+  // 데모용 상태 전이: submit → loading → (빈 값이면 error, 아니면 success)
+  var form = document.getElementById('authForm'), btn = document.getElementById('btnSubmit'),
+      err = document.getElementById('formError'), email = document.getElementById('auth-email');
+  function mark(input, bad){
+    input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    input.closest('.field').classList.toggle('is-error', bad);
+  }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var badE = !email.validity.valid, badP = !pw.validity.valid;
+    mark(email, badE); mark(pw, badP);
+    err.classList.remove('is-visible');
+    if (badE || badP) { (badE ? email : pw).focus(); return; }
+    btn.setAttribute('data-state','loading'); btn.setAttribute('aria-busy','true');
+    setTimeout(function(){
+      btn.removeAttribute('aria-busy');
+      btn.setAttribute('data-state','success'); btn.textContent = 'Signed in';
+      // TODO(dev): 실제 로그인 성공 시 /classroom 등으로 이동. 실패 시:
+      // btn.setAttribute('data-state','error'); err.classList.add('is-visible');
+    }, 900);
+  });
+  [email, pw].forEach(function(i){ i.addEventListener('input', function(){ if (i.validity.valid) mark(i, false); }); });
+
+  // TODO(dev): Google OAuth — supabase.auth.signInWithOAuth({ provider:'google', options:{ redirectTo } })
+  document.getElementById('btnGoogle').addEventListener('click', function(){ /* wire OAuth here */ });
+})();
+</script>
+
+
+</body></html>
