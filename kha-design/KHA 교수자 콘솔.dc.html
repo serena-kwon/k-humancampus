@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./vendor/resources.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  body{margin:0;background:#E7ECF1;font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;color:#223142;-webkit-font-smoothing:antialiased}
+  a{color:#223142;text-decoration:none}
+  a:hover{color:#3D5378}
+  ::selection{background:#223142;color:#EEF3F7}
+  *{box-sizing:border-box}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;background:radial-gradient(ellipse 70% 55% at 18% 0%, rgba(255,255,255,.92) 0%, rgba(255,255,255,0) 58%), radial-gradient(ellipse 60% 45% at 88% 22%, rgba(206,219,229,.55) 0%, rgba(206,219,229,0) 62%), radial-gradient(ellipse 90% 60% at 62% 108%, rgba(223,231,237,.8) 0%, rgba(223,231,237,0) 55%), linear-gradient(166deg, #F5F8FA 0%, #EAEFF3 38%, #E4EBF0 66%, #F1F5F8 100%)">
+
+  <!-- ─────────── 사이드바 ─────────── -->
+  <aside style="width:238px;flex:0 0 238px;background:rgba(255,255,255,.72);border-right:1px solid rgba(34,49,66,.09);backdrop-filter:blur(6px);display:flex;flex-direction:column;padding:26px 0 18px;position:sticky;top:0;height:100vh">
+    <div style="display:flex;align-items:center;gap:9px;padding:0 22px 24px">
+      <img src="assets/w-symbol-dark.png" alt="" style="height:20px;width:auto">
+      <span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#5A6B7B;white-space:nowrap">K-HUMAN ACADEMY</span>
+    </div>
+
+    <nav style="display:flex;flex-direction:column;gap:2px;padding:0 12px">
+      <div onClick="{{ go.dashboard }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.dashboard.fw }};background:{{ nav.dashboard.bg }};color:{{ nav.dashboard.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="8" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="11" width="7" height="10" rx="1.5"></rect></svg>
+        대시보드
+      </div>
+      <div onClick="{{ go.lecture }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.lecture.fw }};background:{{ nav.lecture.bg }};color:{{ nav.lecture.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H19v16H5.5A1.5 1.5 0 014 18.5z"></path><path d="M8 8.5h7M8 12h5"></path></svg>
+        강의/평가 관리
+      </div>
+      <div onClick="{{ go.assignment }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.assignment.fw }};background:{{ nav.assignment.bg }};color:{{ nav.assignment.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <span style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8 4h8a1 1 0 011 1v15l-5-2.6L7 20V5a1 1 0 011-1z"></path></svg>과제 관리</span>
+        <span style="background:rgba(34,49,66,.08);color:#3E4E68;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px">18</span>
+      </div>
+      <div onClick="{{ go.students }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.students.fw }};background:{{ nav.students.bg }};color:{{ nav.students.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <span style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19.5c.6-3.1 2.9-4.8 5.5-4.8s4.9 1.7 5.5 4.8"></path><path d="M16.5 7.2a2.9 2.9 0 010 5.6M18.2 19.5c-.2-1.4-.6-2.6-1.3-3.5"></path></svg>수강생 관리</span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#C1694A"></span>
+      </div>
+      <div onClick="{{ go.notify }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.notify.fw }};background:{{ nav.notify.bg }};color:{{ nav.notify.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 9a6 6 0 1112 0c0 4 1.4 5.4 1.4 5.4H4.6S6 13 6 9z"></path><path d="M10 18.5a2.2 2.2 0 004 0"></path></svg>알림 관리
+      </div>
+      <div onClick="{{ go.attend }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.attend.fw }};background:{{ nav.attend.bg }};color:{{ nav.attend.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1.8"></rect><path d="M8 3.5v3M16 3.5v3M4 10h16M9.5 14.5l1.8 1.8 3.4-3.4"></path></svg>출석 관리
+      </div>
+      <div onClick="{{ go.session }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.session.fw }};background:{{ nav.session.bg }};color:{{ nav.session.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="6" width="12" height="12" rx="2"></rect><path d="M15 11l6-3.4v8.8L15 13z"></path></svg>화상 세션
+      </div>
+      <div onClick="{{ go.video }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.video.fw }};background:{{ nav.video.bg }};color:{{ nav.video.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="14" rx="2"></rect><path d="M10.5 9.5l4 2.5-4 2.5z"></path></svg>동영상 관리
+      </div>
+
+      <div style="padding:20px 12px 8px;font-size:10.5px;font-weight:700;letter-spacing:.16em;color:#8494A3">소통</div>
+
+      <div onClick="{{ go.notice }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.notice.fw }};background:{{ nav.notice.bg }};color:{{ nav.notice.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6.5h16M4 11h16M4 15.5h10"></path></svg>공지사항 관리
+      </div>
+      <div onClick="{{ go.board }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.board.fw }};background:{{ nav.board.bg }};color:{{ nav.board.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <span style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 5.8A1.8 1.8 0 015.8 4h12.4A1.8 1.8 0 0120 5.8v8.4a1.8 1.8 0 01-1.8 1.8H9l-5 4z"></path></svg>게시판 관리</span>
+        <span style="background:rgba(34,49,66,.08);color:#3E4E68;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px">7</span>
+      </div>
+      <div onClick="{{ go.mypage }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:{{ nav.mypage.fw }};background:{{ nav.mypage.bg }};color:{{ nav.mypage.fg }}" style-hover="background:rgba(34,49,66,.05)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c.7-3.8 3.4-5.8 7-5.8s6.3 2 7 5.8"></path></svg>마이페이지
+      </div>
+    </nav>
+
+    <div style="margin-top:auto;padding:18px 22px 0;border-top:1px solid rgba(34,49,66,.08);display:flex;align-items:center;gap:10px">
+      <span style="width:30px;height:30px;border-radius:50%;background:#223142;color:#EEF3F7;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex:none">권</span>
+      <span style="display:flex;flex-direction:column;gap:1px">
+        <span style="font-size:12.5px;font-weight:600;color:#223142;white-space:nowrap">권희선 교수</span>
+        <span style="font-size:11px;color:#8494A3;white-space:nowrap">한국학 · 담당 강의 5</span>
+      </span>
+    </div>
+  </aside>
+
+  <!-- ─────────── 본문 ─────────── -->
+  <main style="flex:1;min-width:0;padding:34px 40px 64px">
+
+    <!-- ══════ 대시보드 ══════ -->
+    <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1120px;display:flex;flex-direction:column;gap:34px">
+
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            
+            
+          </div>
+          <div style="display:flex;align-items:center;gap:14px">
+            
+            <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;white-space:nowrap;padding:7px 10px;border-radius:7px" style-hover="background:rgba(34,49,66,.06);color:#223142">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M20 11a8 8 0 10-2.6 5.9"></path><path d="M20 5.5V11h-5.4"></path></svg>
+              새로고침
+            </span>
+          </div>
+        </div>
+
+        <!-- 요약 스트립 4카드 (이탈위험만 테라코타) -->
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+          <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px;cursor:pointer" style-hover="border-color:#B7C4D0">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4.5H6.2A1.7 1.7 0 004.5 6.2v13.1A1.7 1.7 0 006.2 21h11.6a1.7 1.7 0 001.7-1.7V6.2A1.7 1.7 0 0017.8 4.5H16"></path><rect x="8" y="2.8" width="8" height="3.6" rx="1.2"></rect><path d="M9 13.6l2 2 4-4.2"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:baseline;gap:5px">
+                <span style="font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1">18</span>
+                <span style="font-size:13px;font-weight:600;color:#8494A3">건</span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#3E4E68">채점 대기</span>
+              <span style="font-size:11.5px;color:#8494A3">과제 관리 · 채점함</span>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px;cursor:pointer" style-hover="border-color:#B7C4D0">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.8A1.8 1.8 0 015.8 5h12.4A1.8 1.8 0 0120 6.8v7.9a1.8 1.8 0 01-1.8 1.8H9.4L4 20.5z"></path><path d="M8.4 10.6h7.2"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:baseline;gap:5px">
+                <span style="font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1">7</span>
+                <span style="font-size:13px;font-weight:600;color:#8494A3">건</span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#3E4E68">답변 대기</span>
+              <span style="font-size:11.5px;color:#8494A3">게시판 관리 · 답변대기 필터</span>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px;cursor:pointer" style-hover="border-color:#B7C4D0">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2l2.4 5 5.4.7-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.9l5.4-.7z"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:baseline;gap:5px">
+                <span style="font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1">5</span>
+                <span style="font-size:13px;font-weight:600;color:#8494A3">건</span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#3E4E68">새 리뷰 · 평점</span>
+              <span style="font-size:11.5px;color:#8494A3">집계·AI 요약 열람 전용</span>
+            </div>
+          </div>
+
+          <div style="background: #FBF1EC; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 16px; cursor: pointer" style-hover="border-color:rgba(193,105,74,.5)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="#C1694A"><path d="M12.9 3.6l8.3 14.6a1 1 0 01-.9 1.5H3.7a1 1 0 01-.9-1.5L11.1 3.6a1 1 0 011.8 0zM12 8.2a.95.95 0 00-.95 1.05l.3 3.7a.65.65 0 001.3 0l.3-3.7A.95.95 0 0012 8.2zm0 7.1a1.05 1.05 0 100 2.1 1.05 1.05 0 000-2.1z"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C1694A" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:baseline;gap:5px">
+                <span style="font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1;color:#C1694A">12</span>
+                <span style="font-size:13px;font-weight:600;color:#8F5A45">명</span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#8A4630">이탈 위험 학생</span>
+              <span style="font-size:11.5px;color:#8F5A45">수강생 관리 · 위험 탭</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 업무 큐 -->
+        <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid #EEF2F6">
+            <div style="display:flex;align-items:baseline;gap:11px">
+              <h2 style="margin:0;font-size:15.5px;font-weight:700">오늘 처리할 일</h2>
+              <span style="font-size:12px;color:#8494A3;white-space:nowrap">42건 중 우선 처리 8건</span>
+            </div>
+            <div style="display:flex;gap:4px">
+              <span style="font-size:12px;font-weight:700;color:#223142;padding:6px 10px;border-radius:7px;background:rgba(34,49,66,.08);cursor:pointer;white-space:nowrap">전체</span>
+              <span style="font-size:12px;font-weight:600;color:#5A6B7B;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">채점</span>
+              <span style="font-size:12px;font-weight:600;color:#5A6B7B;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">답변</span>
+              <span style="font-size:12px;font-weight:600;color:#5A6B7B;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">위험</span>
+            </div>
+          </div>
+
+          <sc-for list="{{ queue }}" as="row" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:70px minmax(0,1fr) auto;align-items:center;gap:18px;padding:15px 22px;border-bottom:1px solid #F1F4F7;cursor:pointer" style-hover="background:#F7FAFC">
+              <span style="display:flex;align-items:center;gap:7px">
+                <span style="width:6px;height:6px;border-radius:50%;background:{{ row.dot }};flex:none"></span>
+                <span style="font-size:11px;font-weight:700;letter-spacing:.04em;color:{{ row.tagColor }}">{{ row.tag }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.title }}</span>
+                <span style="font-size:11.5px;color:#8494A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.meta }}</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:9px;justify-self:end">
+                <span style="font-size:11.5px;font-weight:600;color:#5A6B7B;text-align:right;white-space:nowrap">{{ row.dest }}</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </sc-for>
+
+          <div style="padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <span style="font-size:12px;color:#8494A3">완료 처리는 각 전용 화면에서 진행됩니다.</span>
+            <span style="font-size:12.5px;font-weight:600;color:#223142;border-bottom:1px solid rgba(34,49,66,.28);padding-bottom:1px;cursor:pointer;white-space:nowrap">전체 큐 보기</span>
+          </div>
+        </div>
+
+        <!-- 콘텐츠 개선 힌트 -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+            <h2 style="margin:0;font-size:15.5px;font-weight:700">콘텐츠 개선 힌트</h2>
+            <span style="font-size:12px;color:#8494A3">최근 14일 학습 데이터 기준 · 클릭 시 강의/평가 관리 상세로 이동</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+
+            <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;cursor:pointer" style-hover="border-color:#B7C4D0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:#3E4E68">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="1.6" stroke-linecap="round"><path d="M4 18.5V9M10 18.5V5M16 18.5v-6M21 18.5H3"></path></svg>
+                  이탈이 집중된 강의 구간
+                </span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:11px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600">한국인의 정신과 기질 · 4강 「동이족과 정체성」</span>
+                    <span style="font-size:11.5px;color:#8494A3">수강 34명 중 21명이 12분 지점에서 중단</span>
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;white-space:nowrap">62%</span>
+                </div>
+                <div style="height:5px;border-radius:3px;background:rgba(34,49,66,.08)"><div style="width:62%;height:100%;border-radius:3px;background:#223142"></div></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600">한국어와 문자 · 7강 「훈민정음의 원리」</span>
+                    <span style="font-size:11.5px;color:#8494A3">수강 28명 중 13명이 후반부 미시청</span>
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;white-space:nowrap">46%</span>
+                </div>
+                <div style="height:5px;border-radius:3px;background:rgba(34,49,66,.08)"><div style="width:46%;height:100%;border-radius:3px;background:#223142"></div></div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;cursor:pointer" style-hover="border-color:#B7C4D0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:#3E4E68">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M9.6 9.4a2.5 2.5 0 114 2.4c-.9.5-1.6 1-1.6 2M12 16.6h.01"></path></svg>
+                  오답이 많은 문항
+                </span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B7C4D0" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #F1F4F7">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600">중간 평가 3번 · 동이족 개념 서술</span>
+                    <span style="font-size:11.5px;color:#8494A3">보기 2번과 3번 혼동 응답 다수</span>
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;white-space:nowrap">오답 71%</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #F1F4F7">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600">퀴즈 5주차 8번 · 예(禮)의 층위</span>
+                    <span style="font-size:11.5px;color:#8494A3">문항 표현이 모호하다는 문의 4건</span>
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;white-space:nowrap">오답 58%</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600">퀴즈 2주차 4번 · 한자어와 고유어</span>
+                    <span style="font-size:11.5px;color:#8494A3">러시아·베트남권 수강생 정답률 하위</span>
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;white-space:nowrap">오답 49%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 운영 규모 -->
+        <div style="border-top:1px solid #D4DCE4;padding-top:22px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:.16em;color:#8494A3">운영 규모</span>
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+            <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:24px;font-weight:700">248</span><span style="font-size:12px;color:#5A6B7B">전체 학생</span></div>
+            <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:24px;font-weight:700">61%</span><span style="font-size:12px;color:#5A6B7B">평균 진도율</span></div>
+            <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:24px;font-weight:700">38%</span><span style="font-size:12px;color:#5A6B7B">수료율</span></div>
+            <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:24px;font-weight:700">5</span><span style="font-size:12px;color:#5A6B7B">활성 강의</span></div>
+          </div>
+        </div>
+
+        
+      </div>
+    </sc-if>
+
+    <!-- ══════ 강의·평가 관리 ══════ -->
+    <sc-if value="{{ isLecture }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1120px">
+
+        <!-- 목록 -->
+        <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <h1 style="margin:0;font-family:'Noto Serif KR',serif;font-weight:600;font-size:29px;letter-spacing:-.01em">강의·평가 관리</h1>
+              <p style="margin:0;font-size:13.5px;color:#5A6B7B">퀴즈·시험(자동채점형)과 차시 구성 전담 · 과제는 과제 관리에서</p>
+            </div>
+
+            <!-- 요약 스트립 -->
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #D4DCE4;border-bottom:1px solid #D4DCE4">
+              <div style="padding:15px 20px 15px 0;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:23px;font-weight:700;letter-spacing:-.01em">5</span>
+                <span style="font-size:12.5px;color:#5A6B7B">전체 강의</span>
+              </div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:23px;font-weight:700;letter-spacing:-.01em">3</span>
+                <span style="font-size:12.5px;color:#5A6B7B">공개 중</span>
+              </div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:23px;font-weight:700;letter-spacing:-.01em">1</span>
+                <span style="font-size:12.5px;color:#5A6B7B">초안</span>
+              </div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:23px;font-weight:700;letter-spacing:-.01em">230</span>
+                <span style="font-size:12.5px;color:#5A6B7B">총 수강생</span>
+              </div>
+            </div>
+
+            <!-- 툴바 -->
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;border-bottom:1px solid #C9D4DE;padding:7px 2px;margin-right:10px">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8494A3" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+                <span style="font-size:13.5px;color:#A0ACB8;white-space:nowrap">강의명 검색</span>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleLecStatus }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ lecStatusFilter }} ▾</span>
+                <sc-if value="{{ isLecStatusOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:130px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ lecStatusOptions }}" as="o" hint-placeholder-count="4">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleLecTrack }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ lecTrackFilter }} ▾</span>
+                <sc-if value="{{ isLecTrackOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:110px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ lecTrackOptions }}" as="o" hint-placeholder-count="3">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleLecSort }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ lecSortFilter }} ▾</span>
+                <sc-if value="{{ isLecSortOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:130px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ lecSortOptions }}" as="o" hint-placeholder-count="3">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <span style="width:1px;height:18px;background:#D4DCE4;margin:0 6px"></span>
+              <span onClick="{{ setList }}" style="font-size:13.5px;padding:7px 9px;border-radius:7px;cursor:pointer;white-space:nowrap;font-weight:{{ modeList.fw }};color:{{ modeList.fg }};background:{{ modeList.bg }}" style-hover="background:rgba(34,49,66,.07)">리스트</span>
+              <span onClick="{{ setCard }}" style="font-size:13.5px;padding:7px 9px;border-radius:7px;cursor:pointer;white-space:nowrap;font-weight:{{ modeCard.fw }};color:{{ modeCard.fg }};background:{{ modeCard.bg }}" style-hover="background:rgba(34,49,66,.07)">카드</span>
+              <span onClick="{{ openCreate }}" style="font-size:13.5px;font-weight:700;background:#223142;color:#fff;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap;margin-left:10px">강의 개설</span>
+            </div>
+
+            <!-- 리스트 뷰 -->
+            <sc-if value="{{ isModeList }}" hint-placeholder-val="{{ true }}">
+              <section style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                <div style="display:grid;grid-template-columns:1fr 72px 92px 88px 84px;gap:16px;padding:12px 22px;border-bottom:1px solid #EEF2F6;font-size:12px;font-weight:700;color:#8494A3">
+                  <span>강의명</span><span>트랙</span><span>공개 상태</span><span style="text-align:right">수강생</span><span style="text-align:right">최근 수정</span>
+                </div>
+                <sc-for list="{{ lectures }}" as="c" hint-placeholder-count="5">
+                  <div onClick="{{ c.open }}" style="display:grid;grid-template-columns:1fr 72px 92px 88px 84px;gap:16px;align-items:center;padding:16px 22px;border-bottom:1px solid #F1F4F7;cursor:pointer" style-hover="background:#F7FAFC">
+                    <span style="font-size:14.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+                    <span style="font-size:13px;color:#5A6B7B">{{ c.trackLabel }}</span>
+                    <span><span style="font-size:11.5px;font-weight:700;color:{{ c.stFg }};background:{{ c.stBg }};padding:4px 9px;border-radius:5px;white-space:nowrap">{{ c.status }}</span></span>
+                    <span style="font-size:13.5px;font-weight:600;text-align:right">{{ c.count }}</span>
+                    <span style="font-size:12.5px;color:#8494A3;text-align:right">{{ c.updated }}</span>
+                  </div>
+                </sc-for>
+              </section>
+            </sc-if>
+
+            <!-- 카드 뷰 -->
+            <sc-if value="{{ isModeCard }}" hint-placeholder-val="{{ false }}">
+              <section style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
+                <sc-for list="{{ lectures }}" as="c" hint-placeholder-count="5">
+                  <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:#B7C4D0">
+                    <div style="position:relative;width:100%;aspect-ratio:16/10;background:#EAEFF4">
+                      <image-slot id="{{ c.slotId }}" shape="rect" placeholder="{{ c.slotHint }}"></image-slot>
+                      <div style="position:absolute;inset:0;background:rgba(199,214,226,.24);pointer-events:none"></div>
+                      <span style="position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:{{ c.stFg }};background:{{ c.stBgSolid }};padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none">{{ c.status }}</span>
+                      <sc-if value="{{ c.isRequired }}" hint-placeholder-val="{{ false }}">
+                        <span style="position:absolute;top:10px;right:10px;font-size:11px;font-weight:700;color:#5A6B7B;background:rgba(255,255,255,.92);padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none">필수</span>
+                      </sc-if>
+                    </div>
+                    <div onClick="{{ c.open }}" style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1;cursor:pointer">
+                      <span style="font-size:14.5px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ c.name }}</span>
+                      <span style="font-size:12.5px;color:#5A6B7B">{{ c.cardMeta }}</span>
+                      <span style="margin-top:auto;font-size:12px;color:#8494A3">최근 수정 {{ c.updated }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </section>
+            </sc-if>
+
+            
+          </div>
+        </sc-if>
+
+        <!-- 강의 상세 -->
+        <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:30px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <span onClick="{{ back }}" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#5A6B7B;cursor:pointer;width:fit-content;padding:5px 9px;border-radius:7px;margin-left:-9px" style-hover="background:rgba(34,49,66,.07);color:#223142">← 강의 목록</span>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <h1 style="margin:0;font-family:'Noto Serif KR',serif;font-weight:600;font-size:27px;letter-spacing:-.01em">한국인의 정신과 기질</h1>
+                  <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                    <span style="font-size:11.5px;font-weight:700;color:#2F6B4F;background:#E4EFE8;padding:4px 9px;border-radius:5px;white-space:nowrap">공개 중</span>
+                    <span style="font-size:13px;color:#5A6B7B">{{ detailTrackLabel }} 트랙 · 수강생 34명 · 최근 수정 08-24</span>
+                    <span onClick="{{ toggleDetailTrackEdit }}" style="font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;text-decoration:underline;text-decoration-color:#C9D4DE;white-space:nowrap">트랙 변경</span>
+                  </div>
+                  <sc-if value="{{ detailTrackEditOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; max-width: 520px; background-color: #FBF1EC00">
+                      <span style="font-size: 12.5px; color: #8A4630; line-height: 1.6; font-weight: 500">트랙은 언제든 변경할 수 있습니다. 재응시 횟수·지각 정책·수료증 등급이 트랙에 연동되어 있어 변경 시 기존 수강생에게도 즉시 적용됩니다. 두 트랙 동시 선택도 가능합니다.</span>
+                      <div style="display:flex;gap:6px">
+                        <span onClick="{{ detailTrackOrg.toggle }}" style="font-size:13px;font-weight:{{ detailTrackOrg.fw }};padding:7px 13px;border-radius:7px;background:{{ detailTrackOrg.bg }};color:{{ detailTrackOrg.fg }};border:1px solid {{ detailTrackOrg.bd }};cursor:pointer;white-space:nowrap">기관</span>
+                        <span onClick="{{ detailTrackOpen.toggle }}" style="font-size: 13px; font-weight: {{ detailTrackOpen.fw }}; padding: 7px 13px; border-radius: 7px; background: {{ detailTrackOpen.bg }}; color: {{ detailTrackOpen.fg }}; cursor: pointer; white-space: nowrap">오픈</span>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px">
+                  <span style="font-size:13px;font-weight:600;color:#5A6B7B;cursor:pointer;padding:7px 11px;border-radius:7px;white-space:nowrap" style-hover="background:rgba(34,49,66,.07);color:#223142">미리보기</span>
+                  <span style="font-size:13px;font-weight:600;color:#A34A38;cursor:pointer;padding:7px 11px;border-radius:7px;white-space:nowrap" style-hover="background:rgba(163,74,56,.09)">비공개 전환</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 평가 설정 -->
+            <section style="display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-size:15.5px;font-weight:700">평가 설정</h2>
+              <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+
+                <div onClick="{{ toggleQuiz }}" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;cursor:pointer" style-hover="background:#F9FBFC">
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font-size:14px;font-weight:700">차시별 퀴즈</span>
+                    <span style="font-size:12.5px;color:#5A6B7B">잠금형 · 기준 60점 · 재응시 기관 3회 · 성적 최고점 채택</span>
+                  </div>
+                  <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;white-space:nowrap">{{ quizToggleLabel }}</span>
+                </div>
+                <sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ true }}">
+                  <div style="border-top:1px solid #F1F4F7;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;background:#FBFCFD">
+                    <label style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">통과 방식</span>
+                      <div style="display:flex;gap:6px">
+                        <span style="font-size:13px;font-weight:700;padding:8px 14px;border-radius:7px;background:#223142;color:#fff;cursor:pointer;white-space:nowrap">잠금형</span>
+                        <span style="font-size:13px;font-weight:600;padding:8px 14px;border-radius:7px;color:#5A6B7B;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.07)">참고용</span>
+                      </div>
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">기준 점수 <span style="font-weight:500;color:#A0ACB8">· 디폴트 60</span></span>
+                      <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;width:112px">60 점</span>
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">재응시 · 기관 트랙</span>
+                      <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;width:112px">3 회</span>
+                    </label>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">재응시 · 오픈 트랙</span>
+                      <span style="font-size:13.5px;color:#5A6B7B;padding:9px 0">무제한 — 해제해 줄 교수자가 없어 횟수 제한 시 영구 차단 발생</span>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div onClick="{{ toggleFinal }}" style="border-top:1px solid #F1F4F7;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;cursor:pointer" style-hover="background:#F9FBFC">
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font-size:14px;font-weight:700">최종 시험</span>
+                    <span style="font-size:12.5px;color:#5A6B7B">기준 80점 · 재응시 기관 2회 · 20문항</span>
+                  </div>
+                  <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;white-space:nowrap">{{ finalToggleLabel }}</span>
+                </div>
+                <sc-if value="{{ finalOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="border-top:1px solid #F1F4F7;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;background:#FBFCFD">
+                    <label style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">통과 기준 점수 <span style="font-weight:500;color:#A0ACB8">· 디폴트 80</span></span>
+                      <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;width:112px">80 점</span>
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:8px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">재응시 · 기관 트랙</span>
+                      <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;width:112px">2 회</span>
+                    </label>
+                    <div style="grid-column:1 / -1;display:flex;flex-direction:column;gap:6px">
+                      <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">소진 시 처리</span>
+                      <span style="font-size:13.5px;color:#5A6B7B;line-height:1.6">교수자에게 해제 요청 알림 발송 → 교수자 수동 해제. 재응시 성적은 퀴즈·최종시험 공통으로 최고점 채택.</span>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div style="border-top:1px solid #F1F4F7;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px">
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font-size:14px;font-weight:700">수료 판정</span>
+                    <span style="font-size:12.5px;color:#5A6B7B">진도율 100% + 최종시험 통과 (AND 조건) · 기관 트랙은 수료증 발급</span>
+                  </div>
+                  <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;white-space:nowrap;padding:7px 11px;border-radius:7px" style-hover="background:rgba(34,49,66,.07);color:#223142">진도 수동 보정</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- 강의 구조 -->
+            <section style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+                <h2 style="margin:0;font-size:15.5px;font-weight:700">강의 구조</h2>
+                <span style="font-size:13px;font-weight:600;color:#5A6B7B;cursor:pointer;white-space:nowrap;padding:6px 10px;border-radius:7px" style-hover="background:rgba(34,49,66,.07);color:#223142">차시 추가</span>
+              </div>
+              <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:16px 22px;border-bottom:1px solid #F1F4F7">
+                    <span style="font-size:12.5px;font-weight:700;color:#8494A3;white-space:nowrap">{{ ch.no }}</span>
+                    <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                      <span style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ch.title }}</span>
+                      <span style="font-size:12px;color:#8494A3">{{ ch.meta }}</span>
+                    </div>
+                    <span onClick="{{ ch.captions }}" style="font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;white-space:nowrap;padding:7px 11px;border-radius:7px" style-hover="background:rgba(34,49,66,.07);color:#223142">자막 편집 →</span>
+                  </div>
+                </sc-for>
+                <div style="display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:16px 22px;background:#F7F9FB">
+                  <span style="font-size:12.5px;font-weight:800;white-space:nowrap">시험</span>
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font-size:14px;font-weight:700">최종 시험 · 강의 마무리</span>
+                    <span style="font-size:12px;color:#8494A3">20문항 · 통과 80점 · 재응시 2회</span>
+                  </div>
+                  <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;white-space:nowrap;padding:7px 11px;border-radius:7px" style-hover="background:rgba(34,49,66,.07);color:#223142">문항 관리 →</span>
+                </div>
+              </div>
+              <p style="margin:0;font-size:12.5px;color:#8494A3;line-height:1.7">영상 업로드·인코딩은 동영상 관리 전담. 여기서는 배치·자막·퀴즈만 다룹니다. 자막은 차시 단위로 처리되며 검수는 교수자·콘텐츠관리자 공동 가능.</p>
+            </section>
+          </div>
+        </sc-if>
+
+        <!-- 강의 개설 마법사 -->
+        <sc-if value="{{ isCreate }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:28px;max-width:720px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span onClick="{{ back }}" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#5A6B7B;cursor:pointer;width:fit-content;padding:5px 9px;border-radius:7px;margin-left:-9px" style-hover="background:rgba(34,49,66,.07);color:#223142">← 강의 목록</span>
+              <h1 style="margin:0;font-family:'Noto Serif KR',serif;font-weight:600;font-size:27px;letter-spacing:-.01em">강의 개설</h1>
+              <p style="margin:0;font-size:13.5px;color:#5A6B7B">최소 정보로 초안을 저장할 수 있습니다 · 발행 전에는 모든 필수 항목이 채워져야 합니다</p>
+            </div>
+
+            <!-- 스텝 인디케이터 -->
+            <div style="display:flex;gap:22px;border-bottom:1px solid #D4DCE4">
+              <sc-for list="{{ step }}" as="st" hint-placeholder-count="4">
+                <span onClick="{{ st.go }}" style="font-size:13.5px;font-weight:700;color:{{ st.fg }};padding-bottom:12px;border-bottom:2px solid {{ st.bd }};margin-bottom:-1px;cursor:pointer;white-space:nowrap">{{ st.n }}. {{ st.label }}</span>
+              </sc-for>
+            </div>
+
+            <!-- 1. 기본정보 -->
+            <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">강의명 <span style="color:#C1694A">*</span></span>
+                  <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;color:#A0ACB8">예: 한국의 세시풍속</span>
+                </label>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">트랙 <span style="color:#C1694A">*</span> <span style="font-weight:500;color:#A0ACB8">· 중복 선택 가능</span></span>
+                  <div style="display:flex;gap:6px">
+                    <span onClick="{{ trackOrg.toggle }}" style="font-size:13.5px;font-weight:{{ trackOrg.fw }};padding:9px 16px;border-radius:7px;background:{{ trackOrg.bg }};color:{{ trackOrg.fg }};border:1px solid {{ trackOrg.bd }};cursor:pointer;white-space:nowrap">기관 연계</span>
+                    <span onClick="{{ trackOpen.toggle }}" style="font-size:13.5px;font-weight:{{ trackOpen.fw }};padding:9px 16px;border-radius:7px;background:{{ trackOpen.bg }};color:{{ trackOpen.fg }};border:1px solid {{ trackOpen.bd }};cursor:pointer;white-space:nowrap">오픈</span>
+                  </div>
+                </div>
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; gap: 12px; position: static; align-self: auto; flex-wrap: nowrap"><sc-if value="{{ hasOrg }}" hint-placeholder-val="{{ true }}">
+                  <label style="display: flex; flex-direction: column; gap: 7px; width: 321px; height: 61px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">수강 정원 · 기관 <span style="color:#C1694A">*</span></span>
+                    <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;width:140px">30 명</span>
+                  </label><label style="display: flex; flex-direction: column; gap: 7px; width: 321px; height: 64px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">수강 기간 <span style="color:#C1694A">*</span></span>
+                  <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;width:220px">개강일로부터 12주</span>
+                </label>
+                </sc-if></div>
+                <sc-if value="{{ hasOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">수강 정원 · 오픈</span>
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <sc-if value="{{ capOpenOverride }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;width:140px">200 명</span>
+                      </sc-if>
+                      <sc-if value="{{ capNotOverride }}" hint-placeholder-val="{{ true }}">
+                        <span style="font-size:13.5px;color:#5A6B7B">무제한</span>
+                      </sc-if>
+                      <span onClick="{{ toggleCapOverride }}" style="font-size:12.5px;font-weight:{{ capOverrideChip.fw }};color:{{ capOverrideChip.fg }};background:{{ capOverrideChip.bg }};border:1px solid {{ capOverrideChip.bd }};padding:6px 11px;border-radius:6px;cursor:pointer;white-space:nowrap">직접 설정</span>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div style="border-top:1px solid #EEF2F6;padding-top:16px;display:flex;flex-direction:column;gap:14px">
+                  <span style="font-size:14px;font-weight:700">1차시</span>
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">차시명</span>
+                    <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;color:#A0ACB8">예: 1강. 한국인은 누구인가</span>
+                  </label>
+                  <span style="font-size:12px;color:#8494A3">영상 배치·퀴즈 문항·추가 차시는 저장 후 강의 구조 화면에서 이어서 구성합니다</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- 2. 학생 노출정보 -->
+            <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">상세 소개 <span style="color:#C1694A">*</span> <span style="font-weight:500;color:#A0ACB8">· 100자 이상</span></span>
+                  <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:12px 13px;background:#fff;color:#A0ACB8;min-height:64px;line-height:1.6">강의 상세 화면에 학생에게 그대로 노출되는 소개문입니다.</span>
+                </label>
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; gap: 12px"><label style="display: flex; flex-direction: column; gap: 7px; width: 253px; height: 162px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">썸네일 <span style="color:#C1694A">*</span></span>
+                  <div style="width:220px;aspect-ratio:16/10;background:#EAEFF4;border-radius:8px;overflow:hidden">
+                    <image-slot id="create-thumb" shape="rect" placeholder="강의 썸네일"></image-slot>
+                  </div>
+                </label><div style="display: flex; flex-direction: column; gap: 7px; width: 256px; height: 163px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">강의 언어 <span style="color:#C1694A">*</span></span>
+                  <div style="display:flex;gap:6px">
+                    <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="3">
+                      <span onClick="{{ lg.toggle }}" style="font-size:13.5px;font-weight:{{ lg.fw }};padding:9px 16px;border-radius:7px;background:{{ lg.bg }};color:{{ lg.fg }};border:1px solid {{ lg.bd }};cursor:pointer;white-space:nowrap">{{ lg.label }}</span>
+                    </sc-for>
+                  </div>
+                  <span style="font-size: 12px; color: #8494A3; width: 265px; height: 41px">자막 제작·검수는 콘텐츠관리자 소관(차시 단위) <br>— 여기서는 음성 언어만 지정합니다</span>
+                </div><div style="display: flex; flex-direction: column; gap: 7px; width: 195px; height: 158px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">학생 단계 <span style="color:#C1694A">*</span></span>
+                  <div style="display:flex;gap:6px">
+                    <sc-for list="{{ stages }}" as="sg" hint-placeholder-count="3">
+                      <span onClick="{{ sg.set }}" style="font-size:13.5px;font-weight:{{ sg.fw }};padding:9px 16px;border-radius:7px;background:{{ sg.bg }};color:{{ sg.fg }};border:1px solid {{ sg.bd }};cursor:pointer;white-space:nowrap">{{ sg.label }}</span>
+                    </sc-for>
+                  </div>
+                </div></div>
+                
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; gap: 12px"><label style="display: flex; flex-direction: column; gap: 7px; width: 355px; height: 61px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">예상 총 학습시간 <span style="color:#C1694A">*</span></span>
+                  <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;width:180px">총 6시간 20분</span>
+                </label><label style="display: flex; flex-direction: column; gap: 7px; width: 237px; height: 62px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">카테고리 / 분야 <span style="color:#C1694A">*</span></span>
+                  <span style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;width:220px">한국학 · 인문</span>
+                </label></div>
+                
+                
+                
+              </div>
+            </sc-if>
+
+            <!-- 3. 평가설정 -->
+            <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                  <div onClick="{{ toggleCreateQuiz }}" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;cursor:pointer" style-hover="background:#F9FBFC">
+                    <div style="display:flex;flex-direction:column;gap:3px">
+                      <span style="font-size:14px;font-weight:700">차시별 퀴즈</span>
+                      <span style="font-size:12.5px;color:#5A6B7B">강의 상세에서 언제든 변경 가능</span>
+                    </div>
+                    <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;white-space:nowrap">{{ createQuizToggleLabel }}</span>
+                  </div>
+                  <sc-if value="{{ createQuizOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-top:1px solid #F1F4F7;padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;background:#FBFCFD">
+                      <label style="display:flex;flex-direction:column;gap:9px">
+                        <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">통과 기준 점수</span>
+                        <select onChange="{{ setQuizScore }}" defaultValue="60" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff">
+                          <option value="50">50점</option><option value="60">60점 (기본)</option><option value="70">70점</option><option value="80">80점</option><option value="custom">직접 입력…</option>
+                        </select>
+                        <sc-if value="{{ quizScoreCustom }}" hint-placeholder-val="{{ false }}">
+                          <input type="number" placeholder="점수 입력" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff;width:100px">
+                        </sc-if>
+                      </label>
+                      <label style="display:flex;flex-direction:column;gap:9px">
+                        <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">재응시 횟수 · 기관</span>
+                        <select onChange="{{ setQuizRetry }}" defaultValue="3" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff">
+                          <option value="1">1회</option><option value="2">2회</option><option value="3">3회 (기본)</option><option value="unlimited">무제한</option><option value="custom">직접 입력…</option>
+                        </select>
+                        <sc-if value="{{ quizRetryCustom }}" hint-placeholder-val="{{ false }}">
+                          <input type="number" placeholder="횟수 입력" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff;width:100px">
+                        </sc-if>
+                      </label>
+                    </div>
+                  </sc-if>
+                </div>
+                <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                  <div onClick="{{ toggleCreateFinal }}" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;cursor:pointer" style-hover="background:#F9FBFC">
+                    <div style="display:flex;flex-direction:column;gap:3px">
+                      <span style="font-size:14px;font-weight:700">최종 시험</span>
+                      <span style="font-size:12.5px;color:#5A6B7B">강의 상세에서 언제든 변경 가능</span>
+                    </div>
+                    <span style="font-size:12.5px;font-weight:600;color:#5A6B7B;white-space:nowrap">{{ createFinalToggleLabel }}</span>
+                  </div>
+                  <sc-if value="{{ createFinalOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-top:1px solid #F1F4F7;padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;background:#FBFCFD">
+                      <label style="display:flex;flex-direction:column;gap:9px">
+                        <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">통과 기준 점수</span>
+                        <select onChange="{{ setFinalScore }}" defaultValue="80" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff">
+                          <option value="60">60점</option><option value="70">70점</option><option value="80">80점 (기본)</option><option value="90">90점</option><option value="custom">직접 입력…</option>
+                        </select>
+                        <sc-if value="{{ finalScoreCustom }}" hint-placeholder-val="{{ false }}">
+                          <input type="number" placeholder="점수 입력" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff;width:100px">
+                        </sc-if>
+                      </label>
+                      <label style="display:flex;flex-direction:column;gap:9px">
+                        <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">재응시 횟수 · 기관</span>
+                        <select onChange="{{ setFinalRetry }}" defaultValue="2" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff">
+                          <option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="unlimited">무제한</option><option value="custom">직접 입력…</option>
+                        </select>
+                        <sc-if value="{{ finalRetryCustom }}" hint-placeholder-val="{{ false }}">
+                          <input type="number" placeholder="횟수 입력" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 11px;background:#fff;width:100px">
+                        </sc-if>
+                      </label>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- 4. 확인 -->
+            <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                  <div style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:13px 20px;border-bottom:1px solid #F1F4F7"><span style="font-size:12.5px;color:#8494A3">트랙</span><span style="font-size:13.5px;font-weight:600">{{ trackSelLabel }}</span></div>
+                  <div style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:13px 20px;border-bottom:1px solid #F1F4F7"><span style="font-size:12.5px;color:#8494A3">학생 단계</span><span style="font-size:13.5px;font-weight:600">{{ stage }}</span></div>
+                  <div style="display:grid;grid-template-columns:140px 1fr;gap:14px;padding:13px 20px;border-bottom:1px solid #F1F4F7"><span style="font-size:12.5px;color:#8494A3">평가 설정</span><span style="font-size:13.5px;font-weight:600">퀴즈 60점 · 최종시험 80점 (프리셋)</span></div>
+                  
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end">
+                  <span onClick="{{ saveDraft }}" style="font-size:13.5px;font-weight:700;color:#223142;border:1px solid #D5DEE7;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap">초안으로 저장</span>
+                  <span onClick="{{ publishNew }}" style="font-size:13.5px;font-weight:700;background:#223142;color:#fff;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap">지금 발행</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- 하단 스텝 내비 -->
+            
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════ 과제 관리 ══════ -->
+    <sc-if value="{{ isAssignment }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1120px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h1 style="margin:0;font-family:'Noto Serif KR',serif;font-weight:600;font-size:29px;letter-spacing:-.01em">과제 관리</h1>
+          <p style="margin:0;font-size:13.5px;color:#5A6B7B">서술형 과제 생성·채점 전담 · 퀴즈/시험은 강의·평가 관리에서</p>
+        </div>
+
+        <div style="display:flex;gap:4px;border-bottom:1px solid #D4DCE4">
+          <span onClick="{{ setAssignList }}" style="font-size:14px;font-weight:{{ assignTabList.fw }};color:{{ assignTabList.fg }};padding-bottom:12px;border-bottom:2px solid {{ assignTabList.bd }};margin-bottom:-1px;cursor:pointer;white-space:nowrap">과제 목록</span>
+          <span onClick="{{ setAssignGrading }}" style="font-size:14px;font-weight:{{ assignTabGrading.fw }};color:{{ assignTabGrading.fg }};padding-bottom:12px;border-bottom:2px solid {{ assignTabGrading.bd }};margin-bottom:-1px;margin-left:20px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:7px">채점함 <span style="background:rgba(34,49,66,.08);color:#3E4E68;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px">{{ gradingPendingCount }}</span></span>
+        </div>
+
+        <!-- 과제 목록 -->
+        <sc-if value="{{ isAssignList }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #D4DCE4;border-bottom:1px solid #D4DCE4">
+              <div style="padding:15px 20px 15px 0;display:flex;flex-direction:column;gap:3px"><span style="font-size:23px;font-weight:700;letter-spacing:-.01em">18</span><span style="font-size:12.5px;color:#5A6B7B">전체 과제</span></div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px"><span style="font-size:23px;font-weight:700;letter-spacing:-.01em">{{ gradingPendingCount }}</span><span style="font-size:12.5px;color:#5A6B7B">채점 대기</span></div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px"><span style="font-size:23px;font-weight:700;letter-spacing:-.01em">{{ gradingDoneCount }}</span><span style="font-size:12.5px;color:#5A6B7B">채점 완료</span></div>
+              <div style="padding:15px 20px;border-left:1px solid #DEE5EC;display:flex;flex-direction:column;gap:3px"><span style="font-size:23px;font-weight:700;letter-spacing:-.01em">84.5</span><span style="font-size:12.5px;color:#5A6B7B">평균 점수 · 기관 트랙</span></div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;border-bottom:1px solid #C9D4DE;padding:7px 2px;margin-right:10px">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8494A3" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+                <span style="font-size:13.5px;color:#A0ACB8;white-space:nowrap">과제명 검색</span>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleAssignTrack }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ assignTrackFilter }} ▾</span>
+                <sc-if value="{{ isAssignTrackOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:110px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ assignTrackOptions }}" as="o" hint-placeholder-count="3">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleAssignStatus }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ assignStatusFilter }} ▾</span>
+                <sc-if value="{{ isAssignStatusOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:120px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ assignStatusOptions }}" as="o" hint-placeholder-count="3">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span onClick="{{ toggleAssignSort }}" style="font-size:13.5px;font-weight:600;color:#5A6B7B;padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.07);color:#223142">{{ assignSortFilter }} ▾</span>
+                <sc-if value="{{ isAssignSortOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:130px;z-index:30;overflow:hidden">
+                    <sc-for list="{{ assignSortOptions }}" as="o" hint-placeholder-count="2">
+                      <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <span onClick="{{ toggleHideGraded }}" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:{{ hideGradedFg }};padding:7px 10px;border-radius:7px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">
+                <span style="width:14px;height:14px;border-radius:3px;border:1px solid {{ hideGradedBd }};background:{{ hideGradedTrack }};display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:9px;font-weight:800;color:#fff;line-height:1">{{ hideGradedMark }}</span></span>
+                채점 완료 숨기기
+              </span>
+              <span onClick="{{ openAssignCreate }}" style="font-size:13.5px;font-weight:700;background:#223142;color:#fff;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap;margin-left:10px">과제 생성</span>
+            </div>
+
+            <section style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 116px 104px 136px 32px;gap:16px;padding:12px 22px;border-bottom:1px solid #EEF2F6;font-size:12px;font-weight:700;color:#8494A3">
+                <span>과제명 · 강의</span><span>마감일시</span><span>지각 정책</span><span style="text-align:right">제출 · 채점</span><span></span>
+              </div>
+              <sc-for list="{{ assignments }}" as="a" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) 116px 104px 136px 32px;gap:16px;align-items:center;padding:13px 22px;border-bottom:1px solid #F1F4F7" style-hover="background:#F9FBFC">
+                  <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                    <span style="display:flex;align-items:center;gap:5px;min-width:0">
+                      <span style="font-size:11px;font-weight:700;color:{{ a.trackFg }};white-space:nowrap">{{ a.track }}</span>
+                      <span style="font-size:11px;color:#C9D4DE">·</span>
+                      <span style="font-size:11.5px;font-weight:600;color:#8494A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.lecture }}</span>
+                    </span>
+                    <span onClick="{{ a.openGrading }}" style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;max-width:100%" style-hover="color:#3D5378;text-decoration:underline;text-decoration-color:#B7C4D0;text-underline-offset:3px">{{ a.title }}</span>
+                  </span>
+                  <span style="font-size:13px;color:#5A6B7B;white-space:nowrap">{{ a.deadline }}</span>
+                  <span style="font-size:12px;font-weight:700;color:{{ a.lateFg }};white-space:nowrap">{{ a.lateLabel }}</span>
+                  <span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+                    <span style="font-size:12.5px;color:#3E4E68;white-space:nowrap">{{ a.progress }}</span>
+                    <span style="font-size:11.5px;font-weight:700;color:{{ a.pendingFg }};white-space:nowrap">{{ a.pendingLabel }}</span>
+                  </span>
+                  <span onClick="{{ a.openEdit }}" style="font-size:16px;font-weight:700;color:#A0ACB8;cursor:pointer;text-align:center;line-height:1;border-radius:6px;padding:5px 0" style-hover="background:rgba(34,49,66,.08);color:#223142">⋯</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ isAssignListEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:44px 22px;text-align:center;display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:13.5px;font-weight:700">조건에 맞는 과제가 없습니다</span>
+                  <span style="font-size:12.5px;color:#8494A3">필터를 넓히거나 '채점 완료 숨기기'를 해제해 보세요</span>
+                </div>
+              </sc-if>
+            </section>
+          </div>
+        </sc-if>
+
+        <!-- 채점함 -->
+        <sc-if value="{{ isAssignGrading }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                <div style="position:relative;display:inline-block">
+                  <span onClick="{{ toggleGradingAssign }}" style="font-size:13.5px;font-weight:{{ gradingAssignFw }};color:{{ gradingAssignFg }};background:{{ gradingAssignBg }};padding:7px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;display:inline-block" style-hover="background:rgba(34,49,66,.1);color:#223142">{{ gradingAssignFilter }} ▾</span>
+                  <sc-if value="{{ isGradingAssignOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #DEE5EC;border-radius:8px;box-shadow:0 8px 20px rgba(34,49,66,.14);min-width:230px;z-index:30;overflow:hidden">
+                      <sc-for list="{{ gradingAssignOptions }}" as="o" hint-placeholder-count="3">
+                        <div onClick="{{ o.select }}" style="padding:9px 14px;font-size:13px;color:#3E4E68;cursor:pointer;white-space:nowrap" style-hover="background:#F3F6F9">{{ o.label }}</div>
+                      </sc-for>
+                      <div style="padding:8px 14px;border-top:1px solid #F1F4F7;font-size:11.5px;color:#A0ACB8;line-height:1.5">채점 대기·이의제기 건이 있는 과제만 표시</div>
+                    </div>
+                  </sc-if>
+                </div>
+                <span onClick="{{ toggleHideConfirmed }}" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:{{ hideConfirmedFg }};padding:7px 10px;border-radius:7px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">
+                  <span style="width:14px;height:14px;border-radius:3px;border:1px solid {{ hideConfirmedBd }};background:{{ hideConfirmedTrack }};display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:9px;font-weight:800;color:#fff;line-height:1">{{ hideConfirmedMark }}</span></span>
+                  확정 항목 숨기기
+                </span>
+              </div>
+              <div style="display:flex;gap:4px">
+                <span onClick="{{ setSortDeadline }}" style="font-size:12.5px;font-weight:{{ sortDeadline.fw }};color:{{ sortDeadline.fg }};background:{{ sortDeadline.bg }};padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap">마감임박순</span>
+                <span onClick="{{ setSortOldest }}" style="font-size:12.5px;font-weight:{{ sortOldest.fw }};color:{{ sortOldest.fg }};background:{{ sortOldest.bg }};padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap">제출오래된순</span>
+              </div>
+            </div>
+            <span style="font-size:12.5px;color:#8494A3;line-height:1.6;margin-top:-8px">기관 트랙 제출물만 표시 · 오픈 트랙은 AI 즉시채점으로 자동 공개 · 상세 패널의 '다음'은 현재 걸린 필터 안에서만 순회합니다</span>
+
+            <sc-if value="{{ isGradingEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;padding:60px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+                <span style="font-size:16px;font-weight:700">채점함이 깨끗합니다</span>
+                <span style="font-size:12.5px;color:#8494A3">다음 제출 예정: 3주차 · 상담 시연 리포트 · D-2</span>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isGradingNotEmpty }}" hint-placeholder-val="{{ true }}">
+              <section style="background:#fff;border:1px solid #DEE5EC;border-radius:10px;overflow:hidden">
+                <div style="display:grid;grid-template-columns:88px minmax(0,1.3fr) 124px 132px 100px;gap:14px;padding:12px 22px;border-bottom:1px solid #EEF2F6;font-size:12px;font-weight:700;color:#8494A3">
+                  <span>학생</span><span>과제명</span><span>제출일시</span><span>상태</span><span style="text-align:right">AI 추천점수</span>
+                </div>
+                <sc-for list="{{ gradingRows }}" as="g" hint-placeholder-count="5">
+                  <div onClick="{{ g.open }}" style="display:grid;grid-template-columns:88px minmax(0,1.3fr) 124px 132px 100px;gap:14px;align-items:center;padding:14px 22px;border-bottom:1px solid #F1F4F7;cursor:pointer;background:{{ g.rowBg }}" style-hover="filter:brightness(.98)">
+                    <span style="font-size:14px;font-weight:700;white-space:nowrap">{{ g.student }}</span>
+                    <span style="font-size:13.5px;color:#3E4E68;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.assignment }}</span>
+                    <span style="font-size:12.5px;color:#5A6B7B;white-space:nowrap">{{ g.submitted }}</span>
+                    <span style="display:flex;align-items:center;gap:5px">
+                      <sc-if value="{{ g.isLate }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:11.5px;font-weight:700;color:#A07A1F;white-space:nowrap">지각</span>
+                      </sc-if>
+                      <sc-if value="{{ g.isObjection }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:11.5px;font-weight:700;color:#A3352E;white-space:nowrap">이의제기</span>
+                      </sc-if>
+                      <sc-if value="{{ g.isConfirmed }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:11.5px;font-weight:600;color:#93A1AD;white-space:nowrap">확정</span>
+                      </sc-if>
+                    </span>
+                    <span style="font-size:13.5px;font-weight:700;text-align:right;white-space:nowrap">{{ g.aiScoreLabel }}</span>
+                  </div>
+                </sc-for>
+              </section>
+            </sc-if>
+          </div>
+
+          <!-- 슬라이드오버 -->
+          <sc-if value="{{ slideoverOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeSlideover }}" style="position:fixed;inset:0;background:rgba(34,49,66,.28);z-index:40"></div>
+            <div style="position:fixed;top:0;right:0;bottom:0;z-index:50;display:flex;box-shadow:-14px 0 32px rgba(34,49,66,.14)">
+
+              <!-- 좌측 목록 패널 (접기/펼치기) -->
+              <div style="width:{{ railWidth }};background:#FAFBFC;border-left:1px solid #DCE3EB;display:flex;flex-direction:column;overflow:hidden">
+                <div onClick="{{ toggleRail }}" style="height:66px;flex:none;padding:0 14px;display:flex;align-items:center;justify-content:{{ railJustify }};gap:8px;border-bottom:1px solid #EEF2F6;cursor:pointer" style-hover="background:#F1F5F8">
+                  <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+                    <span style="font-size:11.5px;font-weight:700;letter-spacing:.04em;color:#8494A3;white-space:nowrap">순회 목록 {{ railCount }}건</span>
+                  </sc-if>
+                  <span style="font-size:12px;font-weight:700;color:#A0ACB8">{{ railIcon }}</span>
+                </div>
+                <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column">
+                  <sc-for list="{{ railRows }}" as="r" hint-placeholder-count="4">
+                    <div onClick="{{ r.open }}" style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #F1F4F7;cursor:pointer;background:{{ r.bg }};border-left:2px solid {{ r.mark }}" style-hover="filter:brightness(.985)">
+                      <span style="width:28px;height:28px;border-radius:50%;background:{{ r.avatarBg }};color:{{ r.avatarFg }};display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex:none">{{ r.initial }}</span>
+                      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+                        <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                          <span style="font-size:12.5px;font-weight:700;white-space:nowrap">{{ r.student }}</span>
+                          <span style="font-size:11px;color:#8494A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.meta }}</span>
+                        </span>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- 상세 패널 450px -->
+              <div style="width:450px;flex:none;background:#fff;border-left:1px solid #DCE3EB;display:flex;flex-direction:column">
+              <div style="padding:16px 24px;border-bottom:1px solid #EEF2F6;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:5px">
+                  <span style="display:flex;align-items:center;gap:7px">
+                    <span style="font-size:15px;font-weight:800">{{ selected.student }}</span>
+                    <sc-if value="{{ selected.isLate }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:10.5px;font-weight:700;color:#A07A1F;padding:3px 8px;white-space:nowrap">지각</span>
+                    </sc-if>
+                    <sc-if value="{{ selected.isObjection }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size: 10.5px; font-weight: 700; color: #A3352E; padding: 3px 8px; white-space: nowrap">이의제기</span>
+                    </sc-if>
+                  </span>
+                  <span style="font-size:12.5px;color:#5A6B7B">{{ selected.assignment }} · 제출 {{ selected.submitted }}</span>
+                </div>
+                <span onClick="{{ closeSlideover }}" style="font-size:13px;color:#8494A3;cursor:pointer;padding:5px 9px;border-radius:7px;white-space:nowrap" style-hover="background:rgba(34,49,66,.06);color:#223142">닫기 ✕</span>
+              </div>
+
+              <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;flex:1">
+                <sc-if value="{{ selected.isObjection }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex:none;display:flex;flex-direction:column;gap:6px;padding-bottom:16px;border-bottom:1px solid #EEF2F6">
+                    <span style="font-size:12px;font-weight:700;color:#A3352E">이의제기 · 재검토 요청</span>
+                    <span style="font-size:13px;color:#223142;line-height:1.7">{{ selected.objectionNote }}</span>
+                    <span style="font-size:11.5px;color:#8494A3;line-height:1.5">재확정하면 이의제기 표시가 자동 해제되고 학생에게 알림이 발송됩니다.</span>
+                  </div>
+                </sc-if>
+
+                <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-radius:10px;background:{{ selected.tint }}">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B;white-space:nowrap">{{ selected.tintLabel }}</span>
+                  <span style="font-size:20px;font-weight:800;white-space:nowrap">{{ selected.aiScoreLabel }}</span>
+                </div>
+
+                <div style="flex:none;display:grid;grid-template-columns:1fr 92px 1fr;gap:0;font-size:13px;border:1px solid #EAEFF4;border-radius:10px;overflow:hidden">
+                  <div style="padding:9px 12px;font-weight:700;color:#8494A3;font-size:11.5px;background:#FAFBFC">평가 항목</div>
+                  <div style="padding:9px 4px;font-weight:700;color:#8494A3;font-size:11.5px;text-align:center;background:#FAFBFC">점수</div>
+                  <div style="padding:9px 12px;font-weight:700;color:#8494A3;font-size:11.5px;background:#FAFBFC">근거 (수정 가능)</div>
+                  <sc-for list="{{ selected.rubric }}" as="r" hint-placeholder-count="3">
+                    <div style="padding:11px 12px;border-top:1px solid #F1F4F7;font-weight:600">{{ r.item }}</div>
+                    <div style="padding:8px 8px;border-top:1px solid #F1F4F7;display:flex;align-items:center;justify-content:center;gap:3px">
+                      <input type="number" defaultValue="{{ r.score }}" style="width:38px;text-align:center;font-weight:800;color:#223142;border:1px solid #D5DEE7;border-radius:5px;padding:4px 2px;font-size:12.5px;background:#fff;font-family:inherit">
+                      <span style="font-size:12px;font-weight:600;color:#8494A3;white-space:nowrap">/ {{ r.max }}</span>
+                    </div>
+                    <div style="padding:6px 12px;border-top:1px solid #F1F4F7">
+                      <input defaultValue="{{ r.note }}" style="width:100%;border:none;background:transparent;color:#5A6B7B;font-size:12.5px;font-family:inherit">
+                    </div>
+                  </sc-for>
+                </div>
+
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">최종 점수</span>
+                  <input defaultValue="{{ selected.aiScore }}" type="number" style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;width:100px">
+                </label>
+
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">교수자 총평 <span style="font-weight:500;color:#A0ACB8">· 선택 · 학생에게 함께 공개</span></span>
+                  <textarea placeholder="학생에게 남길 코멘트를 입력하세요" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 12px;background:#fff;min-height:76px;line-height:1.6;font-family:inherit;resize:vertical"></textarea>
+                </label>
+
+                <span style="font-size:12px;color:#8494A3;line-height:1.6">AI 코멘트를 검토·수정 후 확정하면 학생에게 공개됩니다.</span>
+              </div>
+
+              <div style="padding:16px 24px;border-top:1px solid #EEF2F6;display:flex;gap:8px">
+                <span onClick="{{ goNextGrading }}" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;color:#223142;border:1px solid #D5DEE7;border-radius:8px;padding:11px;cursor:pointer;white-space:nowrap">{{ nextLabel }}</span>
+                <span onClick="{{ confirmGrading }}" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;background:#223142;color:#fff;border-radius:8px;padding:11px;cursor:pointer;white-space:nowrap">{{ confirmLabel }}</span>
+              </div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- 과제 생성/수정 모달 -->
+        <sc-if value="{{ assignModalOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeAssignModal }}" style="position:fixed;inset:0;background:rgba(34,49,66,.32);z-index:60;display:flex;align-items:center;justify-content:center;padding:40px">
+            <div onClick="{{ stop }}" style="background:#fff;border-radius:14px;max-width:600px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 60px rgba(34,49,66,.22)">
+              <div style="padding:28px 30px;display:flex;flex-direction:column;gap:22px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <h2 style="margin:0;font-size:19px;font-weight:800">{{ assignModalTitle }}</h2>
+                    <span style="font-size:12.5px;color:#8494A3">{{ assignModalSub }}</span>
+                  </div>
+                  <span onClick="{{ closeAssignModal }}" style="font-size:16px;color:#8494A3;cursor:pointer;padding:4px;line-height:1" style-hover="color:#223142">✕</span>
+                </div>
+
+                <!-- 읽기전용 요약바 (수정 모드) -->
+                <sc-if value="{{ isAssignEdit }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#F2F5F8;border:1px solid #E3E9EF;border-radius:10px;padding:15px 18px;display:flex;flex-direction:column;gap:12px">
+                    <div style="display:flex;align-items:center;gap:6px;min-width:0">
+                      <span style="font-size:11px;font-weight:700;color:{{ editSummary.trackFg }};white-space:nowrap">{{ editSummary.track }}</span>
+                      <span style="font-size:11px;color:#C9D4DE">·</span>
+                      <span style="font-size:11.5px;font-weight:600;color:#8494A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ editSummary.lecture }}</span>
+                    </div>
+                    <span style="font-size:15px;font-weight:700;margin-top:-4px">{{ assignEditTitle }}</span>
+                    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+                      <span style="display:flex;flex-direction:column;gap:3px">
+                        <span style="font-size:11px;font-weight:700;color:#8494A3;white-space:nowrap">제출 현황</span>
+                        <span style="font-size:14px;font-weight:700;white-space:nowrap">{{ editSummary.submitted }}</span>
+                      </span>
+                      <span style="display:flex;flex-direction:column;gap:3px">
+                        <span style="font-size:11px;font-weight:700;color:#8494A3;white-space:nowrap">채점 현황</span>
+                        <span style="font-size:14px;font-weight:700;color:{{ editSummary.pendingFg }};white-space:nowrap">{{ editSummary.pendingLabel }}</span>
+                      </span>
+                      <span style="display:flex;flex-direction:column;gap:3px">
+                        <span style="font-size:11px;font-weight:700;color:#8494A3;white-space:nowrap">마감일시</span>
+                        <span style="font-size:14px;font-weight:700;white-space:nowrap">{{ editSummary.deadline }}</span>
+                      </span>
+                    </div>
+                    <span style="font-size:11.5px;color:#93A1AD;line-height:1.5">이 영역은 읽기 전용입니다 · 아래 설정만 수정할 수 있습니다</span>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ isAssignCreate }}" hint-placeholder-val="{{ true }}">
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">강의 선택 <span style="color:#C1694A">*</span></span>
+                    <select style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff">
+                      <sc-for list="{{ lectures }}" as="c" hint-placeholder-count="5"><option>{{ c.name }}</option></sc-for>
+                    </select>
+                  </label>
+
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">과제 제목 <span style="color:#C1694A">*</span></span>
+                    <input defaultValue="{{ assignEditTitle }}" placeholder="예: 상담 시연 리포트 · 3주차" style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;font-family:inherit">
+                  </label>
+
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">설명</span>
+                    <textarea placeholder="과제에 대한 간단한 설명" style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;min-height:64px;line-height:1.6;font-family:inherit;resize:vertical"></textarea>
+                  </label>
+                </sc-if>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">배점 · 총점</span>
+                    <input type="number" onChange="{{ setAssignPoints }}" defaultValue="{{ assignPoints }}" style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:10px 13px;background:#fff;font-family:inherit">
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">마감일시</span>
+                    <input type="datetime-local" style="font-size:14px;border:1px solid #D5DEE7;border-radius:7px;padding:9px 13px;background:#fff;font-family:inherit">
+                  </label>
+                </div>
+
+                <sc-if value="{{ isAssignCreate }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">제출 형식</span>
+                    <div style="display:flex;gap:6px">
+                      <sc-for list="{{ submitTypes }}" as="t" hint-placeholder-count="3">
+                        <span onClick="{{ t.set }}" style="font-size:13.5px;font-weight:{{ t.fw }};padding:9px 16px;border-radius:7px;background:{{ t.bg }};color:{{ t.fg }};border:1px solid {{ t.bd }};cursor:pointer;white-space:nowrap">{{ t.label }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">첨부자료 <span style="font-weight:500;color:#A0ACB8">· 선택</span></span>
+                    <span style="border:1px dashed #D5DEE7;border-radius:7px;padding:12px;text-align:center;font-size:13px;color:#8494A3;cursor:pointer">+ 파일 첨부</span>
+                  </div>
+
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #EAEFF4;border-radius:10px">
+                    <div style="display:flex;flex-direction:column;gap:2px">
+                      <span style="font-size:13.5px;font-weight:700">AI 초안 허용</span>
+                      <span style="font-size:12px;color:#8494A3">학생이 버튼을 눌러 마감 전까지 1회 AI 초안을 생성 · 생성 즉시 제출물 잠금</span>
+                    </div>
+                    <span onClick="{{ toggleAiDraft }}" style="width:38px;height:22px;border-radius:20px;background:{{ aiDraftTrack }};position:relative;cursor:pointer;flex:none">
+                      <span style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:{{ aiDraftKnob }};transition:left .15s"></span>
+                    </span>
+                  </div>
+                </sc-if>
+
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <span style="font-size:12.5px;font-weight:700;color:#5A6B7B">지각 제출 설정</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <sc-for list="{{ lateOptions }}" as="lo" hint-placeholder-count="3">
+                      <span onClick="{{ lo.set }}" style="font-size:13.5px;font-weight:{{ lo.fw }};padding:9px 16px;border-radius:7px;background:{{ lo.bg }};color:{{ lo.fg }};border:1px solid {{ lo.bd }};cursor:pointer;white-space:nowrap">{{ lo.label }}</span>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ isLatePercent }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+                      <span style="font-size:13px;color:#5A6B7B">감점률</span>
+                      <select onChange="{{ setLatePercent }}" defaultValue="10" style="font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:8px 10px;background:#fff">
+                        <option value="5">5%</option><option value="10">10% (기본)</option><option value="15">15%</option><option value="20">20%</option>
+                      </select>
+                      <span style="font-size:13px;color:#5A6B7B">/ 일</span>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <div style="border-top:1px solid #EEF2F6;padding-top:16px;display:flex;flex-direction:column;gap:12px">
+                  <div onClick="{{ toggleRubricOpen }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+                    <span style="font-size:13.5px;font-weight:700">채점 기준 (루브릭) <span style="font-weight:500;color:#A0ACB8">· 선택 입력</span></span>
+                    <span style="font-size:12.5px;font-weight:600;color:#5A6B7B">{{ rubricToggleLabel }}</span>
+                  </div>
+                  <sc-if value="{{ rubricOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:9px">
+                      <span style="font-size:12px;color:#8494A3;line-height:1.6">비워두면 미사용 · 사용 시 AI가 항목별 점수·코멘트를 산출합니다</span>
+                      <sc-for list="{{ rubricRows }}" as="rr" hint-placeholder-count="0">
+                        <div style="display:flex;gap:8px;align-items:center">
+                          <input onChange="{{ rr.setItem }}" defaultValue="{{ rr.item }}" placeholder="항목명 (예: 내용 이해도)" style="flex:1;font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:8px 11px;background:#fff;font-family:inherit">
+                          <input type="number" onChange="{{ rr.setWeight }}" defaultValue="{{ rr.weight }}" placeholder="배점" style="width:76px;font-size:13.5px;border:1px solid #D5DEE7;border-radius:7px;padding:8px 11px;background:#fff;font-family:inherit">
+                          <span onClick="{{ rr.remove }}" style="font-size:14px;color:#8494A3;cursor:pointer;padding:4px" style-hover="color:#A34A38">✕</span>
+                        </div>
+                      </sc-for>
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                        <span onClick="{{ addRubricRow }}" style="font-size:12.5px;font-weight:600;color:#5A6B7B;cursor:pointer;padding:4px 2px" style-hover="color:#223142">+ 항목 추가 <span style="color:#A0ACB8;font-weight:500">· 3~6개 권장</span></span>
+                        <span style="display:flex;align-items:center;gap:7px;font-size:12px;white-space:nowrap">
+                          <span style="color:#8494A3;font-weight:600">배점 합계</span>
+                          <span style="font-size:14px;font-weight:800;color:{{ rubricSumFg }}">{{ rubricSum }}</span>
+                          <span style="color:#B7C4D0">/ 총점 {{ assignPoints }}</span>
+                        </span>
+                      </div>
+                      <sc-if value="{{ rubricMismatch }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:12px;color:#A34A38;line-height:1.6;background:#FCF2F0;border-radius:7px;padding:9px 11px">합계가 총점과 {{ rubricDiffLabel }} — 저장은 가능하지만 AI 채점 시 총점 기준으로 환산됩니다.</span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+                  <span onClick="{{ closeAssignModal }}" style="font-size:13.5px;font-weight:700;color:#223142;border:1px solid #D5DEE7;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap">취소</span>
+                  <span onClick="{{ closeAssignModal }}" style="font-size:13.5px;font-weight:700;background:#223142;color:#fff;border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap">저장</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════ 미제작 화면 ══════ -->
+    <sc-if value="{{ isPlaceholder }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1120px;min-height:60vh;display:flex;flex-direction:column;justify-content:center;gap:12px">
+        <h1 style="margin:0;font-family:'Noto Serif KR',serif;font-weight:600;font-size:29px;letter-spacing:-.01em">{{ placeholderTitle }}</h1>
+        <p style="margin:0;font-size:13.5px;color:#8494A3;max-width:420px;line-height:1.7">노션 메뉴 순서대로 하나씩 제작 중입니다. 이 화면은 다음 차례에 채워집니다.</p>
+      </div>
+    </sc-if>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'assignment', view: 'list', mode: 'list', quizOpen: true, finalOpen: false,
+    createStep: 1, trackSel: ['기관'], capOpenOverride: false, grantCM: false, bioShow: true, stage: '입문', langSel: ['한국어'],
+    detailTrackEditOpen: false, detailTrackSel: ['기관'], createQuizOpen: false, createFinalOpen: false,
+    quizScore: '60', quizRetry: '3', finalScore: '80', finalRetry: '2',
+    assignTab: 'list', gradingSort: 'deadline', confirmedIds: ['g2','g6'], objectionIds: ['g6'], slideoverIdx: null,
+    hideGraded: false, hideConfirmed: false, gradingAssignFilter: '전체 과제', railExpanded: true,
+    assignPoints: '100', editAssign: null,
+    openDropdown: null, lecStatusFilter: '전체 상태', lecTrackFilter: '전체 트랙', lecSortFilter: '최근수정순',
+    assignTrackFilter: '전체 트랙', assignStatusFilter: '전체 상태', assignSortFilter: '마감임박순',
+    assignModalOpen: false, assignModalMode: 'create', assignEditTitle: '', submitType: '텍스트',
+    lateSetting: '표시 후 허용', aiDraft: true, rubricOpen: false, rubricRows: [] };
+
+  renderVals() {
+    const s = this.state;
+    const navy = '#3E4E68', muted = '#8494A3', accent = '#C1694A';
+
+    const keys = ['dashboard','lecture','assignment','students','notify','attend','session','video','notice','board','mypage'];
+    const nav = {}, go = {};
+    keys.forEach(k => {
+      const on = s.screen === k;
+      nav[k] = { bg: on ? '#223142' : 'transparent', fg: on ? '#F3F7FA' : navy, fw: on ? '600' : '500' };
+      go[k] = () => this.setState({ screen: k, view: 'list' });
+    });
+
+    const titles = {
+      students:'수강생 관리', notify:'알림 관리', attend:'출석 관리',
+      session:'화상 세션', video:'동영상 관리', notice:'공지사항 관리', board:'게시판 관리', mypage:'마이페이지'
+    };
+
+    // ── 과제 관리 ──
+    const tabOn = (on) => ({ fw: on ? '700' : '600', fg: on ? '#223142' : '#8494A3', bd: on ? '#223142' : 'transparent' });
+    // 트랙·지각정책은 배경 pill 없이 텍스트 색상만으로 구분
+    const trackFgOf = (t) => t === '기관' ? '#96764C' : '#78899A';
+    const lateFgOf = (l) => l === '감점률 적용' ? '#A34A38' : l === '전면 불가' ? '#6B7A88' : '#A07A1F';
+    const lateLabelOf = (l) => l === '감점률 적용' ? '감점 10%/일' : l === '전면 불가' ? '지각 불가' : '지각 표시 허용';
+    const demoRubric = [{ item:'내용 이해도', weight:'40' }, { item:'근거 제시', weight:'30' }, { item:'표현·구성', weight:'30' }];
+
+    const assignmentsRaw = [
+      { title:'상담 시연 리포트 · 3주차', lecture:'한국인의 정신과 기질', track:'기관', deadline:'09-03 18:00', late:'표시 후 허용', submitted:'28/34 제출', pending:6, points:'100', status:'마감' },
+      { title:'중간 성찰 에세이', lecture:'한국인의 정신과 기질', track:'기관', deadline:'09-10 18:00', late:'감점률 적용', submitted:'12/34 제출', pending:4, points:'100', status:'진행중' },
+      { title:'자기이해 워크시트 · 2주차', lecture:'한국사 입문', track:'오픈', deadline:'08-28 23:59', late:'전면 불가', submitted:'112/156 제출', pending:0, points:'50', status:'완료' },
+      { title:'첫 인상 기록 · 1주차', lecture:'한국의 전통 예절', track:'오픈', deadline:'08-20 23:59', late:'표시 후 허용', submitted:'149/156 제출', pending:0, points:'50', status:'완료' },
+      { title:'최종 사례 분석 보고서', lecture:'한국어와 문자', track:'기관', deadline:'09-20 18:00', late:'전면 불가', submitted:'0/28 제출', pending:0, points:'200', status:'진행중' }
+    ];
+    const statusMap = { '진행중 · 마감 전':'진행중', '마감 · 채점 대기':'마감', '완료 · 전원 확정':'완료' };
+    const decorate = (a) => ({ ...a,
+      trackFg: trackFgOf(a.track), lateFg: lateFgOf(a.late), lateLabel: lateLabelOf(a.late),
+      progress: a.submitted,
+      pendingLabel: a.pending > 0 ? a.pending + '건 채점 대기' : a.status === '완료' ? '전원 확정' : '대기 없음',
+      pendingFg: a.pending > 0 ? '#C1694A' : '#93A1AD' });
+    const assignments = assignmentsRaw
+      .filter(a => s.assignTrackFilter === '전체 트랙' || a.track === s.assignTrackFilter)
+      .filter(a => s.assignStatusFilter === '전체 상태' || statusMap[s.assignStatusFilter] === a.status)
+      .filter(a => !s.hideGraded || a.status !== '완료')
+      .map(a => {
+        const d = decorate(a);
+        return { ...d,
+          openGrading: () => this.setState({ assignTab: 'grading', gradingAssignFilter: a.title, slideoverIdx: null }),
+          openEdit: () => this.setState({ assignModalOpen: true, assignModalMode: 'edit', assignEditTitle: a.title,
+            editAssign: a, lateSetting: a.late, assignPoints: a.points, rubricOpen: true, rubricRows: demoRubric.map(r => ({ ...r })) }) };
+      });
+    const editSummary = s.editAssign ? decorate(s.editAssign) : decorate(assignmentsRaw[0]);
+    const rubricSum = s.rubricRows.reduce((n, r) => n + (parseInt(r.weight, 10) || 0), 0);
+    const rubricTotal = parseInt(s.assignPoints, 10) || 0;
+    const rubricDiff = rubricSum - rubricTotal;
+
+    const dd = (key) => ({
+      toggle: () => this.setState(p => ({ openDropdown: p.openDropdown === key ? null : key })),
+      isOpen: s.openDropdown === key
+    });
+    const ddOpt = (labels, stateKey) => labels.map(label => ({ label, select: () => this.setState({ [stateKey]: label, openDropdown: null }) }));
+    const lecStatusDD = dd('lecStatus'), lecTrackDD = dd('lecTrack'), lecSortDD = dd('lecSort');
+    const assignTrackDD = dd('assignTrack'), assignStatusDD = dd('assignStatus'), assignSortDD = dd('assignSort');
+
+    const chipSel = (on) => ({ bg: on ? '#223142' : 'transparent', fg: on ? '#fff' : '#5A6B7B', fw: on ? '700' : '600', bd: on ? '#223142' : '#D5DEE7' });
+    const submitTypes = ['텍스트','파일','텍스트+파일'].map(v => ({ label: v, ...chipSel(s.submitType === v), set: () => this.setState({ submitType: v }) }));
+    const lateOptions = ['전면 불가','표시 후 허용','감점률 적용'].map(v => ({ label: v, ...chipSel(s.lateSetting === v), set: () => this.setState({ lateSetting: v }) }));
+
+    const gradingRaw = [
+      { id:'g1', student:'김O윤', assignment:'상담 시연 리포트 · 3주차', submitted:'08-29 21:40', aiScore:82, late:false,
+        rubric:[{item:'공감적 반영',score:'4/5',note:'감정 단어 반영 다수 확인'},{item:'질문 구조화',score:'3/5',note:'개방형 질문 비중 낮음'},{item:'회기 구성',score:'5/5',note:'도입·전개·마무리 명확'}] },
+      { id:'g2', student:'박O서', assignment:'상담 시연 리포트 · 3주차', submitted:'08-29 18:12', aiScore:88, late:false,
+        rubric:[{item:'공감적 반영',score:'5/5',note:'구체적 사례 인용'},{item:'질문 구조화',score:'4/5',note:'개방형 질문 다수'},{item:'회기 구성',score:'4/5',note:'마무리 다소 급함'}] },
+      { id:'g3', student:'이O훈', assignment:'중간 성찰 에세이', submitted:'08-29 02:14', aiScore:74, late:true,
+        rubric:[{item:'내용 이해도',score:'3/5',note:'핵심 개념 일부 누락'},{item:'근거 제시',score:'3/5',note:'인용 부족'},{item:'표현·구성',score:'4/5',note:'문단 구성 양호'}] },
+      { id:'g4', student:'정O린', assignment:'상담 시연 리포트 · 3주차', submitted:'08-28 20:33', aiScore:79, late:false,
+        rubric:[{item:'공감적 반영',score:'4/5',note:'반영 문장 적절'},{item:'질문 구조화',score:'3/5',note:'폐쇄형 질문 반복'},{item:'회기 구성',score:'4/5',note:'전개 자연스러움'}] },
+      { id:'g5', student:'한O결', assignment:'중간 성찰 에세이', submitted:'08-28 11:47', aiScore:86, late:false,
+        rubric:[{item:'내용 이해도',score:'4/5',note:'개념 적용 정확'},{item:'근거 제시',score:'4/5',note:'출처 명시 양호'},{item:'표현·구성',score:'5/5',note:'논지 명확'}] },
+      { id:'g6', student:'최O아', assignment:'중간 성찰 에세이', submitted:'08-27 23:51', aiScore:91, late:false,
+        objectionNote:'"근거 제시 항목의 감점 사유가 불명확합니다. 3편의 논문을 인용했는데 인용 부족으로 판정된 근거를 알고 싶습니다."',
+        rubric:[{item:'내용 이해도',score:'5/5',note:'개념 정확히 적용'},{item:'근거 제시',score:'4/5',note:'사례 연결 자연스러움'},{item:'표현·구성',score:'5/5',note:'논리 전개 명확'}] }
+    ];
+    const gradingSorted = [...gradingRaw].sort((a,b) => s.gradingSort === 'oldest' ? (a.submitted < b.submitted ? -1 : 1) : (a.submitted > b.submitted ? -1 : 1));
+    // 채점함 필터 — "다음" 순회 범위도 이 목록을 따름
+    const gradingList = gradingSorted
+      .filter(g => s.gradingAssignFilter === '전체 과제' || g.assignment === s.gradingAssignFilter)
+      .filter(g => !s.hideConfirmed || !s.confirmedIds.includes(g.id));
+    const decorateSub = (g) => {
+      const confirmed = s.confirmedIds.includes(g.id);
+      const objection = s.objectionIds.includes(g.id);
+      return { ...g, aiScoreLabel: g.aiScore + '점',
+        rubric: g.rubric.map(r => { const p = String(r.score).split('/'); return { ...r, score: p[0], max: p[1] || '5' }; }),
+        isConfirmed: confirmed, isLate: !!g.late, isObjection: objection,
+        rowBg: confirmed ? '#fff' : '#EFEFF7',
+        tint: confirmed ? '#F5F7F9' : '#EFEFF7',
+        tintLabel: confirmed ? '확정 점수' : 'AI 추천 점수',
+        objectionNote: g.objectionNote || '' };
+    };
+    const gradingRows = gradingList.map((g, i) => ({ ...decorateSub(g), open: () => this.setState({ slideoverIdx: i }) }));
+    const pendingCount = gradingRaw.filter(g => !s.confirmedIds.includes(g.id)).length;
+    const gradingAssignNames = [...new Set(gradingRaw.filter(g => !s.confirmedIds.includes(g.id) || s.objectionIds.includes(g.id)).map(g => g.assignment))];
+    const selIdx = s.slideoverIdx;
+    const selectedRaw = selIdx != null ? gradingList[selIdx] : null;
+    const selected = selectedRaw ? decorateSub(selectedRaw)
+      : { student:'', assignment:'', submitted:'', aiScore:'', aiScoreLabel:'', rubric:[], tint:'#EFEFF7', tintLabel:'AI 추천 점수', isLate:false, isObjection:false, objectionNote:'' };
+    const railRows = gradingList.map((g, i) => {
+      const on = i === selIdx;
+      const objection = s.objectionIds.includes(g.id);
+      const confirmed = s.confirmedIds.includes(g.id);
+      return { student: g.student, initial: g.student.charAt(0),
+        meta: (confirmed ? '확정 · ' : 'AI ' + g.aiScore + '점 · ') + g.submitted.slice(0, 5),
+        bg: on ? '#EDF1F6' : 'transparent',
+        mark: on ? '#223142' : objection ? '#A3352E' : 'transparent',
+        avatarBg: on ? '#223142' : '#E3E9EF', avatarFg: on ? '#F3F7FA' : '#5A6B7B',
+        open: () => this.setState({ slideoverIdx: i }) };
+    });
+
+    const st = (x) => x === '공개 중' ? { stBg:'#E4EFE8', stBgSolid:'#E4EFE8', stFg:'#2F6B4F' }
+      : x === '초안' ? { stBg:'#EEF2F6', stBgSolid:'#EDF1F5', stFg:'#5A6B7B' }
+      : { stBg:'#F6E1DC', stBgSolid:'#F6E1DC', stFg:'#A34A38' };
+
+    const chip = (on) => ({ bg: on ? '#223142' : 'transparent', fg: on ? '#fff' : '#5A6B7B', fw: on ? '700' : '600', bd: on ? '#223142' : '#D5DEE7' });
+    const toggleIn = (arr, v) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
+
+    const raw = [
+      { id:'l1', name:'한국인의 정신과 기질', track:'기관', status:'공개 중', count:'34', updated:'08-24', required:'필수' },
+      { id:'l2', name:'한국어와 문자', track:'기관', status:'공개 중', count:'28', updated:'08-22', required:'필수' },
+      { id:'l3', name:'한국사 입문', track:'오픈', status:'공개 중', count:'156', updated:'08-18', required:'' },
+      { id:'l4', name:'한국의 전통 예절', track:'오픈', status:'초안', count:'0', updated:'08-25', required:'' },
+      { id:'l5', name:'한국 현대사와 사회', track:'기관', status:'비공개', count:'12', updated:'08-10', required:'' }
+    ];
+    const lectures = raw.map(r => ({
+      ...r, ...st(r.status),
+      isRequired: !!r.required,
+      trackLabel: r.track,
+      slotId: 'lec-thumb-' + r.id,
+      slotHint: r.name + ' 썸네일',
+      cardMeta: r.track + ' 트랙 · 수강생 ' + r.count + '명',
+      open: () => this.setState({ view: 'detail' })
+    }));
+
+    const chapters = [
+      { no:'1차시', title:'한국인은 누구인가 — 동이족과 정체성', meta:'영상 18분 · 퀴즈 5문항 · 자막 한/영' },
+      { no:'2차시', title:'예(禮)와 공동체 의식', meta:'영상 22분 · 퀴즈 4문항 · 자막 한/영' },
+      { no:'3차시', title:'한(恨)과 정(情)의 정서', meta:'영상 20분 · 퀴즈 5문항 · 자막 한' },
+      { no:'4차시', title:'현대로 이어진 전통 가치', meta:'영상 19분 · 퀴즈 6문항 · 자막 한' }
+    ].map(c => ({ ...c, captions: () => {} }));
+
+    const modeOn = (m) => s.mode === m
+      ? { bg:'rgba(34,49,66,.09)', fg:'#223142', fw:'700' }
+      : { bg:'transparent', fg:'#5A6B7B', fw:'600' };
+
+    const hasOrg = s.trackSel.includes('기관'), hasOpen = s.trackSel.includes('오픈');
+    const stages = ['입문','탐색','심화'].map(v => ({ label: v, ...chip(s.stage === v), set: () => this.setState({ stage: v }) }));
+    const langs = ['한국어','영어','베트남어'].map(v => ({ label: v, ...chip(s.langSel.includes(v)), toggle: () => this.setState(p => ({ langSel: toggleIn(p.langSel, v) })) }));
+    const detailHasOrg = s.detailTrackSel.includes('기관'), detailHasOpen = s.detailTrackSel.includes('오픈');
+
+    return {
+      nav, go,
+      isDashboard: s.screen === 'dashboard',
+      isLecture: s.screen === 'lecture',
+      isAssignment: s.screen === 'assignment',
+      isAssignList: s.assignTab === 'list',
+      isAssignGrading: s.assignTab === 'grading',
+      assignTabList: tabOn(s.assignTab === 'list'),
+      assignTabGrading: tabOn(s.assignTab === 'grading'),
+      setAssignList: () => this.setState({ assignTab: 'list' }),
+      setAssignGrading: () => this.setState({ assignTab: 'grading' }),
+      assignments,
+      isAssignListEmpty: assignments.length === 0,
+      hideGradedFg: s.hideGraded ? '#223142' : '#5A6B7B',
+      hideGradedTrack: s.hideGraded ? '#223142' : '#fff',
+      hideGradedBd: s.hideGraded ? '#223142' : '#C2CDD8',
+      hideGradedMark: s.hideGraded ? '✓' : '',
+      toggleHideGraded: () => this.setState(p => ({ hideGraded: !p.hideGraded })),
+      hideConfirmedFg: s.hideConfirmed ? '#223142' : '#5A6B7B',
+      hideConfirmedTrack: s.hideConfirmed ? '#223142' : '#fff',
+      hideConfirmedBd: s.hideConfirmed ? '#223142' : '#C2CDD8',
+      hideConfirmedMark: s.hideConfirmed ? '✓' : '',
+      toggleHideConfirmed: () => this.setState(p => ({ hideConfirmed: !p.hideConfirmed, slideoverIdx: null })),
+      gradingAssignFilter: s.gradingAssignFilter,
+      gradingAssignFw: s.gradingAssignFilter === '전체 과제' ? '600' : '700',
+      gradingAssignFg: s.gradingAssignFilter === '전체 과제' ? '#5A6B7B' : '#223142',
+      gradingAssignBg: s.gradingAssignFilter === '전체 과제' ? 'transparent' : 'rgba(34,49,66,.08)',
+      isGradingAssignOpen: s.openDropdown === 'gradingAssign',
+      toggleGradingAssign: () => this.setState(p => ({ openDropdown: p.openDropdown === 'gradingAssign' ? null : 'gradingAssign' })),
+      gradingAssignOptions: ['전체 과제', ...gradingAssignNames].map(label => ({ label,
+        select: () => this.setState({ gradingAssignFilter: label, openDropdown: null, slideoverIdx: null }) })),
+      railRows,
+      railCount: gradingList.length,
+      railExpanded: s.railExpanded,
+      railWidth: s.railExpanded ? '216px' : '58px',
+      railJustify: s.railExpanded ? 'space-between' : 'center',
+      railIcon: s.railExpanded ? '›› 접기' : '‹‹',
+      toggleRail: () => this.setState(p => ({ railExpanded: !p.railExpanded })),
+      nextLabel: gradingList.length > 1 && selIdx != null ? '다음 (' + (selIdx + 1) + '/' + gradingList.length + ')' : '다음',
+      confirmLabel: selected.isObjection ? '재확정' : '확정',
+      gradingRows,
+      gradingPendingCount: pendingCount,
+      gradingDoneCount: s.confirmedIds.length,
+      isGradingNotEmpty: gradingRows.length > 0,
+      isGradingEmpty: gradingRows.length === 0,
+      sortDeadline: { fw: s.gradingSort === 'deadline' ? '700' : '600', fg: s.gradingSort === 'deadline' ? '#223142' : '#5A6B7B', bg: s.gradingSort === 'deadline' ? 'rgba(34,49,66,.09)' : 'transparent' },
+      sortOldest: { fw: s.gradingSort === 'oldest' ? '700' : '600', fg: s.gradingSort === 'oldest' ? '#223142' : '#5A6B7B', bg: s.gradingSort === 'oldest' ? 'rgba(34,49,66,.09)' : 'transparent' },
+      setSortDeadline: () => this.setState({ gradingSort: 'deadline' }),
+      setSortOldest: () => this.setState({ gradingSort: 'oldest' }),
+      slideoverOpen: s.slideoverIdx != null,
+      selected,
+      closeSlideover: () => this.setState({ slideoverIdx: null }),
+      goNextGrading: () => this.setState(p => ({ slideoverIdx: p.slideoverIdx == null ? null : Math.min(gradingList.length - 1, p.slideoverIdx + 1) })),
+      confirmGrading: () => this.setState(p => {
+        const cur = gradingList[p.slideoverIdx];
+        const confirmedIds = cur && !p.confirmedIds.includes(cur.id) ? [...p.confirmedIds, cur.id] : p.confirmedIds;
+        const objectionIds = cur ? p.objectionIds.filter(id => id !== cur.id) : p.objectionIds;
+        const nextIdx = p.slideoverIdx != null && p.slideoverIdx < gradingList.length - 1 ? p.slideoverIdx + 1 : null;
+        return { confirmedIds, objectionIds, slideoverIdx: nextIdx };
+      }),
+      stop: (e) => e.stopPropagation(),
+      isLecStatusOpen: lecStatusDD.isOpen, toggleLecStatus: lecStatusDD.toggle, lecStatusFilter: s.lecStatusFilter,
+      lecStatusOptions: ddOpt(['전체 상태','공개 중','초안','비공개'], 'lecStatusFilter'),
+      isLecTrackOpen: lecTrackDD.isOpen, toggleLecTrack: lecTrackDD.toggle, lecTrackFilter: s.lecTrackFilter,
+      lecTrackOptions: ddOpt(['전체 트랙','기관','오픈'], 'lecTrackFilter'),
+      isLecSortOpen: lecSortDD.isOpen, toggleLecSort: lecSortDD.toggle, lecSortFilter: s.lecSortFilter,
+      lecSortOptions: ddOpt(['최근수정순','이름순','수강생많은순'], 'lecSortFilter'),
+      isAssignTrackOpen: assignTrackDD.isOpen, toggleAssignTrack: assignTrackDD.toggle, assignTrackFilter: s.assignTrackFilter,
+      assignTrackOptions: ddOpt(['전체 트랙','기관','오픈'], 'assignTrackFilter'),
+      isAssignStatusOpen: assignStatusDD.isOpen, toggleAssignStatus: assignStatusDD.toggle, assignStatusFilter: s.assignStatusFilter,
+      assignStatusOptions: ddOpt(['전체 상태','진행중 · 마감 전','마감 · 채점 대기','완료 · 전원 확정'], 'assignStatusFilter'),
+      isAssignSortOpen: assignSortDD.isOpen, toggleAssignSort: assignSortDD.toggle, assignSortFilter: s.assignSortFilter,
+      assignSortOptions: ddOpt(['마감임박순','제출오래된순'], 'assignSortFilter'),
+
+      assignModalOpen: s.assignModalOpen,
+      assignModalTitle: s.assignModalMode === 'edit' ? '과제 수정' : '과제 생성',
+      assignModalSub: s.assignModalMode === 'edit' ? '제출·채점이 진행된 과제입니다 · 배점·마감·지각정책·루브릭만 수정됩니다' : '과제 정보를 입력하고 학생들에게 배포하세요.',
+      isAssignEdit: s.assignModalMode === 'edit',
+      isAssignCreate: s.assignModalMode !== 'edit',
+      editSummary,
+      assignEditTitle: s.assignEditTitle,
+      assignPoints: s.assignPoints,
+      setAssignPoints: (e) => this.setState({ assignPoints: e.target.value }),
+      rubricSum,
+      rubricSumFg: rubricDiff === 0 ? '#223142' : '#A34A38',
+      rubricMismatch: s.rubricRows.length > 0 && rubricDiff !== 0,
+      rubricDiffLabel: rubricDiff > 0 ? (rubricDiff + '점 초과합니다') : (Math.abs(rubricDiff) + '점 부족합니다'),
+      openAssignCreate: () => this.setState({ assignModalOpen: true, assignModalMode: 'create', assignEditTitle: '', lateSetting: '표시 후 허용', assignPoints: '100', rubricOpen: false, rubricRows: [], editAssign: null }),
+      closeAssignModal: () => this.setState({ assignModalOpen: false }),
+      submitTypes,
+      lateOptions,
+      isLatePercent: s.lateSetting === '감점률 적용',
+      setLatePercent: () => {},
+      aiDraftTrack: s.aiDraft ? '#223142' : '#D5DEE7',
+      aiDraftKnob: s.aiDraft ? '18px' : '2px',
+      toggleAiDraft: () => this.setState(p => ({ aiDraft: !p.aiDraft })),
+      rubricOpen: s.rubricOpen,
+      rubricToggleLabel: s.rubricOpen ? '접기' : '펼치기',
+      toggleRubricOpen: () => this.setState(p => ({ rubricOpen: !p.rubricOpen })),
+      rubricRows: s.rubricRows.map((rr, i) => ({ ...rr,
+        setItem: (e) => { const v = e.target.value; this.setState(p => ({ rubricRows: p.rubricRows.map((x, j) => j === i ? { ...x, item: v } : x) })); },
+        setWeight: (e) => { const v = e.target.value; this.setState(p => ({ rubricRows: p.rubricRows.map((x, j) => j === i ? { ...x, weight: v } : x) })); },
+        remove: () => this.setState(p => ({ rubricRows: p.rubricRows.filter((_, j) => j !== i) })) })),
+      addRubricRow: () => this.setState(p => ({ rubricRows: [...p.rubricRows, { item: '', weight: '' }] })),
+
+      isPlaceholder: !!titles[s.screen],
+      placeholderTitle: titles[s.screen] || '',
+      isList: s.screen === 'lecture' && s.view === 'list',
+      isDetail: s.screen === 'lecture' && s.view === 'detail',
+      isCreate: s.screen === 'lecture' && s.view === 'create',
+      isModeList: s.mode === 'list',
+      isModeCard: s.mode === 'card',
+      modeList: modeOn('list'),
+      modeCard: modeOn('card'),
+      setList: () => this.setState({ mode: 'list' }),
+      setCard: () => this.setState({ mode: 'card' }),
+      back: () => this.setState({ view: 'list' }),
+      openCreate: () => this.setState({ view: 'create', createStep: 1 }),
+      lectures, chapters,
+
+      // 강의 개설 마법사
+      createStep: s.createStep,
+      isStep1: s.createStep === 1, isStep2: s.createStep === 2, isStep3: s.createStep === 3, isStep4: s.createStep === 4,
+      step: [1,2,3,4].map(n => ({
+        n, label: ['기본정보','학생 노출정보','평가설정','확인'][n-1],
+        active: s.createStep === n,
+        fg: s.createStep === n ? '#223142' : '#8494A3',
+        bd: s.createStep === n ? '#223142' : 'transparent',
+        go: () => this.setState({ createStep: n })
+      })),
+      goPrev: () => this.setState(p => ({ createStep: Math.max(1, p.createStep - 1) })),
+      goNext: () => this.setState(p => ({ createStep: Math.min(4, p.createStep + 1) })),
+      saveDraft: () => this.setState({ view: 'list' }),
+      publishNew: () => this.setState({ view: 'list' }),
+      trackOrg: { on: hasOrg, ...chip(hasOrg), toggle: () => this.setState(p => ({ trackSel: toggleIn(p.trackSel, '기관') })) },
+      trackOpen: { on: hasOpen, ...chip(hasOpen), toggle: () => this.setState(p => ({ trackSel: toggleIn(p.trackSel, '오픈') })) },
+      hasOrg, hasOpen,
+      capOverrideChip: chip(s.capOpenOverride),
+      capNotOverride: !s.capOpenOverride,
+      toggleCapOverride: () => this.setState(p => ({ capOpenOverride: !p.capOpenOverride })),
+      grantCMLabel: s.grantCM ? '부여함' : '부여하지 않음',
+      grantCMChip: chip(s.grantCM),
+      toggleGrantCM: () => this.setState(p => ({ grantCM: !p.grantCM })),
+      bioShowChip: chip(s.bioShow),
+      toggleBioShow: () => this.setState(p => ({ bioShow: !p.bioShow })),
+      stages, langs,
+      trackSelLabel: s.trackSel.join(' + ') || '미선택',
+
+      // 강의 상세 — 트랙 변경
+      detailTrackLabel: s.detailTrackSel.join(' + '),
+      detailTrackEditOpen: s.detailTrackEditOpen,
+      toggleDetailTrackEdit: () => this.setState(p => ({ detailTrackEditOpen: !p.detailTrackEditOpen })),
+      detailTrackOrg: { on: detailHasOrg, ...chip(detailHasOrg), toggle: () => this.setState(p => ({ detailTrackSel: toggleIn(p.detailTrackSel, '기관') })) },
+      detailTrackOpen: { on: detailHasOpen, ...chip(detailHasOpen), toggle: () => this.setState(p => ({ detailTrackSel: toggleIn(p.detailTrackSel, '오픈') })) },
+      quizOpen: s.quizOpen,
+      finalOpen: s.finalOpen,
+      quizToggleLabel: s.quizOpen ? '접기' : '자세히 설정',
+      finalToggleLabel: s.finalOpen ? '접기' : '자세히 설정',
+      toggleQuiz: () => this.setState(p => ({ quizOpen: !p.quizOpen })),
+      toggleFinal: () => this.setState(p => ({ finalOpen: !p.finalOpen })),
+      createQuizOpen: s.createQuizOpen,
+      createFinalOpen: s.createFinalOpen,
+      createQuizToggleLabel: s.createQuizOpen ? '접기' : '상세 옵션 변경',
+      createFinalToggleLabel: s.createFinalOpen ? '접기' : '상세 옵션 변경',
+      toggleCreateQuiz: () => this.setState(p => ({ createQuizOpen: !p.createQuizOpen })),
+      toggleCreateFinal: () => this.setState(p => ({ createFinalOpen: !p.createFinalOpen })),
+      quizScoreCustom: s.quizScore === 'custom',
+      quizRetryCustom: s.quizRetry === 'custom',
+      finalScoreCustom: s.finalScore === 'custom',
+      finalRetryCustom: s.finalRetry === 'custom',
+      quizScoreLabel: s.quizScore === 'custom' ? '직접 입력' : s.quizScore + '점',
+      quizRetryLabel: s.quizRetry === 'custom' ? '직접 입력' : s.quizRetry === 'unlimited' ? '무제한' : s.quizRetry + '회',
+      finalScoreLabel: s.finalScore === 'custom' ? '직접 입력' : s.finalScore + '점',
+      finalRetryLabel: s.finalRetry === 'custom' ? '직접 입력' : s.finalRetry === 'unlimited' ? '무제한' : s.finalRetry + '회',
+      setQuizScore: (e) => this.setState({ quizScore: e.target.value }),
+      setQuizRetry: (e) => this.setState({ quizRetry: e.target.value }),
+      setFinalScore: (e) => this.setState({ finalScore: e.target.value }),
+      setFinalRetry: (e) => this.setState({ finalRetry: e.target.value }),
+      queue: [
+        { tag:'채점', dot:'#223142', tagColor:navy, title:'과제 3 「전통 예절의 현대적 해석」 · AI 초안 검수 대기 6건', meta:'한국인의 정신과 기질 · 최초 제출 후 2일 경과', dest:'과제 관리 · 채점함' },
+        { tag:'답변', dot:'#223142', tagColor:navy, title:'질문 「동이족과 예맥족의 관계를 어떻게 구분하나요?」', meta:'김하늘 · 게시판 질문 · 19시간 대기', dest:'게시판 관리 · 답변대기' },
+        { tag:'위험', dot:accent, tagColor:accent, title:'이탈 위험 학생 12명 · 신규 편입 3명', meta:'로그인 공백 14일 7명 · 진도 정체 9명 · 과제 미제출 2회 4명', dest:'수강생 관리 · 위험 탭' },
+        { tag:'리뷰', dot:'#223142', tagColor:navy, title:'새 리뷰 5건 · 평균 4.2점, 2점 이하 1건', meta:'한국어와 문자 3건 · 한국인의 정신과 기질 2건', dest:'집계 열람 전용' },
+        { tag:'공지', dot:'#B7C4D0', tagColor:muted, title:'중간 평가 일정 변경 공지 미발송', meta:'평가 시작 3일 전 · 대상 강의 2개', dest:'공지사항 관리' },
+        { tag:'출석', dot:'#B7C4D0', tagColor:muted, title:'화상 세션 2회차 출석 확정 대기', meta:'8/22 세션 · 참석 21명 / 미확정 6명', dest:'출석 관리' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
