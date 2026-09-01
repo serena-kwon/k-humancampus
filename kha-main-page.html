@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440">
 <title>K-HUMAN ACADEMY — Institutional Korean Studies LMS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    Design tokens — from Figma file ukK48Hd8Mohp4ORU5RfoEc
@@ -39,6 +38,7 @@
   --bg-inverse-deep:#121C30;
   --bg-charcoal:#24282D;      /* restyled dark surfaces (player, philosophy, CTA buttons) */
   --bg-alert-soft:rgba(201,123,98,.06);
+  --bg-success-soft:rgba(144,130,91,.10);
   /* color · borders */
   --border-hairline:rgba(27,42,68,.06);
   --border-subtle:rgba(27,42,68,.08);
@@ -46,12 +46,15 @@
   --border-card:rgba(27,42,68,.12);
   --border-chip:rgba(27,42,68,.14);
   --border-control:rgba(27,42,68,.20);
+  --border-control-hover:rgba(27,42,68,.34);
   --border-on-inverse:rgba(240,236,225,.16);
   --border-alert:rgba(200,110,80,.35);
   /* color · actions */
   --action-primary:#1B2A44;
   --action-charcoal:#25292C;
+  --action-charcoal-hover:#33383C;
   --action-on-primary:#F0ECE1;
+  --focus-ring:rgba(27,42,68,.22);
   /* color · media */
   --media-play-bg:rgba(240,236,225,.92);
   --media-track:rgba(240,236,225,.25);
@@ -88,6 +91,9 @@
   --font-serif-display:"Bona Nova","Source Serif 4",Georgia,serif;
   --font-serif:"Source Serif 4",Georgia,serif;
   --font-sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  /* motion */
+  --dur-fast:150ms; --dur-base:220ms;
+  --ease-out:cubic-bezier(.2,.7,.2,1);
   /* layout */
   --container:1200px;
   --gnb-h:60px;
@@ -117,9 +123,32 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 .gnb-nav a{font-size:13.5px;font-weight:500;line-height:1.2;color:var(--text-nav);white-space:nowrap}
 .gnb-nav a:hover,.gnb-nav a.is-active{color:var(--text-primary)}
 .gnb-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;width:205px}
-.btn-gnb{flex:1;background:#F3F4F4;border-radius:7px;padding:11px 22px;text-align:center;
-  font-size:13px;font-weight:600;letter-spacing:-.03em;color:#67686D;display:inline-block;white-space:nowrap}
-.btn-gnb:hover{background:#EAEBEB}
+/* language switcher (kha-auth.html 과 동일한 패턴) */
+.lang-wrap{position:relative}
+.lang{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--text-nav);padding:7px 11px;border:1px solid var(--border-default);border-radius:var(--radius-full);
+  background:var(--bg-surface);white-space:nowrap;cursor:pointer;
+  transition:border-color .15s ease,background-color .15s ease}
+.lang:hover,.lang[aria-expanded="true"]{border-color:var(--border-control)}
+.lang:focus-visible{outline:2px solid var(--action-primary);outline-offset:2px}
+.lang svg{width:14px;height:14px}
+.lang .chev{width:10px;height:10px;transition:transform .15s ease}
+.lang[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.lang-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:172px;padding:6px;
+  background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-panel);display:none;z-index:110}
+.lang-menu.is-open{display:block}
+.lang-menu li{list-style:none}
+.lang-opt{display:flex;align-items:center;gap:8px;width:100%;padding:7px 8px;
+  font-size:13px;font-weight:500;color:var(--text-primary);background:none;border:0;border-radius:var(--radius-md);
+  cursor:pointer;text-align:left;transition:background-color .15s ease}
+.lang-opt:hover{background:var(--bg-muted)}
+.lang-opt:focus-visible{outline:2px solid var(--action-primary);outline-offset:1px}
+.lang-badge{display:inline-flex;align-items:center;justify-content:center;min-width:30px;padding:3px 7px;
+  font-size:11px;font-weight:600;letter-spacing:.05em;border:1px solid var(--border-control);
+  border-radius:var(--radius-full);color:var(--text-nav)}
+.lang-opt[aria-current="true"] .lang-badge{background:var(--action-primary);border-color:var(--action-primary);
+  color:var(--action-on-primary)}
 .gnb-menu{width:50px;height:40px;flex:none;background:none;border:0;cursor:pointer;padding:0}
 .gnb-menu svg{display:block;width:100%;height:100%}
 /* menu dropdown (login / my classroom / logout) */
@@ -606,6 +635,116 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 .footer-links a:hover{color:var(--text-on-inverse)}
 .footer .copy{font-size:11.5px;line-height:1.4;color:var(--text-on-inverse-faint)}
 
+/* ============================================================ 13 · Contact modal
+   폼 시스템은 kha-auth.html 의 .field/.control/.check 패턴을 .cm-* 로 이식.
+   버튼 스타일은 페이지 일관성 기준(차콜 #25292C · radius 8px · 흰 텍스트).
+   핸드오프 스펙(네이비 #1B2A44 · radius 3px · 아이보리) 버전은 별도 파일 참고. */
+.cm-backdrop{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:40px 24px;background:rgba(27,42,68,.6);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  animation:cm-fade var(--dur-base) var(--ease-out)}
+.cm-backdrop[hidden]{display:none}
+.cm-dialog{position:relative;width:520px;max-width:100%;max-height:calc(100vh - 80px);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--bg-surface);border:1px solid var(--border-card);border-radius:var(--radius-card);
+  box-shadow:var(--shadow-panel-strong);animation:cm-rise var(--dur-base) var(--ease-out)}
+@keyframes cm-fade{from{opacity:0}to{opacity:1}}
+@keyframes cm-rise{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.cm-backdrop,.cm-dialog{animation:none}}
+
+.cm-close{position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;
+  background:var(--bg-surface);border:0;border-radius:var(--radius-md);
+  color:var(--text-muted);cursor:pointer;
+  transition:background-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
+.cm-close:hover{background:var(--bg-muted);color:var(--text-primary)}
+.cm-close:focus-visible{outline:2px solid var(--action-primary);outline-offset:2px}
+.cm-close svg{width:17px;height:17px;display:block}
+
+.cm-scroll{overflow-y:auto;padding:38px 40px 40px}
+.cm-head .eyebrow{padding-right:44px}
+.cm-title{margin-top:13px;padding-right:44px;font-family:var(--font-serif-display);font-weight:400;
+  font-size:31px;line-height:1.16;letter-spacing:-.01em;color:var(--text-heading)}
+.cm-sub{margin-top:11px;font-size:15px;line-height:1.65;color:var(--text-body)}
+
+/* fields */
+.cm-form{margin-top:28px}
+.cm-field{display:block}
+.cm-field+.cm-field{margin-top:16px}
+.cm-label{display:block;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-muted)}
+.cm-label i{font-style:normal;color:var(--text-alert)}
+.cm-control{position:relative;display:block}
+.cm-control input,.cm-control textarea{display:block;width:100%;min-width:0;font:inherit;font-size:15.5px;
+  color:var(--text-heading);background:var(--bg-surface);
+  border:1px solid var(--border-control);border-radius:var(--radius-md);
+  transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
+.cm-control input{height:50px;padding:0 16px}
+.cm-control textarea{min-height:116px;max-height:260px;padding:13px 16px;line-height:1.6;resize:vertical}
+.cm-control input::placeholder,.cm-control textarea::placeholder{color:var(--text-subtle)}
+.cm-control input:hover,.cm-control textarea:hover{border-color:var(--border-control-hover)}
+.cm-control input:focus,.cm-control textarea:focus{outline:0;
+  border-color:var(--action-primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.cm-control input[aria-invalid="true"],.cm-control textarea[aria-invalid="true"]{
+  border-color:var(--text-alert);background:var(--bg-alert-soft)}
+.cm-control input[aria-invalid="true"]:focus,.cm-control textarea[aria-invalid="true"]:focus{
+  box-shadow:0 0 0 3px rgba(168,91,68,.18)}
+.cm-hint{display:none;margin-top:7px;font-size:13px;line-height:1.5;color:var(--text-alert)}
+.cm-field.is-error .cm-hint,.cm-hint.is-visible{display:block}
+
+/* consent */
+.cm-consent{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding-top:20px;
+  border-top:1px solid var(--border-subtle);cursor:pointer}
+.cm-consent input{appearance:none;-webkit-appearance:none;width:18px;height:18px;margin-top:1px;flex:none;
+  display:grid;place-content:center;cursor:pointer;
+  background:var(--bg-surface);border:1px solid var(--border-control);border-radius:4px;
+  transition:border-color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.cm-consent input::before{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;
+  transform:rotate(-45deg) translate(1px,-1px) scale(0);
+  transition:transform var(--dur-fast) var(--ease-out)}
+.cm-consent input:hover{border-color:var(--border-control-hover)}
+.cm-consent input:checked{background:var(--action-primary);border-color:var(--action-primary)}
+.cm-consent input:checked::before{transform:rotate(-45deg) translate(1px,-1px) scale(1)}
+.cm-consent input:focus-visible{outline:2px solid var(--action-primary);outline-offset:2px}
+.cm-consent.is-error input{border-color:var(--text-alert)}
+.cm-consent span{font-size:12.5px;line-height:1.6;color:var(--text-muted)}
+.cm-consent b{font-weight:600;color:var(--text-body)}
+
+/* submit */
+.cm-submit{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:52px;
+  margin-top:24px;padding:0 24px;font-family:var(--font-sans);font-size:16px;font-weight:600;
+  letter-spacing:-.01em;color:#fff;background:var(--action-charcoal);border:0;
+  border-radius:var(--radius-lg);cursor:pointer;
+  transition:background-color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out)}
+.cm-submit:hover{background:var(--action-charcoal-hover);color:#fff}
+.cm-submit:active{transform:translateY(1px)}
+.cm-submit:focus-visible{outline:2px solid var(--action-primary);outline-offset:3px}
+.cm-foot{margin-top:14px;text-align:center;font-size:12.5px;line-height:1.5;color:var(--text-subtle)}
+
+/* inline confirmation */
+.cm-done{text-align:center;padding:20px 0 6px}
+.cm-done[hidden]{display:none}
+.cm-check{width:58px;height:58px;margin:0 auto;display:grid;place-content:center;
+  border-radius:var(--radius-full);background:var(--bg-success-soft);color:var(--hanji-olive)}
+.cm-check svg{width:26px;height:26px;display:block}
+.cm-done h3{margin-top:22px;font-family:var(--font-serif-display);font-weight:400;font-size:27px;
+  line-height:1.2;color:var(--text-heading);outline:0}
+.cm-done p{margin:12px auto 0;max-width:392px;font-size:15px;line-height:1.7;color:var(--text-body)}
+.cm-done p b{font-weight:600;color:var(--text-primary)}
+.cm-secondary{margin-top:26px;min-height:46px;padding:0 28px;font-family:var(--font-sans);
+  font-size:15px;font-weight:600;color:var(--text-primary);background:var(--bg-surface);
+  border:1px solid var(--border-control);border-radius:var(--radius-lg);cursor:pointer;
+  transition:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out)}
+.cm-secondary:hover{background:var(--bg-muted);border-color:var(--border-control-hover);color:var(--text-primary)}
+.cm-secondary:focus-visible{outline:2px solid var(--action-primary);outline-offset:3px}
+
+@media (max-width:560px){
+  .cm-backdrop{padding:16px;align-items:flex-end}
+  .cm-dialog{width:100%;max-height:calc(100vh - 32px)}
+  .cm-scroll{padding:32px 22px 28px}
+  .cm-title{font-size:26px}
+}
+
 /* ============================================================
    연필/붓 느낌 테두리 — 한지 UI 전용 (SVG displacement filter #rough)
    원리: 실제 border 대신 ::after 오버레이에 border를 그리고 필터로 흔들어 손그림 느낌을 냄.
@@ -644,8 +783,8 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <filter id="rough" x="-4%" y="-12%" width="108%" height="124%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.06" numOctaves="2" seed="3" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.06" numOctaves="2" seed="3" result="n"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7"></feDisplacementMap>
     </filter>
   </defs>
 </svg>
@@ -659,24 +798,36 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
     <nav class="gnb-nav" aria-label="Section navigation">
       <a href="#about">About</a>
       <a href="#curriculum">Curriculum</a>
+      <a href="#sample">Sample Lecture</a>
       <a href="#learning">Learning Experience</a>
       <a href="#institutions">For Institutions</a>
-      <a href="#sample">Sample Lecture</a>
-      <a href="#contact">Contact</a>
+      <a href="#contact" data-od-id="gnb-contact-link">Contact</a>
     </nav>
     <div class="gnb-right">
-      <a class="btn-gnb" href="#contact">Request Partnership</a>
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang" type="button" aria-label="Change language" aria-expanded="false" aria-haspopup="listbox" data-od-id="lang-toggle" id="langBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>
+          <span id="langCurrent">EN</span>
+          <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5"></path></svg>
+        </button>
+        <ul class="lang-menu" id="langMenu" role="listbox" aria-label="Language">
+          <li><button class="lang-opt" type="button" role="option" data-lang="En" aria-current="true"><span class="lang-badge" style="border-style:none">EN</span>English</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Ko" aria-current="false"><span class="lang-badge" style="border-style:none">KO</span>한국어</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Zh" aria-current="false"><span class="lang-badge" style="border-style:none">ZH</span>中文</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Ja" aria-current="false"><span class="lang-badge" style="border-style:none">JA</span>日本語</button></li>
+          <li><button class="lang-opt" type="button" role="option" data-lang="Vi" aria-current="false"><span class="lang-badge" style="border-style:none">VI</span>Tiếng Việt</button></li>
+        </ul>
+      </div>
       <div class="gnb-menu-wrap">
-        <button class="gnb-menu" type="button" id="gnbMenuBtn" aria-label="Account menu"
-                aria-haspopup="menu" aria-expanded="false">
+        <button class="gnb-menu" type="button" id="gnbMenuBtn" aria-label="Account menu" aria-haspopup="menu" aria-expanded="false">
           <svg viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 10H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"/>
-            <path d="M10 20H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"/>
-            <path d="M10 30H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"/>
+            <path d="M10 10H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"></path>
+            <path d="M10 20H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"></path>
+            <path d="M10 30H40" stroke="#67686D" stroke-opacity="0.9" stroke-linecap="round"></path>
           </svg>
         </button>
         <!-- 데모: 'Log in' 클릭 시 로그인 상태로 전환. TODO(dev): 실제 인증 + My Classroom 링크 연결 -->
-        <div class="gnb-dropdown" id="gnbDropdown" role="menu" data-state="out" hidden>
+        <div class="gnb-dropdown" id="gnbDropdown" role="menu" data-state="out" hidden="">
           <div class="gnb-user" data-auth="in">
             <span class="avatar">JW</span>
             <span class="gnb-user-name">JW<small>Signed in · Student</small></span>
@@ -706,9 +857,9 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
   <div class="container hero-grid">
     <div class="hero-copy">
       <h1 class="hero-h1">Institutional<br>Korean Studies LMS</h1>
-      <p class="hero-lede">Bring structured Korean Studies learning to your institution —
+      <p class="hero-lede" style="width: 600px;">Bring structured Korean Studies learning to your institution <br>—
         with curriculum, reflection, feedback, and reporting in one platform.</p>
-      <a class="btn-hero" href="#contact">Request Partnership</a>
+      <a class="btn-hero" href="#contact" data-contact-open="" data-od-id="hero-cta-partnership">Request Partnership</a>
     </div>
     <div class="hero-mocks" aria-hidden="true">
       <!-- Mockup · Instructor tasks -->
@@ -774,13 +925,13 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
       </article>
       <article class="value-card">
         <p class="num">02</p>
-        <h3>Expand Without Building from Scratch</h3>
-        <p>Offer Korean Studies courses, assignments, and learning resources without producing every lecture or activity in-house.</p>
+        <h3>Expand <br>Without Building from Scratch</h3>
+        <p>Offer Korean Studies courses, assignments, <br>and learning resources without producing every lecture or activity in-house.</p>
       </article>
       <article class="value-card">
         <p class="num">03</p>
-        <h3>See Progress Before Students Fall Behind</h3>
-        <p>Use role-based dashboards to monitor progress, questions, assignments, and completion — so instructors and administrators can identify where support is needed.</p>
+        <h3>See Progress <br>Before Students Fall Behind</h3>
+        <p>Use role-based dashboards to monitor progress, questions, assignments, and completion <br> — so instructors and administrators can identify where support is needed.</p>
       </article>
     </div>
   </div>
@@ -791,8 +942,8 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
   <div class="container">
     <div class="phil-copy">
       <p class="eyebrow">Content Philosophy</p>
-      <h2>Go Beyond Cultural Facts. Understand the Principles of Korean Studies.</h2>
-      <p>K-HUMAN ACADEMY guides learners beyond historical facts and cultural topics toward the principles that shaped Korean language, society, thought, and heritage.</p>
+      <h2>Go Beyond Cultural Facts. Understand the Principles <br>of Korean Studies.</h2>
+      <p>K-HUMAN ACADEMY guides learners beyond historical facts <br>and cultural topics toward the principles that shaped Korean language, society, thought, and heritage.</p>
     </div>
     <div class="principles">
       <div class="principle"><span class="dash" style="background:#3C5CBB"></span>
@@ -834,7 +985,7 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
     </div>
     <div class="curr-footer">
       <p>Modules shown are representative. Final curriculum is tailored per institution.</p>
-      <a class="btn-dark" href="#contact">Request Full Curriculum Proposal</a>
+      <a class="btn-dark" href="#contact" data-contact-open="" data-od-id="curriculum-cta-proposal">Request Full Curriculum Proposal</a>
     </div>
   </div>
 </section>
@@ -853,7 +1004,7 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
       <p class="eyebrow">Sample Lecture Preview</p>
       <h2 class="sample-title">Preview the Learning Experience</h2>
       <p class="sample-quote">“Opening Korean Studies: The Dongyi People<br>and the Roots of Korean Identity”</p>
-      <p class="sample-desc">A sample lecture showing how K-HUMAN ACADEMY approaches Korean identity through historical context, cultural interpretation, and the principles behind Korean ways of thinking.</p>
+      <p class="sample-desc">A sample lecture showing how K-HUMAN ACADEMY approaches <br>Korean identity through historical context, cultural interpretation, <br>and the principles behind Korean ways of thinking.</p>
       <ul class="sample-takeaways">
         <li>An introductory lens on Korean origins and identity</li>
         <li>How language and culture shape Korean ways of thinking</li>
@@ -865,7 +1016,7 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
         <span><b>Foundation</b> Level</span>
         <span><b>Korean Spirit and Temperament</b> Related course</span>
       </div>
-      <a class="btn-sample" href="#contact">Request Demo</a>
+      <a class="btn-sample" href="#contact" data-contact-open="" data-od-id="sample-cta-demo">Request Demo</a>
     </div>
   </div>
 </section>
@@ -1109,7 +1260,7 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
     <div class="teacher-copy">
       <p class="eyebrow">Instructor Experience</p>
       <h2 class="h2">Instructors See<br>Where Students Need<br>Help the Most.</h2>
-      <p>The ‘Today's Tasks’ view brings student questions, assignment feedback, and configured alerts for support into one prioritized queue — so instructors know what needs attention first.</p>
+      <p>The ‘Today's Tasks’ view brings student questions, assignment feedback, and configured alerts for support into one prioritized queue <br>— so instructors know what needs attention first.</p>
       <div class="tags">
         <span class="tag-pill">Question management</span>
         <span class="tag-pill">Assignment feedback</span>
@@ -1221,12 +1372,10 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
   <div class="content">
     <img class="mark" src="assets/w-symbol-ivory.png" alt="">
     <h2>Plan Your Institution’s<br>Korean Studies Learning Pathway</h2>
-    <p class="body">We can help your institution plan a Korean Studies learning pathway
-      that combines principle-based content, active study tools, instructor support,
+    <p class="body" style="width: 700px;">We can help your institution plan a Korean Studies learning pathway
+      that combines <br>principle-based content, active study tools, instructor support,
       and report-ready visibility.</p>
-    <!-- TODO(dev): 문의 폼이 준비되면 이 버튼을 폼(모달 또는 별도 페이지)으로 연결.
-         현재는 자리표시자 — 클릭 동작 없음. -->
-    <button class="btn-contact" type="button">Contact Us</button>
+    <button class="btn-contact" type="button" data-contact-open="" data-od-id="final-cta-contact">Contact Us</button>
     <p class="tagline">Built for institutions bringing structured Korean Studies learning to global learners.</p>
   </div>
 </section>
@@ -1242,11 +1391,80 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
       <a href="#about">About</a>
       <a href="#curriculum">Curriculum</a>
       <a href="#institutions">For Institutions</a>
-      <a href="#contact">Contact</a>
+      <a href="#contact" data-od-id="footer-contact-link">Contact</a>
     </nav>
     <p class="copy">© 2026 K-HUMAN ACADEMY.</p>
   </div>
 </footer>
+
+<!-- ============================ 13 · Contact modal -->
+<div class="cm-backdrop" id="contactModal" hidden="" data-od-id="contact-modal">
+  <div class="cm-dialog" role="dialog" aria-modal="true" aria-labelledby="cmTitle" data-od-id="contact-modal-dialog">
+    <button class="cm-close" type="button" id="cmClose" aria-label="Close inquiry form" data-od-id="contact-modal-close">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"></path></svg>
+    </button>
+
+    <div class="cm-scroll">
+      <div class="cm-head" id="cmFormView">
+        <p class="eyebrow" data-od-id="contact-modal-eyebrow">Institutional Inquiry</p>
+        <h2 class="cm-title" id="cmTitle" data-od-id="contact-modal-title">Contact Our Team</h2>
+        <p class="cm-sub">Tell us about your institution and we will reply within two business days.</p>
+
+        <form class="cm-form" id="cmForm" novalidate="" data-od-id="contact-modal-form">
+          <label class="cm-field" for="cm-institution">
+            <span class="cm-label">Institution Name <i aria-hidden="true">*</i></span>
+            <span class="cm-control">
+              <input type="text" id="cm-institution" name="institution" required="" autocomplete="organization" placeholder="University, college, or academy name">
+            </span>
+            <span class="cm-hint">Please enter your institution name.</span>
+          </label>
+
+          <label class="cm-field" for="cm-person">
+            <span class="cm-label">Contact Person <i aria-hidden="true">*</i></span>
+            <span class="cm-control">
+              <input type="text" id="cm-person" name="person" required="" autocomplete="name" placeholder="Full name and role">
+            </span>
+            <span class="cm-hint">Please enter a contact person.</span>
+          </label>
+
+          <label class="cm-field" for="cm-email">
+            <span class="cm-label">Email <i aria-hidden="true">*</i></span>
+            <span class="cm-control">
+              <input type="email" id="cm-email" name="email" required="" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="name@institution.edu">
+            </span>
+            <span class="cm-hint">Please enter a valid email address.</span>
+          </label>
+
+          <label class="cm-field" for="cm-message">
+            <span class="cm-label">Message <i aria-hidden="true">*</i></span>
+            <span class="cm-control">
+              <textarea id="cm-message" name="message" required="" placeholder="Programme scope, learner numbers, target start date, and anything else we should know."></textarea>
+            </span>
+            <span class="cm-hint">Please tell us briefly what you need.</span>
+          </label>
+
+          <label class="cm-consent" id="cmConsentRow" data-od-id="contact-modal-consent">
+            <input type="checkbox" id="cm-consent" name="consent" required="">
+            <span>I agree to the collection and use of the information above — <b>institution, name, email, and message</b> — for the sole purpose of responding to this inquiry. It is retained for 1 year and then deleted. You may decline, in which case we cannot respond.</span>
+          </label>
+          <p class="cm-hint" id="cmConsentHint">Please agree before submitting.</p>
+
+          <button class="cm-submit" type="submit" data-od-id="contact-modal-submit">Submit Inquiry</button>
+          <p class="cm-foot">Institutional partnerships only. For learner support, use the help centre.</p>
+        </form>
+      </div>
+
+      <div class="cm-done" id="cmDone" hidden="" data-od-id="contact-modal-confirmation">
+        <div class="cm-check" aria-hidden="true">
+          <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13.5 10 19.5 22 7"></path></svg>
+        </div>
+        <h3 id="cmDoneTitle" tabindex="-1">Thank you — inquiry received</h3>
+        <p>Our institutional partnerships team will reply to <b id="cmDoneMail">your email</b> within two business days.</p>
+        <button class="cm-secondary" type="button" id="cmDoneClose">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // Learning Experience state machine: step cards ↔ panels ↔ session label
@@ -1268,6 +1486,28 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
   // deep link: ?step=N pre-selects a learning-experience step
   var q = new URLSearchParams(location.search).get('step');
   if(q && q >= 1 && q <= 5) steps[q - 1].click();
+})();
+
+// GNB language switcher: EN / KO / ZH / JA / VI
+(function(){
+  var langBtn = document.getElementById('langBtn'), langMenu = document.getElementById('langMenu'),
+      langWrap = document.getElementById('langWrap'), langCurrent = document.getElementById('langCurrent');
+  function closeLang(){ langMenu.classList.remove('is-open'); langBtn.setAttribute('aria-expanded','false'); }
+  langBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = langMenu.classList.toggle('is-open');
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  langMenu.querySelectorAll('.lang-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      langMenu.querySelectorAll('.lang-opt').forEach(function(o){ o.setAttribute('aria-current','false'); });
+      opt.setAttribute('aria-current','true');
+      langCurrent.textContent = opt.querySelector('.lang-badge').textContent;
+      closeLang();                                 // TODO(dev): 실제 i18n 로케일 전환 연결
+    });
+  });
+  document.addEventListener('click', function(e){ if(!langWrap.contains(e.target)) closeLang(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeLang(); } });
 })();
 
 // GNB account dropdown: open/close + demo login-state toggle
@@ -1313,6 +1553,109 @@ section[id],main[id]{scroll-margin-top:var(--gnb-h)}
     if(el) obs.observe(el);
   });
 })();
+
+// Contact modal: opened by every #contact CTA, validated inline, confirms in place
+(function(){
+  var modal   = document.getElementById('contactModal');
+  if(!modal) return;
+  var dialog  = modal.querySelector('.cm-dialog');
+  var form    = document.getElementById('cmForm');
+  var view    = document.getElementById('cmFormView');
+  var done    = document.getElementById('cmDone');
+  var doneMail= document.getElementById('cmDoneMail');
+  var consent = document.getElementById('cm-consent');
+  var cRow    = document.getElementById('cmConsentRow');
+  var cHint   = document.getElementById('cmConsentHint');
+  var fields  = [].slice.call(form.querySelectorAll('input:not([type="checkbox"]), textarea'));
+  var lastFocus = null;
+
+  function focusables(){
+    return [].slice.call(dialog.querySelectorAll(
+      'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    )).filter(function(el){ return el.offsetParent !== null && !el.disabled; });
+  }
+
+  function mark(el, bad){
+    el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    var f = el.closest('.cm-field');
+    if(f) f.classList.toggle('is-error', bad);
+  }
+
+  function reset(){
+    form.reset();
+    fields.forEach(function(el){ mark(el, false); });
+    cRow.classList.remove('is-error');
+    cHint.classList.remove('is-visible');
+    view.hidden = false;
+    done.hidden = true;
+    dialog.setAttribute('aria-labelledby', 'cmTitle');
+  }
+
+  function open(){
+    lastFocus = document.activeElement;
+    var sbw = window.innerWidth - document.documentElement.clientWidth;
+    modal.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    if(sbw > 0) document.body.style.paddingRight = sbw + 'px';
+    document.getElementById('cm-institution').focus();
+  }
+
+  function close(){
+    modal.hidden = true;
+    document.documentElement.style.overflow = '';
+    document.body.style.paddingRight = '';
+    reset();
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-contact-open]').forEach(function(el){
+    el.addEventListener('click', function(e){ e.preventDefault(); open(); });
+  });
+
+  document.getElementById('cmClose').addEventListener('click', close);
+  document.getElementById('cmDoneClose').addEventListener('click', close);
+  modal.addEventListener('mousedown', function(e){ if(e.target === modal) close(); });
+
+  document.addEventListener('keydown', function(e){
+    if(modal.hidden) return;
+    if(e.key === 'Escape'){ e.stopPropagation(); close(); return; }
+    if(e.key !== 'Tab') return;
+    var list = focusables();
+    if(!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }, true);
+
+  fields.forEach(function(el){
+    el.addEventListener('input', function(){ if(el.checkValidity()) mark(el, false); });
+  });
+  consent.addEventListener('change', function(){
+    if(consent.checked){ cRow.classList.remove('is-error'); cHint.classList.remove('is-visible'); }
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = null;
+    fields.forEach(function(el){
+      var ok = el.checkValidity();
+      mark(el, !ok);
+      if(!ok && !bad) bad = el;
+    });
+    cRow.classList.toggle('is-error', !consent.checked);
+    cHint.classList.toggle('is-visible', !consent.checked);
+    if(!consent.checked && !bad) bad = consent;
+    if(bad){ bad.focus(); return; }
+
+    // TODO(dev): 실제 문의 전송 API 연결. 현재는 클라이언트 확인 상태만 전환.
+    doneMail.textContent = document.getElementById('cm-email').value;
+    view.hidden = true;
+    done.hidden = false;
+    dialog.setAttribute('aria-labelledby', 'cmDoneTitle');
+    document.getElementById('cmDoneTitle').focus();
+  });
+})();
 </script>
-</body>
-</html>
+
+
+</body></html>
